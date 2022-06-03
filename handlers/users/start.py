@@ -1,9 +1,10 @@
 from aiogram import types
+
+from keyboards.default import main_kb
 from loader import dp
 
 
 @dp.message_handler(text='/start')
 async def command_start(message: types.Message):
-    await message.answer(f'Hi {message.from_user.full_name} \n'
-                         f'Id: {message.from_user.id}')
-
+    await message.answer('Start',
+                         reply_markup=main_kb)
