@@ -2,9 +2,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 qus = [
-    ['1. На какие программы осуществляется',
-     'qu1'],
-    ['/будет/проходит набор в бакалавриат в 2022г.?',
+    ['Question 1',
      'qu1']
 ]
 

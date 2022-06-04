@@ -1,1 +1,2 @@
-from .sts import Test
+from .fsm import Fsm
+
