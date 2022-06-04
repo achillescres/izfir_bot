@@ -9,5 +9,5 @@ BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
 
 admins = [
     487289925,
-    # 740086487,
+    740086487,
 ]

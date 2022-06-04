@@ -5,6 +5,7 @@ iqu_self_kb = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(text='Вернуться к вопросам',
-                                 callback_data='return')
-        ]]
+                                 callback_data='qu_list_return')
+        ]
+    ]
 )

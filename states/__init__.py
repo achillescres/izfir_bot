@@ -1,2 +1,2 @@
-from .fsm import Fsm
+from .FSM import FSM
 
