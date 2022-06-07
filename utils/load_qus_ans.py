@@ -1,5 +1,8 @@
-from db_utils import get_qus_ans as _get_qus_ans
+_qus = (
+    ('Сколько стоит штрудель?', '170 рублей', 'qu1'),
+    ('Можно пройти на магистратуру если ты ?', 'Конечно, если...', 'qu2'),
+)
 
 
-async def get_qus_ans():
-    return _get_qus_ans()
+def load_qus_ans():
+    return _qus

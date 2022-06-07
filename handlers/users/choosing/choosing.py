@@ -19,6 +19,6 @@ async def choose(message: types.Message, state: FSMContext):
     await state.set_state(FSM.choosed)
     match message.text:
         case 'Бакалавриат':
-            await state.update_data(education_type='bak')
+            await state.update_data(edu_type='bak')
         case 'Магистратура':
-            await state.update_data(education_type='mag')
+            await state.update_data(edu_type='mag')
