@@ -4,10 +4,10 @@ from aiogram import Dispatcher, Bot, types
 
 
 async def on_startup(dp: Dispatcher):
-    from utils.notify_admin import on_startup_notify
+    from bot.utils.notify_admin import on_startup_notify
     await on_startup_notify(dp)
 
-    from utils.set_bot_commands import set_default_commands
+    from bot.utils.set_bot_commands import set_default_commands
     await set_default_commands(dp)
 
     print('Bot started')
@@ -28,7 +28,7 @@ class IzfirBot:
     dp = None
 
     async def start(self, WEBHOOK_URL):
-        from handlers import dp
+        from bot.handlers import dp
         self.dp = dp
         await on_startup(self.dp)
 
@@ -49,6 +49,9 @@ class IzfirBot:
         Dispatcher.set_current(self.dp)
         Bot.set_current(self.bot)
         await self.dp.process_update(telegram_update)
+
+    async def send_message(self, text, user_id):
+
 
     @property
     def bot(self):
