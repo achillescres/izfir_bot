@@ -1,12 +1,14 @@
 from aiogram import types
 
-from keyboards.inline import iqu_self_kb
-from loader import dp, qus_ans_calls, calls_to_ans
+from loader import dp
 from states import FSM
+from utils.load_qus_ans import load_qus_ans, make_qu_to_an
 
 
-@dp.callback_query_handler(text=[call for (qu, an, call) in qus_ans_calls], state=FSM.choosed)
-async def qu_ans(query: types.CallbackQuery):
-    print(query.data)
-    await query.message.edit_text(calls_to_ans[query.data])
-    await query.message.edit_reply_markup(iqu_self_kb)
+qus_ans_calls = load_qus_ans()
+qu_to_an = make_qu_to_an(qus_ans_calls)
+
+
+@dp.message_handler(text=[qu for (qu, an, call) in qus_ans_calls], state=FSM.choosed)
+async def qu_ans(message: types.Message):
+    await message.answer(text=qu_to_an[message.text])

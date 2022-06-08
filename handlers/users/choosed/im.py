@@ -8,7 +8,7 @@ from states import FSM
 @dp.message_handler(text='im', state=FSM.choosed)
 async def im(message: types.Message, state: FSMContext):
     print(await state.get_data('educztion_type'))
-    await message.reply(text=await state.get_data('educztion_type'))
+    await message.reply(text=(await state.get_data('educztion_type')).get('edu_type'))
 
 
 @dp.message_handler(text='im', state='*')

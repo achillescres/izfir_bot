@@ -1,12 +1,11 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from loader import qus_ans_calls
-
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 iqu_list_kb = InlineKeyboardMarkup(
     row_width=1,
     inline_keyboard=[
-        [InlineKeyboardButton(text=text, callback_data=call)]
-        for (text, ans, call) in qus_ans_calls
+        [
+            InlineKeyboardButton(text='Вернуться к главному меню',
+                                 callback_data='qu_list_remove')
+        ]
     ]
 )

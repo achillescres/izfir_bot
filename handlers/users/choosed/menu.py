@@ -1,12 +1,12 @@
 from aiogram import types
+from aiogram.dispatcher.filters import Command
 
-from filters import IsPrivate
-from keyboards.default import main_kb
 from loader import dp
 from states import FSM
+from utils.abstracts.abstract_menu import AbstractMenu
 
 
-@dp.message_handler(IsPrivate(), text='/menu', state=FSM.choosed)
-async def command_start(message: types.Message):
-    await message.answer('Главное меню',
-                         reply_markup=main_kb)
+@dp.message_handler(Command('menu'), state=FSM.choosed)
+@dp.message_handler(text='Главное меню', state=FSM.choosed)
+async def menu(message: types.Message):
+    await AbstractMenu.send_menu(message)
