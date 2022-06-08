@@ -1,7 +1,6 @@
 import logging
 
-from aiogram import Dispatcher, Bot
-from aiogram.utils.executor import start_webhook
+from aiogram import Dispatcher, Bot, types
 
 
 async def on_startup(dp: Dispatcher):
@@ -28,11 +27,28 @@ async def on_shutdown(dp: Dispatcher):
 class IzfirBot:
     dp = None
 
-    def load_dp(self):
+    async def start(self, WEBHOOK_URL):
         from handlers import dp
         self.dp = dp
+        await on_startup(self.dp)
 
-        logging.info('IzfirBot: Dispatcher loaded')
+        webhook_info = await self.bot.get_webhook_info()
+        if webhook_info.url != WEBHOOK_URL:
+            await self.bot.set_webhook(url=WEBHOOK_URL, drop_pending_updates=True)
+
+        print('IzfirBot: Dispatcher loaded')
+
+    async def shutdown(self):
+        await on_shutdown(self.dp)
+        await self.dp.bot.close_bot()
+
+        logging.info('Bot shutted down!')
+
+    async def update(self, update: dict):
+        telegram_update = types.Update(**update)
+        Dispatcher.set_current(self.dp)
+        Bot.set_current(self.bot)
+        await self.dp.process_update(telegram_update)
 
     @property
     def bot(self):
