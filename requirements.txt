@@ -2,3 +2,7 @@ python-dotenv==0.20.0
 aiogram==2.20
 pandas==1.4.2
 fastapi==0.75.2
+aiohttp==3.8.1
+websockets==10.3
+pydantic==1.9.1
+uvicorn==0.17.6
