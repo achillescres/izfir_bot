@@ -24,7 +24,8 @@ async def bot_webhook(update: dict):
 
 @app.post('/bot/sendMessage')
 async def send_message(message: Message):
-    ibot.send_message(message)
+    await ibot.send_message(text=message.text, user_id=message.user_id)
+
 
 if __name__ == '__main__':
     import uvicorn
