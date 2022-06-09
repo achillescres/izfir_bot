@@ -5,7 +5,7 @@ from bot.states import FSM
 from bot_app import IzfirBot
 from bot.data.config import WEBHOOK_PATH, WEBHOOK_URL
 from manager.models import Message
-from manager.models.user import UserId
+from manager.models import UserId
 
 app = FastAPI()
 ibot = IzfirBot()
