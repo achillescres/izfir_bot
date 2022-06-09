@@ -14,6 +14,6 @@ WEBHOOK_PATH = f"/bot/{BOT_TOKEN}"
 WEBHOOK_URL = HOST_URL + WEBHOOK_PATH
 
 bot_admins = [
-    # 487289925,
+    487289925,
     740086487
 ]

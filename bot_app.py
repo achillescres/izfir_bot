@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Dispatcher, Bot, types
 
-from bot.keyboards.default import main_kb
+from bot.keyboards.default import main_kb, finish_kb
 
 
 async def on_startup(dp: Dispatcher):
@@ -56,7 +56,7 @@ class IzfirBot:
         await self.bot.send_message(
             chat_id=user_id,
             text=f"(Оператор): {text}",
-            reply_markup=main_kb.kb
+            reply_markup=finish_kb.kb
         )
 
     @property

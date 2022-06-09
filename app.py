@@ -5,6 +5,7 @@ from bot.states import FSM
 from bot_app import IzfirBot
 from bot.data.config import WEBHOOK_PATH, WEBHOOK_URL
 from manager.models import Message
+from manager.models.user import UserId
 
 app = FastAPI()
 ibot = IzfirBot()
@@ -12,6 +13,7 @@ ibot = IzfirBot()
 origins = [
     "http://127.0.0.1",
 ]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -37,19 +39,20 @@ async def bot_webhook(update: dict):
 
 
 @app.post('/bot/sendMessage')
-async def send_message(message: Message):
+async def bot_send_message(message: Message):
     await ibot.send_message(text=message.text, user_id=message.user_id)
 
 
-@app.get("/api/finishChat/{client_id}")
-async def finish_chat(client_id: str):
-    client_state = ibot.dp.current_state(user=client_id, chat=client_id)
+@app.post("/api/finishChat")
+async def finish_chat(user_id: UserId):
+    client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
     await client_state.set_state(FSM.choosed)
     await ibot.send_message(
         text="Сеанс был завершен",
-        user_id=client_id,
+        user_id=user_id.user_id,
     )
+
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run('app:app', host='localhost', port=8000, reload=True)
+    uvicorn.run('app:app', host='localhost', port=8001, reload=True)
