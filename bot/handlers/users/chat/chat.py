@@ -36,8 +36,8 @@ async def close_support(message: types.Message, state: FSMContext):
     data = await state.get_data()
     operator_id = data.get('operator_id')
     await produce(message.chat.id, 'Абитуриент', operator_id, '/Завершить')
-    await state.finish()
-    await state.update_data(operator_id='')
+    await state.set_state(FSM.choosed)
+    await state.update_data(operator_id=None)
 
 
 @dp.message_handler(state=FSM.chat)
