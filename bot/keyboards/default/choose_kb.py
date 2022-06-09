@@ -1,10 +1,17 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-choose_kb = ReplyKeyboardMarkup(
+from bot.keyboards.abstracts import TextEnum
+
+
+class Texts(TextEnum):  # names is also callback_data
+    bak = 'Бакалавриат'
+    mag = 'Магистратура'
+
+
+kb = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text='Бакалавриат'),
-            KeyboardButton(text='Магистратура')
+            KeyboardButton(text=text) for text in Texts.texts()
         ],
     ],
     resize_keyboard=True,

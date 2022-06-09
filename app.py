@@ -29,4 +29,4 @@ async def send_message(message: Message):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run('app:app', host='localhost', port=8000, reload=True)
+    uvicorn.run('app:app', host='localhost', port=7777, reload=True)

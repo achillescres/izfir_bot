@@ -1,23 +1,21 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from bot.keyboards.default import choose_kb
 from loader import dp
 from bot.states import FSM
 from bot.utils.abstracts.abstract_menu import AbstractMenu
 
 
-@dp.message_handler(state=FSM.choosing)
+@dp.message_handler(text=choose_kb.Texts.texts(), state=FSM.choosing)
 async def choose(message: types.Message, state: FSMContext):
-    if message.text not in ['Бакалавриат', 'Магистратура']:
-        await message.reply('Некорректный ответ, используйте кнопки')
-        return
-
     await message.reply('Ок')
 
     await state.set_state(FSM.choosed)
+    await state.update_data(edu_type=choose_kb.Texts(message.text).name)
     await AbstractMenu.send_menu(message)
-    match message.text:
-        case 'Бакалавриат':
-            await state.update_data(edu_type='bak')
-        case 'Магистратура':
-            await state.update_data(edu_type='mag')
+
+
+@dp.message_handler(state=FSM.choosing)
+async def invalid_choose(message: types.Message, state: FSMContext):
+    await message.reply('Некорректный ответ, используйте кнопки')

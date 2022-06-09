@@ -40,7 +40,7 @@ class IzfirBot:
 
     async def shutdown(self):
         await on_shutdown(self.dp)
-        await self.dp.bot.close_bot()
+        await self.dp.bot.close()
 
         logging.info('Bot shutted down!')
 
