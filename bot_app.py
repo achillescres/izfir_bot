@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Dispatcher, Bot, types
 
-from bot.keyboards.default import main_kb, finish_kb
+from bot.keyboards.default import main_kb
 
 
 async def on_startup(dp: Dispatcher):

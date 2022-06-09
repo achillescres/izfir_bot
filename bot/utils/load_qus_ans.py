@@ -7,12 +7,11 @@ from bot.data.config import PROJECT_ROOT
 
 
 def load_qus_ans():
-    with open(str(PROJECT_ROOT) + '/storage/data.customsv', encoding='utf-8') as f:
-        data = [i.split('|||') for i in f.read().strip().split(';;;')][:-1]
+    with open(str(PROJECT_ROOT) + '/storage/new_qus_ans_calls.customsv') as f:
+        data = [row.split('|||') for row in f.read().split(';;;')]
+
     return data
 
 
-def make_qu_to_an(qus_ans_calls):
-    return {qu: an for (qu, an, call) in qus_ans_calls}
-
-# print(load_qus_ans().values())
+def make_qu_to_an_origin(qus_ans_calls):
+    return {qu: {'answer': an, 'origin': origin} for (qu, an, call, origin) in qus_ans_calls}
