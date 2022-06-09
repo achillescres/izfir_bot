@@ -36,8 +36,6 @@ async def bot_webhook(update: dict):
 
 @app.post('/bot/sendMessage')
 async def send_message(message: Message):
-    print(123456)
-    print(message.text)
     await ibot.send_message(text=message.text, user_id=message.user_id)
 
 
@@ -49,4 +47,4 @@ async def finish_chat(client_id: str):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run('app:app', host='localhost', port=8001, reload=True)
+    uvicorn.run('app:app', host='localhost', port=8000, reload=True)

@@ -1,11 +1,13 @@
 from aiogram import types
 
+from bot.keyboards.default import main_kb, qu_list_kb
 from loader import dp
 from bot.states import FSM
-from bot.utils.abstracts import AbstractQuList
 
 
-@dp.message_handler(text='Частые вопросы', state=FSM.choosed)
+@dp.message_handler(text=main_kb.Texts.qus.value, state=FSM.choosed)
 async def qus(message: types.Message | types.CallbackQuery):
     print('Qu List')
-    await AbstractQuList.send_qu_list(message)
+
+    await message.answer('Ответы на частые вопросы', reply_markup=qu_list_kb.kb)
+

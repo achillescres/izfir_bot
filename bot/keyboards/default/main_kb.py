@@ -1,11 +1,18 @@
+from enum import Enum
+
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-main_kb = ReplyKeyboardMarkup(
+from bot.keyboards.abstracts import TextEnum
+
+
+class Texts(TextEnum):
+    qus = 'Частые вопросы'
+    chat = 'Связаться с оператором'
+
+
+kb = ReplyKeyboardMarkup(
     keyboard=[
-        [
-            KeyboardButton(text='Частые вопросы'),
-            KeyboardButton(text='Связаться с оператором')
-        ],
+        [KeyboardButton(text=text) for text in Texts.texts()],
     ],
     resize_keyboard=True,
 )

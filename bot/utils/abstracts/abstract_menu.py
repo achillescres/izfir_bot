@@ -8,4 +8,4 @@ class AbstractMenu:
     @staticmethod
     async def send_menu(obj: types.Message | types.CallbackQuery):
         message = get_message_from_obj(obj)
-        await message.answer('Главное меню', reply_markup=main_kb)
+        await message.answer('Главное меню', reply_markup=main_kb.kb)

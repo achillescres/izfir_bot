@@ -14,4 +14,4 @@ class AbstractQuList:
     async def send_qu_list(obj: types.Message | types.CallbackQuery):
         message = get_message_from_obj(obj)
         # Questions kb
-        print(await message.answer(AbstractQuList.text, reply_markup=AbstractQuList.kb))
+        await message.answer(AbstractQuList.text, reply_markup=AbstractQuList.kb)

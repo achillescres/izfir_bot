@@ -1,5 +1,4 @@
-import aiohttp
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientConnectionError
 
 
 async def get_http(url: str):

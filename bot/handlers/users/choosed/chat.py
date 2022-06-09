@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from bot.keyboards.default import apply_chat_kb, main_kb
 from loader import dp
 
 from bot.states import FSM
@@ -10,8 +11,9 @@ from bot.utils.http import get_http
 from bot.utils.http import produce
 
 
-@dp.message_handler(state=FSM.choosed, text='Связаться с оператором')
+@dp.message_handler(text=main_kb.Texts.chat.value, state=FSM.choosed)
 async def start_chat(message: types.Message, state: FSMContext):
+    await state.set_state(FSM.waiting_chat)
     await message.answer('Идёт поиск оператора...')
 
     # Запрос на апи для поиска оператора
@@ -20,6 +22,7 @@ async def start_chat(message: types.Message, state: FSMContext):
     # Если нет свободного оператора
     if operator_id == "null":
         await message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
+        await state.set_state(FSM.choosed)
         return
 
     await state.set_state(FSM.chat)

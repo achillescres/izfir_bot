@@ -10,5 +10,5 @@ from bot.states import FSM
 @dp.message_handler(Command('start'), state='*')
 async def start(message: types.Message, state: FSMContext):
     await message.answer('Вы на бакалавриат или на магистратуру',
-                         reply_markup=choose_kb)
+                         reply_markup=choose_kb.kb)
     await state.set_state(FSM.choosing)
