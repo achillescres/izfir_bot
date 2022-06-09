@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from bot.keyboards.default import finish_kb
 from bot.states import FSM
 from bot_app import IzfirBot
 from bot.data.config import WEBHOOK_PATH, WEBHOOK_URL
@@ -40,7 +41,7 @@ async def bot_webhook(update: dict):
 
 @app.post('/bot/sendMessage')
 async def bot_send_message(message: Message):
-    await ibot.send_message(text=message.text, user_id=message.user_id)
+    await ibot.send_message(text=message.text, user_id=message.user_id, kb=finish_kb.kb)
 
 
 @app.post("/api/finishChat")
