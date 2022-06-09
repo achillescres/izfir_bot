@@ -18,6 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event('startup')
 async def on_startup():
     await ibot.start(WEBHOOK_URL=WEBHOOK_URL)
