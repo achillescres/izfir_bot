@@ -39,7 +39,7 @@ async def close_chat(message: types.Message, state: FSMContext, from_user=True, 
 
     await state.update_data(operator_id=None)
     await state.set_state(FSM.choosed)
-    await message.answer('Cеанс завершен')
+    await message.answer('Cеанс завершен', reply_markup=main_kb.kb)
 
 
 @dp.message_handler(text=finish_kb.Texts.cancel.value, state=FSM.chat)
@@ -66,5 +66,5 @@ async def send_support(message: types.Message, state: FSMContext):
 
     print(f'send_support(): sent={sent}')
     # If couldn't send
-    # if sent == 'err':chat/Aytal
-    #     await close_chat(message, state, from_user=True, err=True)
+    if sent == 'err':
+        await close_chat(message, state, from_user=True, err=True)

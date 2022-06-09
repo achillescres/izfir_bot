@@ -52,11 +52,11 @@ class IzfirBot:
         Bot.set_current(self.bot)
         await self.dp.process_update(telegram_update)
 
-    async def send_message(self, text, user_id):
+    async def send_message(self, text, user_id, kb=main_kb.kb):
         await self.bot.send_message(
             chat_id=user_id,
             text=f"(Оператор): {text}",
-            reply_markup=finish_kb.kb
+            reply_markup=kb
         )
 
     @property
