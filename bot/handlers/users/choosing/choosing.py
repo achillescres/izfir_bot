@@ -7,7 +7,7 @@ from bot.states import FSM
 from bot.utils.abstracts.abstract_menu import AbstractMenu
 
 
-@dp.message_handler(text=choose_kb.Texts.texts(), state=FSM.choosing)
+@dp.message_handler(text=choose_kb.Texts.values(), state=FSM.choosing)
 async def choose(message: types.Message, state: FSMContext):
     await message.reply('Ок')
 

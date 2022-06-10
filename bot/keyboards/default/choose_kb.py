@@ -11,7 +11,7 @@ class Texts(TextEnum):  # names is also callback_data
 kb = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text=text) for text in Texts.texts()
+            KeyboardButton(text=text) for text in Texts.values()
         ],
     ],
     resize_keyboard=True,
