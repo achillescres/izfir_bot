@@ -6,3 +6,4 @@ aiohttp==3.8.1
 websockets==10.3
 pydantic==1.9.1
 uvicorn==0.17.6
+openpyxl==3.0.10

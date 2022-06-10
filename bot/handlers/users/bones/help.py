@@ -1,14 +1,12 @@
 from aiogram import types
-from aiogram.dispatcher import FSMContext
 from aiogram.types import ParseMode
 from aiogram.utils.markdown import text, bold
 
-from bot.states import FSM
 from loader import dp
 
 
 @dp.message_handler(text='/help', state='*')
-async def help(message: types.Message, state: FSMContext):
+async def help(message: types.Message):
     await message.reply(
         text(
             "Это бот ",

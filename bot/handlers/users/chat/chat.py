@@ -6,13 +6,13 @@ from loader import dp
 from bot.keyboards.default import main_kb
 from bot.keyboards.default import finish_kb
 
-from bot.states import FSM
+from bot.states import MainFSM
 import bot.utils.http as http
 
 
-@dp.message_handler(text=main_kb.Texts.chat.value, state=FSM.choosed)
+@dp.message_handler(text=main_kb.Texts.chat.value, state=MainFSM.choosed)
 async def start_chat(message: types.Message, state: FSMContext):
-    await state.set_state(FSM.waiting_chat)
+    await state.set_state(MainFSM.waiting_chat)
     await message.answer('Идёт поиск оператора...')
 
     # Запрос на апи для поиска оператора
@@ -21,10 +21,10 @@ async def start_chat(message: types.Message, state: FSMContext):
     # Если нет свободного оператора
     if operator_id == "null":
         await message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
-        await state.set_state(FSM.choosed)
+        await state.set_state(MainFSM.choosed)
         return
 
-    await state.set_state(FSM.chat)
+    await state.set_state(MainFSM.chat)
     await state.update_data(operator_id=operator_id)
     await message.reply('Оператор нашёлся!', reply_markup=finish_kb.kb)
 
@@ -38,17 +38,17 @@ async def close_chat(message: types.Message, state: FSMContext, from_user=True, 
             await message.answer('Наблюдаются проблемы с подключением к операторам')
 
     await state.update_data(operator_id=None)
-    await state.set_state(FSM.choosed)
+    await state.set_state(MainFSM.choosed)
     await message.answer('Cеанс завершен', reply_markup=main_kb.kb)
 
 
-@dp.message_handler(text=finish_kb.Texts.cancel.value, state=FSM.chat)
+@dp.message_handler(text=finish_kb.Texts.cancel.value, state=MainFSM.chat)
 async def close_support(message: types.Message, state: FSMContext):
     await close_chat(message, state, from_user=True)
 
 
 # Send message from user
-@dp.message_handler(state=FSM.chat)
+@dp.message_handler(state=MainFSM.chat)
 async def send_support(message: types.Message, state: FSMContext):
     operator_id = (await state.get_data()).get('operator_id')
     print(f'send_support(): operator_id={operator_id}')

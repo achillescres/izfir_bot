@@ -1,18 +1,23 @@
 import string
 import pandas as pd
-#from pymystem3 import Mystem
 import pymorphy2
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import pairwise_distances
 
-#m = Mystem()
+from bot.data.config import PROJECT_ROOT
+
 morph = pymorphy2.MorphAnalyzer()
 
 
-# def diction_form(text):
-#     text = ''.join(m.lemmatize(text)).rstrip('\n')
-#     return text
-def getAnswer(question):
+def hook_answer(question: str):
+    ans = None
+
+    ans = classify(question)
+
+    return ans if ans else 'err'
+
+
+def classify(question: str):
     def lemmatize(text):
         text = str(text)
         words = text.split()  # разбиваем текст на слова
@@ -21,10 +26,8 @@ def getAnswer(question):
             p = morph.parse(word)[0]
             res.append(p.normal_form)
         return " ".join(res)
-    # print(diction_form("На какие программы проходит набор в бакалавриат в 2022г.?"))
 
     # Удаление символов пунктуации
-
     def remove_punctuation(text):
         translator = str.maketrans('', '', string.punctuation)
         return text.translate(translator)
@@ -32,15 +35,14 @@ def getAnswer(question):
     def normalize_text(text):
         return lemmatize(text)
 
-    # text = 'На какие программы осуществляется/будет/проходит набор в бакалавриат в 2022г.?'
     text = question
-    # print(lemmatize(text))
-    df = pd.read_excel('izfir.xlsx')
+    df: pd.DataFrame = pd.read_excel(f'{PROJECT_ROOT}/nlp/izfir.xlsx')
     df['lemmatized_text'] = df['Context'].apply(normalize_text)
-    # df.to_excel("izfir1.xlsx")
     tfidf = TfidfVectorizer()
     x_tfidf = tfidf.fit_transform(
-        df['lemmatized_text'].values.astype('U')).toarray()
+        df['lemmatized_text'].values.dropna().astype('U')
+    ).toarray()
+
     df_tfidf = pd.DataFrame(x_tfidf, columns=tfidf.get_feature_names_out())
 
     def chat_tfidf(text):
@@ -51,3 +53,7 @@ def getAnswer(question):
         return df['Answer'].loc[index_value]
 
     return chat_tfidf(text)
+
+
+ans = hook_answer('Каковы вступительные испытания на программу бакалавриата «Зарубежное регионоведение. Американские исследования»')
+print(ans)

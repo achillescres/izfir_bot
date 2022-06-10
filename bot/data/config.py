@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = str(Path(__file__).parent.parent)
 
 BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
 HOST_URL = str(os.getenv('HOST_URL'))

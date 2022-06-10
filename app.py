@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from bot.keyboards.default import finish_kb
-from bot.states import FSM
+from bot.states import MainFSM
 from bot_app import IzfirBot
 from bot.data.config import WEBHOOK_PATH, WEBHOOK_URL
 from manager.models import Message
@@ -47,7 +47,7 @@ async def bot_send_message(message: Message):
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
-    await client_state.set_state(FSM.choosed)
+    await client_state.set_state(MainFSM.choosed)
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,
