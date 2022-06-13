@@ -1,0 +1,1 @@
+from .trash import trash
