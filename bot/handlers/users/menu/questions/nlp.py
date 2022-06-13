@@ -34,12 +34,15 @@ async def nlp_qu_apply(message: types.Message, state: FSMContext):
 @dp.message_handler(text=nlp_kb.Texts.apply.value, state=NlpFSM.apply)
 async def nlp_qu_apllied(message: types.Message, state: FSMContext):
     waiting = await message.answer('Обрабатываю ваш вопрос...')
-    ans = hook_answer(message.text)
+    question = (await state.get_data())["question"]
+    print(question.text)
+    ans = hook_answer(question.text)
+    print(ans)
     if ans == 'err':
         ans = 'По каким-то причинам я не смог обработать ваш вопрос, извините'
 
     await waiting.delete()
-    await (await state.get_data())['question'].reply(
+    await question.reply(
         text(ans),
         reply_markup=menu_kb.kb
     )

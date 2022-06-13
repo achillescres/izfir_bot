@@ -53,11 +53,11 @@ def hook_answer(question):
     ans = None
     try:
         ans = get_answer(question)
-    finally:
+    except:
         pass
 
     return ans if ans else 'err'
 
 
 if __name__ == '__main__':
-    print(get_answer('Какая стоимость обучения бакалавриата'))
+    print(hook_answer('Какая стоимость обучения бакалавриата'))

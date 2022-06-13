@@ -7,7 +7,7 @@ from data.config import BOT_ROOT
 
 
 def load_qus_ans():
-    with open(str(BOT_ROOT) + '/storage/new_qus_ans_calls.customsv') as f:
+    with open(str(BOT_ROOT) + '/storage/new_qus_ans_calls.customsv', encoding='utf-8') as f:
         data = [row.split('|||') for row in f.read().split(';;;')]
 
     return data

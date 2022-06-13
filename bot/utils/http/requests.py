@@ -18,5 +18,3 @@ async def get(url: str):
         return resp
     except TimeoutError:
         return response_error
-    finally:
-        return response_error

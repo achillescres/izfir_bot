@@ -4,14 +4,16 @@
 #
 # with open('qus_ans_calls.customsv', 'w+') as f:
 #     f.write(';;;'.join(rows))
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
+from motor.core import AgnosticCollection
 
-with open('qus_ans_calls.customsv', 'r') as f:
+with open('qus_ans_calls.customsv', 'r', encoding='utf8') as f:
     rows = [row.split('|||') for row in f.read().split(';;;')]
 
     new_rows = []
     for row in rows:
         if len(row[0]) <= 87:
-            new_rows.append('|||'.join(row + [row[0]]))
+            new_rows.append(row + [row[0]])
             continue
         qu = row[0].split(' ')[::-1]
         clones = []
@@ -21,9 +23,46 @@ with open('qus_ans_calls.customsv', 'r') as f:
                 clone += ' ' + qu[-1]
                 qu.pop()
 
-            clones.append('|||'.join([clone.strip(), row[1], row[2], row[0]]))
+            clones.append([clone.strip(), row[1], row[2], row[0]])
         new_rows.extend(clones)
 
-    print(*new_rows, sep='\n')
-    with open('new_qus_ans_calls.customsv', 'w') as t:
-        t.write(';;;'.join(new_rows))
+    # print(*new_rows, sep='\n')
+
+async def add_qu_an(collection: AgnosticCollection, qu_an, to_fac_key: str):
+    try:
+        new_not_an_index = (await collection.find_one(
+            {'faculty.key': to_fac_key},
+            {'qus_ans_calls': {'$slice': -1}}
+        ))['qus_ans_calls'][0]['not_an_index'] + 1
+    except (TypeError, IndexError):
+        new_not_an_index = 0
+
+    new_call = f'{to_fac_key}_{new_not_an_index}'
+    new_qu_an_call = {
+        'not_an_index': new_not_an_index,
+        'qu': qu_an['qu'],
+        'an': qu_an['an'],
+        'call': new_call
+    }
+
+    await collection.update_one(
+        {
+            'faculty.key': to_fac_key
+        },
+        {
+            '$push':
+                {
+                    'qus_ans_calls': new_qu_an_call
+                }
+        }
+    )
+client: AsyncIOMotorClient = AsyncIOMotorClient('localhost', 27017)
+db: AsyncIOMotorDatabase = client.izfir
+faculties: AsyncIOMotorCollection = db.qus_ans_calls
+
+loop = client.get_io_loop()
+for i in new_rows:
+    print(i)
+    loop.run_until_complete(add_qu_an(faculties, {'qu': i[0], 'an': i[1]}, '205ea'))
+    # with open('new_qus_ans_calls.customsv', 'w', encoding='utf8') as t:
+    #     t.write(';;;'.join(new_rows))
