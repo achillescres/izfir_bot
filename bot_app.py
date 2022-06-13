@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Dispatcher, Bot, types
 
-from bot.keyboards.default import main_kb
+from bot.keyboards.default.menu import menu_kb
 
 
 async def on_startup(dp: Dispatcher):
@@ -29,35 +29,64 @@ async def on_shutdown(dp: Dispatcher):
 class IzfirBot:
     dp = None
 
+    def __init__(self, dev: bool = False):
+        self.dev = dev
+
     async def start(self, WEBHOOK_URL):
-        from bot.handlers import dp
-        self.dp = dp
-        await on_startup(self.dp)
+        try:
+            from bot.handlers import dp
+            self.dp = dp
+            await on_startup(self.dp)
 
-        webhook_info = await self.bot.get_webhook_info()
-        if webhook_info.url != WEBHOOK_URL:
-            await self.bot.set_webhook(url=WEBHOOK_URL, drop_pending_updates=True)
+            webhook_info = await self.bot.get_webhook_info()
+            if webhook_info.url != WEBHOOK_URL:
+                await self.bot.set_webhook(url=WEBHOOK_URL, drop_pending_updates=True)
 
-        print('IzfirBot: Dispatcher loaded')
+            print('IzfirBot: Dispatcher loaded')
+        except Exception as e:
+            await self.shutdown()
+            logging.error(f"Couldn't start bot \n{e}")
+            exit(-1)
 
     async def shutdown(self):
-        await on_shutdown(self.dp)
-        await self.dp.bot.close()
+        try:
+            await on_shutdown(self.dp)
+            await self.dp.bot.close()
+            self.dp = None
+        except Exception as e:
+            self.dp = None
+            logging.error(f"Couldn't correctly shutdown bot\n{e}")
 
         logging.info('Bot shutted down!')
 
-    async def update(self, update: dict):
+    async def _update(self, update: dict):
         telegram_update = types.Update(**update)
         Dispatcher.set_current(self.dp)
         Bot.set_current(self.bot)
         await self.dp.process_update(telegram_update)
 
-    async def send_message(self, text, user_id, kb=main_kb.kb):
-        await self.bot.send_message(
-            chat_id=user_id,
-            text=f"(Оператор): {text}",
-            reply_markup=kb
-        )
+    async def update(self, update: dict):
+        if self.dev:
+            await self._update(update)
+            return
+
+        try:
+            telegram_update = types.Update(**update)
+            Dispatcher.set_current(self.dp)
+            Bot.set_current(self.bot)
+            await self.dp.process_update(telegram_update)
+        except Exception as e:
+            logging.error(f'Update error {e}')
+
+    async def send_message(self, text, user_id, kb=menu_kb.kb):
+        try:
+            await self.bot.send_message(
+                chat_id=user_id,
+                text=f"(Оператор): {text}",
+                reply_markup=kb
+            )
+        except Exception as e:
+            logging.error(f"send_message error {e}")
 
     @property
     def bot(self):

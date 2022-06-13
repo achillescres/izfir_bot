@@ -4,20 +4,15 @@ import pymorphy2
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import pairwise_distances
 
-from bot.data.config import PROJECT_ROOT
+from data.config import BOT_ROOT
 
 morph = pymorphy2.MorphAnalyzer()
 
-
-def hook_answer(question: str):
-    ans = None
-
-    ans = classify(question)
-
-    return ans if ans else 'err'
+print(BOT_ROOT + '/nlp/izfir.xlsx')
+df = pd.read_excel(BOT_ROOT + '/nlp/izfir.xlsx')
 
 
-def classify(question: str):
+def get_answer(question):
     def lemmatize(text):
         text = str(text)
         words = text.split()  # разбиваем текст на слова
@@ -36,13 +31,12 @@ def classify(question: str):
         return lemmatize(text)
 
     text = question
-    df: pd.DataFrame = pd.read_excel(f'{PROJECT_ROOT}/nlp/izfir.xlsx')
+
     df['lemmatized_text'] = df['Context'].apply(normalize_text)
     tfidf = TfidfVectorizer()
     x_tfidf = tfidf.fit_transform(
-        df['lemmatized_text'].values.dropna().astype('U')
+        df['lemmatized_text'].values.astype('U')
     ).toarray()
-
     df_tfidf = pd.DataFrame(x_tfidf, columns=tfidf.get_feature_names_out())
 
     def chat_tfidf(text):
@@ -55,5 +49,15 @@ def classify(question: str):
     return chat_tfidf(text)
 
 
-ans = hook_answer('Каковы вступительные испытания на программу бакалавриата «Зарубежное регионоведение. Американские исследования»')
-print(ans)
+def hook_answer(question):
+    ans = None
+    try:
+        ans = get_answer(question)
+    finally:
+        pass
+
+    return ans if ans else 'err'
+
+
+if __name__ == '__main__':
+    print(get_answer('Какая стоимость обучения бакалавриата'))

@@ -3,7 +3,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.mongo import MongoStorage
 
 
-from bot.data import config
+from data import config
 
 # Create bot
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -16,4 +16,5 @@ except Exception:
     print('Raising MemoryStorage...')
     storage = MemoryStorage()
 
+storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)  # File end-point

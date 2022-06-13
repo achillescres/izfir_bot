@@ -1,15 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from bot.keyboards.default import finish_kb
-from bot.states import MainFSM
+from bot.keyboards.default.chat import finish_chat_kb
+from bot.states import MenuFSM
 from bot_app import IzfirBot
-from bot.data.config import WEBHOOK_PATH, WEBHOOK_URL
-from manager.models import Message
-from manager.models import UserId
+from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE
+from server.models import Message
+from server.models import UserId
 
 app = FastAPI()
-ibot = IzfirBot()
+ibot = IzfirBot(dev=DEV_MODE)
 
 origins = [
     "http://127.0.0.1",
@@ -41,13 +41,13 @@ async def bot_webhook(update: dict):
 
 @app.post('/bot/sendMessage')
 async def bot_send_message(message: Message):
-    await ibot.send_message(text=message.text, user_id=message.user_id, kb=finish_kb.kb)
+    await ibot.send_message(text=message.text, user_id=message.user_id, kb=finish_chat_kb.kb)
 
 
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
-    await client_state.set_state(MainFSM.choosed)
+    await client_state.set_state(MenuFSM.main)
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,

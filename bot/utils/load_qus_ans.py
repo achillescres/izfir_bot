@@ -1,4 +1,4 @@
-from bot.data.config import PROJECT_ROOT
+from data.config import BOT_ROOT
 
 # _qus = (
 #     ('Сколько стоит штрудель?', '170 рублей', 'qu1'),
@@ -7,7 +7,7 @@ from bot.data.config import PROJECT_ROOT
 
 
 def load_qus_ans():
-    with open(str(PROJECT_ROOT) + '/storage/new_qus_ans_calls.customsv') as f:
+    with open(str(BOT_ROOT) + '/storage/new_qus_ans_calls.customsv') as f:
         data = [row.split('|||') for row in f.read().split(';;;')]
 
     return data

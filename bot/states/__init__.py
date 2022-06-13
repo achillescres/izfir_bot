@@ -1,1 +1,1 @@
-from .all_machines import MainFSM, NlpFSM
+from .machines import MenuFSM, NlpFSM
