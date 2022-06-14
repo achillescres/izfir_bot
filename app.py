@@ -1,11 +1,13 @@
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
 from bot.keyboards.default.chat import finish_chat_kb
 from bot.states import MenuFSM
+from bot.storage import format_rows
 from bot_app import IzfirBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE
-from server.models import Message
+from server.models import Message, Facultie
 from server.models import UserId
 
 app = FastAPI()
@@ -53,6 +55,22 @@ async def finish_chat(user_id: UserId):
         user_id=user_id.user_id,
     )
 
+
+@app.get("/api/getFaculties")
+async def get_faculties():
+    return {'faculties': await ibot.questions.find({}, {"_id": 0, "qus_ans_calls": 0}).to_list(40)}
+
+
+@app.post("/api/setFacultie")
+async def set_facultie(data: Facultie):
+    data = jsonable_encoder(data)
+    print(data["faculty_key"])
+    await ibot.questions.update_one({'faculty.key': data["faculty_key"]}, {'$set': {'normal_qus_ans': data["normal_qus_ans"]}})
+    rows = []
+    print(data["normal_qus_ans"])
+    for qa in data["normal_qus_ans"]:
+        rows.append([qa["qu"], qa["an"]])
+    new_rows = await format_rows(ibot.questions, data["faculty_key"], rows)
 
 if __name__ == '__main__':
     import uvicorn

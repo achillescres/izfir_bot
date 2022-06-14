@@ -1,5 +1,6 @@
 import logging
 
+import motor.motor_asyncio
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.webhook import AnswerCallbackQuery
@@ -40,14 +41,15 @@ class IzfirBot:
 
     def __init__(self, dev: bool = False):
         self.dev = dev
+        self.questions = motor.motor_asyncio.AsyncIOMotorClient(
+            "mongodb://localhost:27017").izfir.qus_ans_calls
 
     def register_trash(self):
         self.dp.register_message_handler(trash, state=MenuFSM.main)
 
-    def _load_questions(self):
-        client = MongoClient()
-        questions = client.faculties.questions
-        data = list(questions.find())
+    async def _load_questions(self):
+        questions = self.questions
+        data = await questions.find().to_list(40)
         questions = data
         answers = dict()
         faculties_names = []
@@ -64,7 +66,7 @@ class IzfirBot:
         async def faculties(message: types.Message):
             await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(questions))
 
-        print(questions)
+        # print(questions)
         faculties_ikbs = faculties_menu_kb.get_faculty_qus_ans_ikbs(questions)
 
         @self.dp.message_handler(Text(faculties_ikbs.keys()), state=MenuFSM.main)
@@ -88,13 +90,13 @@ class IzfirBot:
             await self.dp.bot.answer_callback_query(call.id)
             await call.message.edit_text(hash_name_to_faculty[call.data], reply_markup=faculties_ikbs[hash_name_to_faculty[call.data]])
 
-    def load_questions(self):
+    async def load_questions(self):
         if self.dev:
-            self._load_questions()
+            await self._load_questions()
             return
 
         try:
-            self._load_questions()
+            await self._load_questions()
         except Exception as e:
             logging.error(f'Error while loading questions from db: {e}')
 
@@ -104,7 +106,7 @@ class IzfirBot:
             self.dp = dp
             await on_startup(self.dp)
 
-            self.load_questions()
+            await self.load_questions()
             # self.register_trash()
 
             webhook_info = await self.bot.get_webhook_info()
