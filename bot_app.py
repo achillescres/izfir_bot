@@ -25,15 +25,50 @@ async def on_startup(dp: Dispatcher):
     print('Bot started')
 
 
-async def on_shutdown(dp: Dispatcher):
-    logging.warning('Shutting down!..')
 
-    await dp.bot.delete_webhook()
+class Questions:
+    def __init__(self):
+        self.questions = None
+        self.return_to_faculty_ikbs = None
+        self.faculties_ikbs = None
+        self.answers = dict()
+        self.faculties_names = []
+        self.faculties_names_hash = []
+        self.hash_name_to_faculty = {}
+        self.db = motor.motor_asyncio.AsyncIOMotorClient(
+            "mongodb://localhost:27017"
+        ).izfir
+        self.qus_ans_calls_collection = self.db.qus_ans_calls
 
-    await dp.storage.close()
-    await dp.storage.wait_closed()
+        await self.update_data()
 
-    logging.info('Bot shut down! Bye!')
+    async def _load_from_db(self):
+        self.questions = await self.qus_ans_calls_collection.find().to_list(40)
+        self.return_to_faculty_ikbs = None
+        self.faculties_ikbs = None
+        self.answers = dict()
+        self.faculties_names = []
+        self.faculties_names_hash = []
+        self.hash_name_to_faculty = {}
+
+        for faculty_obj in self.questions:
+            self.faculties_names.append(faculty_obj['faculty']['name'])
+            self.faculties_names_hash.append(str(hash(self.faculties_names[-1])))
+            self.hash_name_to_faculty[self.faculties_names_hash[-1]] = self.faculties_names[-1]
+            for qu_an_call in faculty_obj['qus_ans_calls']:
+                self.answers[qu_an_call['call']] = qu_an_call['an']
+
+        self.faculties_ikbs = faculties_menu_kb.get_faculty_qus_ans_ikbs(self.questions)
+
+        self.return_to_faculty_ikbs = {
+            self.faculties_names[i]: InlineKeyboardMarkup(row_width=1).add(
+                InlineKeyboardButton(text='Вернуться к вопросам', callback_data=faculty_name_hash)
+            )
+            for i, faculty_name_hash in enumerate(self.faculties_names_hash)
+        }
+
+    async def update_data(self):
+        await self._load_from_db()
 
 
 class IzfirBot:
@@ -41,72 +76,40 @@ class IzfirBot:
 
     def __init__(self, dev: bool = False):
         self.dev = dev
-        self.questions = motor.motor_asyncio.AsyncIOMotorClient(
-            "mongodb://localhost:27017").izfir.qus_ans_calls
+        self.data_proxy = Questions()
 
     def register_trash(self):
         self.dp.register_message_handler(trash, state=MenuFSM.main)
 
-    async def _load_questions(self):
-        questions = self.questions
-        data = await questions.find().to_list(40)
-        questions = data
-        answers = dict()
-        faculties_names = []
-        faculties_names_hash = []
-        hash_name_to_faculty = {}
-        for faculty_obj in questions:
-            faculties_names.append(faculty_obj['faculty']['name'])
-            faculties_names_hash.append(str(hash(faculties_names[-1])))
-            hash_name_to_faculty[faculties_names_hash[-1]] = faculties_names[-1]
-            for qu_an_call in faculty_obj['qus_ans_calls']:
-                answers[qu_an_call['call']] = qu_an_call['an']
-
+    async def _set_questions_handlers(self):
         @self.dp.message_handler(Text(questions_menu_kb.Texts.qus_ans.value), state=MenuFSM.main)
         async def faculties(message: types.Message):
-            await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(questions))
+            proxy = self.data_proxy
+            await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(proxy.questions))
 
-        # print(questions)
-        faculties_ikbs = faculties_menu_kb.get_faculty_qus_ans_ikbs(questions)
-
-        @self.dp.message_handler(Text(faculties_ikbs.keys()), state=MenuFSM.main)
+        @self.dp.message_handler(Text(self.data_proxy.faculties_ikbs.keys()), state=MenuFSM.main)
         async def faculties_self(message: types.Message):
-            await message.answer(message.text, reply_markup=faculties_ikbs[message.text])
+            await message.answer(message.text, reply_markup=self.data_proxy.faculties_ikbs[message.text])
 
-        return_to_faculty_ikbs = {
-            faculties_names[i]: InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton(text='Вернуться к вопросам', callback_data=faculty_name_hash)
-            )
-            for i, faculty_name_hash in enumerate(faculties_names_hash)
-        }
-
-        @self.dp.callback_query_handler(text=answers.keys(), state=MenuFSM.main)
+        @self.dp.callback_query_handler(text=self.data_proxy.answers.keys(), state=MenuFSM.main)
         async def question_call(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
-            await call.message.edit_text(answers[call.data], reply_markup=return_to_faculty_ikbs[call.message.text])
+            await call.message.edit_text(self.data_proxy.answers[call.data], reply_markup=self.data_proxy.return_to_faculty_ikbs[call.message.text])
 
-        @self.dp.callback_query_handler(text=faculties_names_hash, state=MenuFSM.main)
+        @self.dp.callback_query_handler(text=self.data_proxy.faculties_names_hash, state=MenuFSM.main)
         async def return_to_faculty_questions(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
-            await call.message.edit_text(hash_name_to_faculty[call.data], reply_markup=faculties_ikbs[hash_name_to_faculty[call.data]])
+            await call.message.edit_text(self.data_proxy.hash_name_to_faculty[call.data], reply_markup=self.data_proxy.faculties_ikbs[self.data_proxy.hash_name_to_faculty[call.data]])
 
-    async def load_questions(self):
-        if self.dev:
-            await self._load_questions()
-            return
-
-        try:
-            await self._load_questions()
-        except Exception as e:
-            logging.error(f'Error while loading questions from db: {e}')
+    async def update_questions(self):
+        await self.data_proxy.update_data()
 
     async def start(self, WEBHOOK_URL):
         try:
             from bot.handlers import dp
             self.dp = dp
             await on_startup(self.dp)
-
-            await self.load_questions()
+            await self._set_questions_handlers()
             # self.register_trash()
 
             webhook_info = await self.bot.get_webhook_info()
@@ -121,14 +124,19 @@ class IzfirBot:
 
     async def shutdown(self):
         try:
-            await on_shutdown(self.dp)
-            await self.dp.bot.close()
-            self.dp = None
-        except Exception as e:
-            self.dp = None
-            logging.error(f"Couldn't correctly shutdown bot\n{e}")
+            logging.warning('Shutting down!..')
 
-        logging.info('Bot shutted down!')
+            await self.dp.bot.delete_webhook()
+            await self.dp.storage.close()
+            await self.dp.storage.wait_closed()
+
+            del self.dp
+            logging.info('Shutdown correct')
+        except Exception as e:
+            del self.dp
+            logging.error(f"Couldn't correctly shutdown bot\n{e}")
+        finally:
+            logging.info('Bot shutted down!')
 
     async def _update(self, update: dict):
         telegram_update = types.Update(**update)
@@ -142,10 +150,7 @@ class IzfirBot:
             return
 
         try:
-            telegram_update = types.Update(**update)
-            Dispatcher.set_current(self.dp)
-            Bot.set_current(self.bot)
-            await self.dp.process_update(telegram_update)
+            await self._update(update)
         except Exception as e:
             logging.error(f'Update error {e}')
 

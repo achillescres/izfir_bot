@@ -58,20 +58,19 @@ async def finish_chat(user_id: UserId):
 
 @app.get("/api/getFaculties")
 async def get_faculties():
-    return {'faculties': await ibot.questions.find({}, {"_id": 0, "qus_ans_calls": 0}).to_list(40)}
+    return {'faculties': await ibot.data_proxy.qus_ans_calls_collection.find({}, {"_id": 0, "qus_ans_calls": 0}).to_list(40)}
 
 
 @app.post("/api/setFacultie")
 async def set_facultie(data: Facultie):
     data = jsonable_encoder(data)
-    print(data["faculty_key"])
-    await ibot.questions.update_one({'faculty.key': data["faculty_key"]}, {'$set': {'normal_qus_ans': data["normal_qus_ans"]}})
-    rows = []
-    print(data["normal_qus_ans"])
-    for qa in data["normal_qus_ans"]:
-        rows.append([qa["qu"], qa["an"]])
-    await format_rows(ibot.questions, data["faculty_key"], rows)
-    # await ibot.load_questions()
+    await ibot.data_proxy.qus_ans_calls_collection.update_one(
+        {'faculty.key': data["faculty_key"]}, {'$set': {'normal_qus_ans': data["normal_qus_ans"]}}
+    )
+
+    rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
+
+    await format_rows(ibot.data_proxy.qus_ans_calls_collection, data["faculty_key"], rows)
 
 
 if __name__ == '__main__':
