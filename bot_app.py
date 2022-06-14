@@ -15,19 +15,8 @@ from bot.states import MenuFSM
 from bot.static_handlers import trash
 
 
-async def on_startup(dp: Dispatcher):
-    from bot.utils.notify_admin import on_startup_notify
-    await on_startup_notify(dp)
-
-    from bot.utils.set_bot_commands import set_default_commands
-    await set_default_commands(dp)
-
-    print('Bot started')
-
-
-
-class Questions:
-    def __init__(self):
+class Questions(object):
+    async def init(self):
         self.questions = None
         self.return_to_faculty_ikbs = None
         self.faculties_ikbs = None
@@ -108,7 +97,8 @@ class IzfirBot:
         try:
             from bot.handlers import dp
             self.dp = dp
-            await on_startup(self.dp)
+            await self.data_proxy.init()
+            await self.on_startup()
             await self._set_questions_handlers()
             # self.register_trash()
 
@@ -121,6 +111,13 @@ class IzfirBot:
             await self.shutdown()
             logging.error(f"Couldn't start bot \n{e}")
             exit(-1)
+
+    async def on_startup(self):
+        from bot.utils.notify_admin import on_startup_notify
+        await on_startup_notify(self.dp)
+
+        from bot.utils.set_bot_commands import set_default_commands
+        await set_default_commands(self.dp)
 
     async def shutdown(self):
         try:
@@ -135,8 +132,6 @@ class IzfirBot:
         except Exception as e:
             del self.dp
             logging.error(f"Couldn't correctly shutdown bot\n{e}")
-        finally:
-            logging.info('Bot shutted down!')
 
     async def _update(self, update: dict):
         telegram_update = types.Update(**update)

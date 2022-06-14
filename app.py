@@ -71,6 +71,7 @@ async def set_facultie(data: Facultie):
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 
     await format_rows(ibot.data_proxy.qus_ans_calls_collection, data["faculty_key"], rows)
+    await ibot.data_proxy.update_data()
 
 
 if __name__ == '__main__':
