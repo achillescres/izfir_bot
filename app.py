@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from bot.keyboards.default.chat import finish_chat_kb
 from bot.states import MenuFSM
-from bot.storage import format_rows
+from bot.utils.divide_qus import *
 from bot_app import IzfirBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE
 from server.models import Message, Facultie
@@ -70,7 +70,9 @@ async def set_facultie(data: Facultie):
     print(data["normal_qus_ans"])
     for qa in data["normal_qus_ans"]:
         rows.append([qa["qu"], qa["an"]])
-    new_rows = await format_rows(ibot.questions, data["faculty_key"], rows)
+    await format_rows(ibot.questions, data["faculty_key"], rows)
+    # await ibot.load_questions()
+
 
 if __name__ == '__main__':
     import uvicorn
