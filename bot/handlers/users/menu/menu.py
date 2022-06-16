@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Command
 
 from bot.keyboards.default.menu import menu_kb
 from loader import dp
-from bot.states import MenuFSM
+from bot.states import MenuFSM, ChatFSM
 from bot.abstracts import AbstractMenu
 
 
@@ -15,7 +15,8 @@ async def return_main_kb(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(MenuFSM.main)
 
 
-@dp.message_handler(Command('menu'), state=MenuFSM.main)
-@dp.message_handler(text=menu_kb.self_text, state=[MenuFSM.main])
-async def menu(message: types.Message):
+@dp.message_handler(Command('menu'), state=[MenuFSM.main, ChatFSM.choosing_faculty])
+@dp.message_handler(text=menu_kb.self_text, state=[MenuFSM.main, ChatFSM.choosing_faculty])
+async def menu(message: types.Message, state: FSMContext):
     await AbstractMenu.send(message)
+    await state.set_state(MenuFSM.main)

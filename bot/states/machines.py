@@ -8,5 +8,6 @@ class MenuFSM(StatesGroup):
 
 # In chat
 class ChatFSM(StatesGroup):
+    choosing_faculty = State()
     waiting_chat = State()
     chat = State()

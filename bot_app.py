@@ -1,62 +1,22 @@
 import logging
 
-import motor.motor_asyncio
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from bot.abstracts.questions_proxy_storage import QuestionsProxyStorage
+from bot.keyboards.default.chat import finish_chat_kb
 from bot.keyboards.default.menu import menu_kb
-from bot.keyboards.default.questions import questions_menu_kb
-from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
 from bot.states import MenuFSM
 from bot.static_handlers import after_start_trash, before_start_trash
 
 
-class Questions(object):
-    async def init(self):
-        self.db = motor.motor_asyncio.AsyncIOMotorClient(
-            "mongodb://localhost:27017"
-        ).izfir
-        self.qus_ans_calls_collection = self.db.qus_ans_calls
-
-        await self.update_data()
-
-    async def _load_from_db(self):
-        self.questions = await self.qus_ans_calls_collection.find().to_list(40)
-        self.return_to_faculty_ikbs = None
-        self.faculties_ikbs = None
-        self.answers = dict()
-        self.faculties_names = []
-        self.faculties_names_hash = []
-        self.hash_name_to_faculty = {}
-
-        for faculty_obj in self.questions:
-            self.faculties_names.append(faculty_obj['faculty']['name'])
-            self.faculties_names_hash.append(str(hash(self.faculties_names[-1])))
-            self.hash_name_to_faculty[self.faculties_names_hash[-1]] = self.faculties_names[-1]
-            for qu_an_call in faculty_obj['qus_ans_calls']:
-                self.answers[qu_an_call['call']] = qu_an_call['an']
-
-        self.faculties_ikbs = faculties_menu_kb.get_faculty_qus_ans_ikbs(self.questions)
-
-        self.return_to_faculty_ikbs = {
-            self.faculties_names[i]: InlineKeyboardMarkup(row_width=1).add(
-                InlineKeyboardButton(text='Вернуться к вопросам', callback_data=faculty_name_hash)
-            )
-            for i, faculty_name_hash in enumerate(self.faculties_names_hash)
-        }
-
-    async def update_data(self):
-        await self._load_from_db()
-
-
-class IzfirBot:
+class TelegramBot:
     dp = None
 
     def __init__(self, dev: bool = False):
         self.dev = dev
-        self.data_proxy = Questions()
+        self.data_proxy = QuestionsProxyStorage()
 
     def _register_trash_handlers(self):
         self.dp.register_message_handler(after_start_trash.handler, **after_start_trash.options)
@@ -99,13 +59,12 @@ class IzfirBot:
             await self.data_proxy.init()
             await self.on_startup()
             await self._set_static_handlers()
-            # self.register_trash()
 
             webhook_info = await self.bot.get_webhook_info()
             if webhook_info.url != WEBHOOK_URL:
                 await self.bot.set_webhook(url=WEBHOOK_URL, drop_pending_updates=True)
 
-            print('IzfirBot: Dispatcher loaded')
+            logging.info('IzfirBot: Dispatcher loaded')
         except Exception as e:
             await self.shutdown()
             logging.error(f"Couldn't start bot \n{e}")
@@ -129,8 +88,10 @@ class IzfirBot:
             del self.dp
             logging.info('Shutdown correct')
         except Exception as e:
-            self.dp = None
             logging.error(f"Couldn't correctly shutdown bot\n{e}")
+            self.dp = None
+        finally:
+            logging.warning('Bye!')
 
     async def _update(self, update: dict):
         telegram_update = types.Update(**update)
@@ -141,7 +102,6 @@ class IzfirBot:
     async def update(self, update: dict):
         if self.dev:
             await self._update(update)
-            print('UPDATED')
             return
 
         try:
@@ -149,12 +109,12 @@ class IzfirBot:
         except Exception as e:
             logging.error(f'Update error {e}')
 
-    async def send_message(self, text, user_id, kb=menu_kb.kb):
+    async def send_message(self, text, user_id, operator_name='Оператор'):
         try:
             await self.bot.send_message(
                 chat_id=user_id,
-                text=f"(Оператор): {text}",
-                reply_markup=kb
+                text=f"{operator_name}: {text}",
+                reply_markup=finish_chat_kb.kb
             )
         except Exception as e:
             logging.error(f"send_message error {e}")

@@ -7,6 +7,7 @@ from aiogram.utils.markdown import bold, text
 
 from bot.abstracts import AbstractMenu
 from bot.keyboards.default.menu import menu_kb
+from bot.keyboards.inline import operator_faculties_ikb
 from bot.states.machines import ChatFSM
 from loader import dp
 
@@ -16,33 +17,56 @@ from bot.states import MenuFSM
 import bot.utils.http as http
 
 
-# Start chat from main menu chat button startpoint
 @dp.message_handler(text=menu_kb.Texts.chat.value, state=MenuFSM.main)
-async def start_chat(message: types.Message, state: FSMContext):
+async def choose_operator_faculty(message: types.Message, state: FSMContext):
+    await message.answer('Выберите тип оператора', reply_markup=operator_faculties_ikb.ikb)
+    await state.set_state(ChatFSM.choosing_faculty)
+
+
+@dp.callback_query_handler(text=operator_faculties_ikb.faculties_names_hashes[0], state=ChatFSM.choosing_faculty)
+async def return_to_menu(call: types.CallbackQuery, state: FSMContext):
+    await dp.bot.answer_callback_query(call.id)
+    await call.message.answer(menu_kb.self_text, reply_markup=menu_kb.kb)
+    await call.message.delete()
+    await state.set_state(MenuFSM.main)
+
+
+# Start chat from main menu chat button startpoint
+@dp.callback_query_handler(text=operator_faculties_ikb.faculties_hashes, state=ChatFSM.choosing_faculty)
+async def start_chat(call: types.CallbackQuery, state: FSMContext):
+    await dp.bot.answer_callback_query(call.id)
+    await call.message.delete_reply_markup()
+    await call.message.edit_text(operator_faculties_ikb.hash_to_name[call.data])
+    waiter_message = await call.message.answer('Идёт поиск оператора...', reply_markup=finish_chat_kb.kb)
     await state.set_state(ChatFSM.waiting_chat)
-    await message.answer('Идёт поиск оператора...', reply_markup=finish_chat_kb.kb)
 
     # Запрос на апи для поиска оператора
-    operator_id = (await http.get(f'http://127.0.0.1:8000/api/getOperator/{message.chat.id}')).strip('"')
-    print(f'Found operator: {operator_id}')
+    operator_id = await http.chat.get_operator(
+        call.message.from_user.id,
+        operator_faculties_ikb.hash_to_name[call.data]
+    )
+
+    logging.info(f'Found operator: {operator_id}')
+
     # Если нет свободного оператора
     if operator_id in ("null", ''):
-        await message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
-        await AbstractMenu.send(message)
+        await waiter_message.delete()
+        await call.message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
+        await AbstractMenu.send(call.message)
         await state.set_state(MenuFSM.main)
         return
 
-    if await state.get_state() == MenuFSM.main.state:
-        message = await message.reply('.', reply_markup=menu_kb.kb)
-        await message.delete()
-        return
-
-    await message.reply(
+    await call.message.reply(
         'Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start ',
         reply_markup=finish_chat_kb.kb
     )
     await state.update_data(operator_id=operator_id)
     await state.set_state(ChatFSM.chat)
+
+
+@dp.message_handler(state=ChatFSM.choosing_faculty)
+async def choosing_operator_faculty_trash(message: types.Message):
+    await message.reply('Пожалуйста воспользуйтесь кнопками, чтобы выбрать тип оператора')
 
 
 @dp.message_handler(text='/Завершить сеанс', state=MenuFSM.main)

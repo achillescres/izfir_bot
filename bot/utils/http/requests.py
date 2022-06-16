@@ -1,8 +1,7 @@
-from asyncio import TimeoutError
 from aiohttp import ClientSession, ClientTimeout
 
 
-max_timeout = 6
+max_timeout = 2
 response_error = 'null'
 
 
@@ -16,6 +15,7 @@ async def get(url: str):
                     resp = await res.text(encoding='utf-8')
                 else:
                     resp = response_error
+            await session.close()
         return resp
     except:
         return response_error
