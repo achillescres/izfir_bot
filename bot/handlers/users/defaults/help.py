@@ -1,11 +1,12 @@
 from aiogram import types
+from aiogram.dispatcher.filters import Command
 from aiogram.types import ParseMode
 from aiogram.utils.markdown import text, bold
 
 from loader import dp
 
 
-@dp.message_handler(text='/help', state='*')
+@dp.message_handler(Command('help'), state='*')
 async def help(message: types.Message):
     await message.reply(
         text(

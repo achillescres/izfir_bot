@@ -130,7 +130,7 @@ class IzfirBot:
             del self.dp
             logging.info('Shutdown correct')
         except Exception as e:
-            del self.dp
+            self.dp = None
             logging.error(f"Couldn't correctly shutdown bot\n{e}")
 
     async def _update(self, update: dict):
@@ -142,6 +142,7 @@ class IzfirBot:
     async def update(self, update: dict):
         if self.dev:
             await self._update(update)
+            print('UPDATED')
             return
 
         try:

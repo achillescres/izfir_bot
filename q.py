@@ -8,7 +8,6 @@ from pymongo.collection import Collection
 from pymongo.database import Database
 
 
-
 async def add_faculty(key: str, name: str, collection: AgnosticCollection):
     data = {
         "faculty": {

@@ -38,6 +38,7 @@ async def on_shutdown():
 
 @app.post(WEBHOOK_PATH)
 async def bot_webhook(update: dict):
+    print('UPEDAATE')
     await ibot.update(update)
 
 

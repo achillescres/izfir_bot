@@ -8,7 +8,7 @@ LOWER_LIMIT = 44
 async def format_rows(faculties, fac_key, rows):
     new_rows = []
     for i, row in enumerate(rows):
-        print(row)
+        # print(row)
         row[0] = f"{i+1}. {row[0]}"
         if len(row[0]) <= REAL_LIMIT:
             new_rows.append(row+[i])

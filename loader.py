@@ -12,7 +12,7 @@ bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 try:
     storage = MongoStorage(host='localhost', port=27017)
 except Exception:
-    print('Failed to connect to MongoDB for FSM')
+    print('Failed to connect to MongoDB')
     print('Raising MemoryStorage...')
     storage = MemoryStorage()
 

@@ -8,5 +8,5 @@ from loader import dp
 
 
 @dp.message_handler(text=menu_kb.Texts.qus.value, state=MenuFSM.main)
-async def questions(message: types.Message, state: FSMContext):
+async def questions(message: types.Message):
     await AbstractQuestionsMenu.send_questions_menu(message)
