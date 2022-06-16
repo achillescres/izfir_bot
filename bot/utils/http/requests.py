@@ -8,7 +8,8 @@ response_error = 'null'
 
 async def get(url: str):
     try:
-        session_timeout = ClientTimeout(total=max_timeout, connect=max_timeout, sock_connect=max_timeout, sock_read=max_timeout)
+        session_timeout = ClientTimeout(total=max_timeout, connect=max_timeout, sock_connect=max_timeout,
+                                        sock_read=max_timeout)
         async with ClientSession(timeout=session_timeout) as session:
             async with session.get(url) as res:
                 if res.ok:
@@ -16,5 +17,5 @@ async def get(url: str):
                 else:
                     resp = response_error
         return resp
-    except TimeoutError:
+    except:
         return response_error

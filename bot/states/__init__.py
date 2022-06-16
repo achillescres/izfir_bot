@@ -1,1 +1,1 @@
-from .machines import MenuFSM, NlpFSM
+from .machines import MenuFSM, ChatFSM

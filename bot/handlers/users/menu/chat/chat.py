@@ -28,7 +28,7 @@ async def start_chat(message: types.Message, state: FSMContext):
     # Если нет свободного оператора
     if operator_id in ("null", ''):
         await message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
-        await AbstractMenu.send_menu(message)
+        await AbstractMenu.send(message)
         await state.set_state(MenuFSM.main)
         return
 
@@ -37,15 +37,17 @@ async def start_chat(message: types.Message, state: FSMContext):
         await message.delete()
         return
 
-    await message.reply('Оператор нашёлся!', reply_markup=finish_chat_kb.kb)
+    await message.reply(
+        'Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start ',
+        reply_markup=finish_chat_kb.kb
+    )
     await state.update_data(operator_id=operator_id)
     await state.set_state(ChatFSM.chat)
 
 
 @dp.message_handler(text='/Завершить сеанс', state=MenuFSM.main)
 async def finish_chat_trash(message: types.Message):
-    message = await message.answer('.', reply_markup=menu_kb.kb)
-    await message.delete()
+    await AbstractMenu.send(message)
 
 
 @dp.message_handler(state=ChatFSM.waiting_chat)
@@ -74,7 +76,7 @@ async def close_chat(message: types.Message, state: FSMContext, from_user=True, 
 
 
 # Close on keyboard close button
-@dp.message_handler(text=finish_chat_kb.Texts.close.value, state=[ChatFSM.chat, ChatFSM.waiting_chat])
+@dp.message_handler(text=[finish_chat_kb.Texts.close.value, '/start'], state=[ChatFSM.chat, ChatFSM.waiting_chat])
 async def close_support(message: types.Message, state: FSMContext):
     await close_chat(message, state, from_user=True, with_err=False)
 

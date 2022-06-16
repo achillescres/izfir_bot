@@ -3,27 +3,18 @@ import logging
 import motor.motor_asyncio
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.webhook import AnswerCallbackQuery
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pymongo import MongoClient
 
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.default.questions import questions_menu_kb
 from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
 from bot.states import MenuFSM
-from bot.static_handlers import trash
+from bot.static_handlers import after_start_trash, before_start_trash
 
 
 class Questions(object):
     async def init(self):
-        self.questions = None
-        self.return_to_faculty_ikbs = None
-        self.faculties_ikbs = None
-        self.answers = dict()
-        self.faculties_names = []
-        self.faculties_names_hash = []
-        self.hash_name_to_faculty = {}
         self.db = motor.motor_asyncio.AsyncIOMotorClient(
             "mongodb://localhost:27017"
         ).izfir
@@ -67,14 +58,15 @@ class IzfirBot:
         self.dev = dev
         self.data_proxy = Questions()
 
-    def register_trash(self):
-        self.dp.register_message_handler(trash, state=MenuFSM.main)
+    def _register_trash_handlers(self):
+        self.dp.register_message_handler(after_start_trash.handler, **after_start_trash.options)
+        self.dp.register_message_handler(before_start_trash.handler, **before_start_trash.options)
 
-    async def _set_questions_handlers(self):
-        @self.dp.message_handler(Text(questions_menu_kb.Texts.qus_ans.value), state=MenuFSM.main)
+    async def _set_static_handlers(self):
+        # For dynamic data closure
+        @self.dp.message_handler(Text(menu_kb.Texts.qus.value), state=MenuFSM.main)
         async def faculties(message: types.Message):
-            proxy = self.data_proxy
-            await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(proxy.questions))
+            await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(self.data_proxy.questions))
 
         @self.dp.message_handler(Text(self.data_proxy.faculties_ikbs.keys()), state=MenuFSM.main)
         async def faculties_self(message: types.Message):
@@ -83,12 +75,19 @@ class IzfirBot:
         @self.dp.callback_query_handler(text=self.data_proxy.answers.keys(), state=MenuFSM.main)
         async def question_call(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
-            await call.message.edit_text(self.data_proxy.answers[call.data], reply_markup=self.data_proxy.return_to_faculty_ikbs[call.message.text])
+            await call.message.edit_text(self.data_proxy.answers[call.data],
+                                         reply_markup=self.data_proxy.return_to_faculty_ikbs[call.message.text])
 
         @self.dp.callback_query_handler(text=self.data_proxy.faculties_names_hash, state=MenuFSM.main)
         async def return_to_faculty_questions(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
-            await call.message.edit_text(self.data_proxy.hash_name_to_faculty[call.data], reply_markup=self.data_proxy.faculties_ikbs[self.data_proxy.hash_name_to_faculty[call.data]])
+            await call.message.edit_text(
+                self.data_proxy.hash_name_to_faculty[call.data],
+                reply_markup=self.data_proxy.faculties_ikbs[self.data_proxy.hash_name_to_faculty[call.data]]
+            )
+
+        # trash handler must be in the end
+        self._register_trash_handlers()
 
     async def update_questions(self):
         await self.data_proxy.update_data()
@@ -99,7 +98,7 @@ class IzfirBot:
             self.dp = dp
             await self.data_proxy.init()
             await self.on_startup()
-            await self._set_questions_handlers()
+            await self._set_static_handlers()
             # self.register_trash()
 
             webhook_info = await self.bot.get_webhook_info()
