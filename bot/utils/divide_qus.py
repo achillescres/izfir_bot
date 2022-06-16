@@ -7,10 +7,10 @@ LOWER_LIMIT = 27
 
 async def format_rows(faculties, fac_key, rows):
     new_rows = []
-    for row in rows:
+    for i, row in enumerate(rows):
         print(row)
         if len(row[0]) <= REAL_LIMIT:
-            new_rows.append(row)
+            new_rows.append(row + [i])
             continue
 
         qu = row[0].split(' ')[::-1]
@@ -23,29 +23,21 @@ async def format_rows(faculties, fac_key, rows):
                     qu.pop()
                 break
 
-            parts.append([part.strip(), row[1].strip()])
+            parts.append([part.strip(), row[1].strip(), i])
 
         new_rows.extend(parts)
 
-    faculties.update_one({'faculty.key': fac_key}, {'$set': {'qus_ans_calls': []}})
+    await faculties.update_one({'faculty.key': fac_key}, {'$set': {'qus_ans_calls': []}})
     for i in new_rows:
-        await add_qu_an(faculties, {'qu': i[0], 'an': i[1]}, fac_key)
+        await add_qu_an(faculties, {'qu': i[0], 'an': i[1], 'index': i[2]}, fac_key)
 
 
-async def add_qu_an(collection: AgnosticCollection, qu_an, to_fac_key: str):
-    try:
-        new_not_an_index = (await collection.find_one(
-            {'faculty.key': to_fac_key},
-            {'qus_ans_calls': {'$slice': -1}}
-        ))['qus_ans_calls']['not_an_index'] + 1
-    except:
-        new_not_an_index = 0
-
-    new_call = f'{to_fac_key}_{new_not_an_index}'
+async def add_qu_an_call(collection: AgnosticCollection, qu_an_call, to_fac_key: str):
+    new_call = f'{to_fac_key}_{qu_an_call["index"]}'
     new_qu_an_call = {
-        'not_an_index': new_not_an_index,
-        'qu': qu_an['qu'],
-        'an': qu_an['an'],
+        'not_an_index': qu_an_call['index'],
+        'qu': qu_an_call['qu'],
+        'an': qu_an_call['an'],
         'call': new_call
     }
 
