@@ -33,8 +33,8 @@ async def add_qu_an(collection: AgnosticCollection, qu_an, to_fac_key: str):
     try:
         new_not_an_index = (await collection.find_one(
             {'faculty.key': to_fac_key},
-            {'normal_qus_ans_calls': {'$slice': -1}}
-        ))['normal_qus_ans_calls'][0]['not_an_index'] + 1
+            {'normal_qus_ans': {'$slice': -1}}
+        ))['normal_qus_ans'][0]['not_an_index'] + 1
     except (TypeError, IndexError):
         new_not_an_index = 0
 
@@ -53,7 +53,7 @@ async def add_qu_an(collection: AgnosticCollection, qu_an, to_fac_key: str):
         {
             '$push':
                 {
-                    'normal_qus_ans_calls': new_qu_an_call
+                    'normal_qus_ans': new_qu_an_call
                 }
         }
     )
@@ -62,8 +62,8 @@ db: AsyncIOMotorDatabase = client.izfir
 faculties: AsyncIOMotorCollection = db.qus_ans_calls
 
 loop = client.get_io_loop()
-# for i in rows:
-#     print(i)
-#     loop.run_until_complete(add_qu_an(faculties, {'qu': i[0], 'an': i[1]}, '205ea'))
+for i in rows:
+    print(i)
+    loop.run_until_complete(add_qu_an(faculties, {'qu': i[0], 'an': i[1]}, '565ee'))
     # with open('new_qus_ans_calls.customsv', 'w', encoding='utf8') as t:
     #     t.write(';;;'.join(new_rows))

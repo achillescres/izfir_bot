@@ -2,15 +2,16 @@ from motor.core import AgnosticCollection
 
 
 REAL_LIMIT = 49
-LOWER_LIMIT = 27
+LOWER_LIMIT = 44
 
 
 async def format_rows(faculties, fac_key, rows):
     new_rows = []
     for i, row in enumerate(rows):
         print(row)
+        row[0] = f"{i+1}. {row[0]}"
         if len(row[0]) <= REAL_LIMIT:
-            new_rows.append(row + [i])
+            new_rows.append(row+[i])
             continue
 
         qu = row[0].split(' ')[::-1]
@@ -18,10 +19,17 @@ async def format_rows(faculties, fac_key, rows):
         while qu:
             part = ''
             while len(part) <= LOWER_LIMIT and qu:
-                if len(part) + len(qu[-1]) > REAL_LIMIT:
+                if len(part) + len(qu[-1]) <= REAL_LIMIT:
                     part += ' ' + qu[-1]
                     qu.pop()
-                break
+                else:
+                    #     part += ' ' + qu[-1]
+                    #     part1 = part[:REAL_LIMIT + 1]
+                    #     bad_part = part[REAL_LIMIT+1:]
+                    #     if bad_part:
+                    #         qu.append(bad_part)
+                    #     part = part1
+                    break
 
             parts.append([part.strip(), row[1].strip(), i])
 

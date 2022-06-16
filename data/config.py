@@ -12,6 +12,7 @@ BOT_ROOT = PROJECT_ROOT + '/bot'
 
 BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
 HOST_URL = str(os.getenv('HOST_URL'))
+ACCESS_TOKEN = str(os.getenv('ACCESS_TOKEN'))
 
 WEBHOOK_PATH = f"/bot/{BOT_TOKEN}"
 WEBHOOK_URL = HOST_URL + WEBHOOK_PATH
