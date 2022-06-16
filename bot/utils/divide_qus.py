@@ -29,7 +29,7 @@ async def format_rows(faculties, fac_key, rows):
 
     await faculties.update_one({'faculty.key': fac_key}, {'$set': {'qus_ans_calls': []}})
     for i in new_rows:
-        await add_qu_an(faculties, {'qu': i[0], 'an': i[1], 'index': i[2]}, fac_key)
+        await add_qu_an_call(faculties, {'qu': i[0], 'an': i[1], 'index': i[2]}, fac_key)
 
 
 async def add_qu_an_call(collection: AgnosticCollection, qu_an_call, to_fac_key: str):
