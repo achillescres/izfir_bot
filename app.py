@@ -49,6 +49,7 @@ async def bot_send_message(message: Message):
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
+    await client_state.set_state(MenuFSM.main)
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,
@@ -63,12 +64,12 @@ async def get_faculties(fac_key: str, token: str):
 
     if fac_key == 'all':
         return {
-            'faculties': await ibot.data_proxy.collection.find({}, {"_id": 0, "qus_ans_calls": 0}).to_list(40)
+            'faculties': await ibot.data_proxy.collection.find({}, {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}).to_list(40)
         }
 
     return {'faculties': await ibot.data_proxy.collection.find(
         {"faculty.key": fac_key},
-        {"_id": 0, "qus_ans_calls": 0}
+        {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
     ).to_list(40)
             }
 

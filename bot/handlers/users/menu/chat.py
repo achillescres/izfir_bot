@@ -42,7 +42,7 @@ async def start_chat(call: types.CallbackQuery, state: FSMContext):
 
     # Запрос на апи для поиска оператора
     operator_id = await http.chat.get_operator(
-        call.message.from_user.id,
+        call.message.chat.id,
         operator_faculties_ikb.hash_to_name[call.data]
     )
 
