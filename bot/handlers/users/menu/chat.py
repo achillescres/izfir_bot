@@ -105,6 +105,11 @@ async def close_support(message: types.Message, state: FSMContext):
     await close_chat(message, state, from_user=True, with_err=False)
 
 
+@dp.message_handler(state=ChatFSM.chat, content_types=['photo'])
+async def handle_docs_photo(message):
+    await message.photo[-1].download(destination_file='test.jpg')
+
+
 # Send message from user
 @dp.message_handler(state=ChatFSM.chat)
 async def send_support(message: types.Message, state: FSMContext):
