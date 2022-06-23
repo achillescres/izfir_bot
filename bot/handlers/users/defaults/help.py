@@ -12,7 +12,7 @@ async def help(message: types.Message):
         text(
             "Это бот ",
             bold("ЦПК СВФУ"),
-            ".\nЗдесь вы можете найти ответы на распространенные вопросы или связаться с оператором.\n\n",
+            "\.\nЗдесь вы можете найти ответы на распространенные вопросы или связаться с оператором\.\n\n",
             bold("Команды"),
             ":\n",
             bold("/start"),
@@ -21,5 +21,5 @@ async def help(message: types.Message):
             " — помощь по работе с ботом\n",
             bold("/menu"),
             " — главное меню"
-        ), parse_mode=ParseMode.MARKDOWN
+        ), parse_mode=ParseMode.MARKDOWN_V2
     )

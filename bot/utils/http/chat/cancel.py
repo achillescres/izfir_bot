@@ -2,7 +2,7 @@ import ujson
 from aiohttp import ClientSession, ClientConnectionError
 
 
-URL = 'http://127.0.0.1:8000/api/fromBot/cancelChat/'
+URL = 'http://85.193.89.20/api/fromBot/cancelChat/'
 
 
 async def _send_cancel_with_session(session: ClientSession, data):

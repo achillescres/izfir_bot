@@ -98,4 +98,4 @@ async def set_faculty(data: Facultie):
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run('app:app', host='localhost', port=8001, reload=True)
+    uvicorn.run('app:app', host='0.0.0.0', port=80, reload=True)
