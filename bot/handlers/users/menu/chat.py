@@ -99,35 +99,25 @@ async def start_chat(message: types.Message, state: FSMContext):
     qu_text = data['qu']
     faculty_hash = data['faculty_hash']
     
-    waiting_message = await message.answer('Идёт поиск оператора...', reply_markup=chat_kbs.finish_chat_kb)
+    waiting_message = await message.answer('Обработка...', reply_markup=types.ReplyKeyboardRemove())
     await state.set_state(ChatFSM.waiting_chat)
 
     # Запрос на апи для поиска оператора
-    operator_id = await http.chat.get_operator(
-        message.chat.id,
+    ticket = await http.chat.send_ticket(
+        message.from_user.id,
         operator_faculties_ikb.hash_to_name[faculty_hash]
     )
 
-    logging.info(f'Found operator: {operator_id}')
-    
     await waiting_message.delete()
     # Если нет свободного оператора
-    if operator_id in ("null", ''):
-        await message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
+    if ticket == 'err':
+        await message.answer('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
         await AbstractMenu.send(message)
         await state.set_state(MenuFSM.main)
         return
-
-    await state.update_data(operator_id=operator_id, qu=None)
-    
-    await message.reply(
-        'Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start',
-        reply_markup=chat_kbs.finish_chat_kb
-    )
     
     sent = await http.chat.produce_message(
         user_id=message.from_user.id,
-        operator_id=operator_id,
         message=qu_text
     )
     
@@ -137,7 +127,14 @@ async def start_chat(message: types.Message, state: FSMContext):
         await close_chat(message, state, from_user=True, with_err=True)
         return
     
-    await state.set_state(ChatFSM.chat)
+
+    await message.reply(
+        'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
+        reply_markup=menu_kb.kb
+    )
+    
+    await flush_memory(state)
+    await state.update_data(operator_id=operator_id)
 
 
 @dp.message_handler(state=ChatFSM.choosing_faculty)

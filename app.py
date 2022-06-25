@@ -1,8 +1,12 @@
+from aiogram.dispatcher import FSMContext
+from aiogram.types import ParseMode
+from aiogram.utils.markdown import bold, text
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
-from bot.states import MenuFSM
+from bot.keyboards.default.chat import chat_kbs
+from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
@@ -43,6 +47,19 @@ async def bot_webhook(update: dict):
 @app.post('/bot/sendMessage')
 async def bot_send_message(message: Message):
     await ibot.send_message(text=message.text, user_id=message.user_id, operator_name=message.operator_name)
+
+
+@app.post('/api/startChat')
+async def start_chat(user_id: UserId):
+    state: FSMContext = await ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
+    await ibot.bot.send_message(
+        text=text('Оператор иткликнцлся на вашу заявку!\nНачался чат!\nЧтобы завершить сеанс вы можете воспользоваться кнопкой или написать',
+             bold('/start'), sep=' '),
+        chat_id=user_id.user_id,
+        reply_markup=chat_kbs.finish_chat_kb,
+        parse_mode=ParseMode.MARKDOWN_V2
+    )
+    await state.set_state(ChatFSM.chat)
 
 
 @app.post("/api/finishChat")
