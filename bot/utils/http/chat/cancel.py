@@ -1,16 +1,20 @@
+import logging
+
 import ujson
 from aiohttp import ClientSession, ClientConnectionError
 
+from data.config import SERVER_API
 
-URL = 'http://85.193.89.20/api/fromBot/cancelChat/'
+
+URL = f'{SERVER_API}/fromBot/cancelChat/'
 
 
 async def _send_cancel_with_session(session: ClientSession, data):
     for i in range(3):
         async with session.post(URL, json=data) as resp:
-            print((await resp.json()).strip())
+            logging.info((await resp.json()).strip())
             if (await resp.json()).strip() == 'ok':
-                print('URA   CLOSED')
+                logging.info('URA   CLOSED')
                 return True
 
     return False
@@ -29,7 +33,7 @@ async def cancel(operator_id, user_id):
             await session.close()
 
             if not sent:
-                print('Failed to cancel chat with operator')
+                logging.info('Failed to cancel chat with operator')
                 return 'err'
 
             return True

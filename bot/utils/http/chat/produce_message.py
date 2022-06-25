@@ -1,8 +1,12 @@
+import logging
+
 import ujson
 from aiohttp import ClientSession, ClientConnectionError
 
+from data.config import SERVER_API
 
-URL = 'http://85.193.89.20/api/fromBot/message/'
+
+URL = f'{SERVER_API}/fromBot/message/'
 
 
 async def _send_message_with_session(session: ClientSession, data):
@@ -31,11 +35,11 @@ async def produce_message(user_id, operator_id, message):
             await session.close()
 
             if not sent:
-                print('Failed to send message to operator')
+                logging.info('Failed to send message to operator')
                 return 'err'
 
             return True
 
     except ClientConnectionError:
-        print('Unable to post message')
+        logging.info('Unable to post message')
         return 'err'

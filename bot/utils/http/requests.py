@@ -1,7 +1,7 @@
 from aiohttp import ClientSession, ClientTimeout
 
 
-max_timeout = 2
+max_timeout = 4
 response_error = 'null'
 
 

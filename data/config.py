@@ -21,3 +21,6 @@ bot_admins = [
     487289925,
     740086487
 ]
+
+SERVER_URL = str(os.getenv('SERVER_URL'))
+SERVER_API = SERVER_URL + '/api'

@@ -1,8 +1,7 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
-from bot.keyboards.default.chat import finish_chat_kb
 from bot.states import MenuFSM
 from bot.utils.divide_qus import *
 from bot_app import TelegramBot
@@ -98,4 +97,4 @@ async def set_faculty(data: Facultie):
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run('app:app', host='0.0.0.0', port=80, reload=True)
+    uvicorn.run('app:app', host='localhost', port=8001)

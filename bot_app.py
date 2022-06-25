@@ -4,7 +4,7 @@ from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
 
 from bot.abstracts.questions_proxy_storage import QuestionsProxyStorage
-from bot.keyboards.default.chat import finish_chat_kb
+from bot.keyboards.default.chat import chat_kbs
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
 from bot.states import MenuFSM

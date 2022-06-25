@@ -11,4 +11,3 @@ from loader import dp
 async def before_start(message: types.Message, state: FSMContext):
     await AbstractMenu.send(message)
     await state.set_state(MenuFSM.main)
-    print(state)

@@ -4,7 +4,6 @@ from aiogram.utils.markdown import bold, text
 
 from bot.states import MenuFSM
 
-
 options = {
     'state': MenuFSM.main
 }

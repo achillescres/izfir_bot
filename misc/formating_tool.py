@@ -9,10 +9,10 @@ from motor.core import AgnosticCollection
 
 with open('qus_ans_calls.customsv', 'r', encoding='utf8') as f:
     rows = [row.split('|||') for row in f.read().split(';;;')]
-    print(len(rows))
+    logging.info(len(rows))
     new_rows = []
     for row in rows:
-        print(row)
+        logging.info(row)
         if len(row[0]) <= 87:
             new_rows.append(row + [row[0]])
             continue
@@ -26,8 +26,8 @@ with open('qus_ans_calls.customsv', 'r', encoding='utf8') as f:
 
             clones.append([clone.strip(), row[1], row[2], row[0]])
         new_rows.extend(clones)
-    print(new_rows)
-    # print(*new_rows, sep='\n')
+    logging.info(new_rows)
+    # logging.info(*new_rows, sep='\n')
 
 async def add_qu_an(collection: AgnosticCollection, qu_an, to_fac_key: str):
     try:
@@ -63,7 +63,7 @@ faculties: AsyncIOMotorCollection = db.qus_ans_calls
 
 loop = client.get_io_loop()
 for i in rows:
-    print(i)
+    logging.info(i)
     loop.run_until_complete(add_qu_an(faculties, {'qu': i[0], 'an': i[1]}, '565ee'))
     # with open('new_qus_ans_calls.customsv', 'w', encoding='utf8') as t:
     #     t.write(';;;'.join(new_rows))

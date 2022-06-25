@@ -1,11 +1,7 @@
-from pprint import pprint
-import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 from motor.core import AgnosticCollection
 
 import uuid
-from pymongo.collection import Collection
-from pymongo.database import Database
 
 
 async def add_faculty(key: str, name: str, collection: AgnosticCollection):
