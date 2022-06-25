@@ -3,11 +3,11 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
 from bot.keyboards.default.chat import finish_chat_kb
-from bot.states import MenuFSM
+from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
-from server.models import Message, Facultie
+from server.models import Message, Facultie, SetOperator
 from server.models import UserId
 
 app = FastAPI()
@@ -46,10 +46,21 @@ async def bot_send_message(message: Message):
     await ibot.send_message(text=message.text, user_id=message.user_id, operator_name=message.operator_name)
 
 
+@app.post('/bot/setOperator')
+async def set_operator(set_op_data: SetOperator):
+    client_state = ibot.dp.current_state(user=set_op_data.user_id, chat=set_op_data.user_id)
+    await client_state.update_data(operator_id=set_op_data.operator_id)
+    await client_state.set_state(ChatFSM.chat)
+    await ibot.send_message(
+        text="Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start ",
+        user_id=set_op_data.user_id
+    )
+
+
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
-    await client_state.set_state(MenuFSM.main)
+    # await client_state.set_state(MenuFSM.main)
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,
@@ -98,4 +109,4 @@ async def set_faculty(data: Facultie):
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run('app:app', host='0.0.0.0', port=80, reload=True)
+    uvicorn.run('app:app', host='127.0.0.1', port=8001, reload=True)

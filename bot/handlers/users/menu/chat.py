@@ -41,27 +41,27 @@ async def start_chat(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(ChatFSM.waiting_chat)
 
     # Запрос на апи для поиска оператора
-    operator_id = await http.chat.get_operator(
+    await http.chat.get_operator(
         call.message.chat.id,
         operator_faculties_ikb.hash_to_name[call.data]
     )
 
-    logging.info(f'Found operator: {operator_id}')
+    logging.info(f'Finding operator...')
 
     # Если нет свободного оператора
-    if operator_id in ("null", ''):
-        await waiter_message.delete()
-        await call.message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
-        await AbstractMenu.send(call.message)
-        await state.set_state(MenuFSM.main)
-        return
-
-    await call.message.reply(
-        'Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start ',
-        reply_markup=finish_chat_kb.kb
-    )
-    await state.update_data(operator_id=operator_id)
-    await state.set_state(ChatFSM.chat)
+    # if operator_id in ("null", ''):
+    #     await waiter_message.delete()
+    #     await call.message.answer('Извините! На данный момент все операторы заняты, либо отсутствуют.\nНапишите позже')
+    #     await AbstractMenu.send(call.message)
+    #     await state.set_state(MenuFSM.main)
+    #     return
+    #
+    # await call.message.reply(
+    #     'Оператор нашёлся! Чтобы завершить сеанс вы можете воспользоваться кнопкой или написать /start ',
+    #     reply_markup=finish_chat_kb.kb
+    # )
+    # await state.update_data(operator_id=operator_id)
+    # await state.set_state(ChatFSM.chat)
 
 
 @dp.message_handler(state=ChatFSM.choosing_faculty)
