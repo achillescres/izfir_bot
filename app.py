@@ -11,7 +11,7 @@ from bot.utils.divide_qus import *
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
 from server.models import Message, Facultie
-from server.models import UserId
+from server.models import UserId, SetOperator
 
 app = FastAPI()
 ibot = TelegramBot(dev=DEV_MODE)
@@ -50,15 +50,16 @@ async def bot_send_message(message: Message):
 
 
 @app.post('/api/startChat')
-async def start_chat(user_id: UserId):
-    state: FSMContext = await ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
+async def start_chat(data: SetOperator):
+    state = ibot.dp.current_state(user=data.user_id, chat=data.user_id)
     await ibot.bot.send_message(
-        text=text('Оператор иткликнцлся на вашу заявку!\nНачался чат!\nЧтобы завершить сеанс вы можете воспользоваться кнопкой или написать',
+        text=text('Оператор откликнулся на вашу заявку\!\nНачался чат\!\nЧтобы завершить сеанс вы можете воспользоваться кнопкой или написать',
              bold('/start'), sep=' '),
-        chat_id=user_id.user_id,
+        chat_id=data.user_id,
         reply_markup=chat_kbs.finish_chat_kb,
         parse_mode=ParseMode.MARKDOWN_V2
     )
+    await state.update_data(operator_id=data.operator_id)
     await state.set_state(ChatFSM.chat)
 
 

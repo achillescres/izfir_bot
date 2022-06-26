@@ -6,13 +6,14 @@ response_error = 'err'
 URL = f"{SERVER_API}/sendTicket"
 
 
-async def send_ticket(chat_id: str, faculty: str):
+async def send_ticket(client_id: str, qu_text: str, faculty: str):
     data = {
-        chat_id: chat_id,
-        faculty: faculty
+        "client_id": client_id,
+        "message": qu_text,
+        "faculty": faculty
     }
-    res = (await post(f'{URL}/{chat_id}/{faculty}', data)).strip('"')
-    if res in 'err':
+    res = (await post(URL, data)).strip('"')
+    if res in ['err']:
         return response_error
     
     return res

@@ -103,29 +103,30 @@ async def start_chat(message: types.Message, state: FSMContext):
     await state.set_state(ChatFSM.waiting_chat)
 
     # Запрос на апи для поиска оператора
-    ticket = await http.chat.send_ticket(
+    await http.chat.send_ticket(
         message.from_user.id,
+        qu_text,
         operator_faculties_ikb.hash_to_name[faculty_hash]
     )
 
     await waiting_message.delete()
     # Если нет свободного оператора
-    if ticket == 'err':
-        await message.answer('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
-        await AbstractMenu.send(message)
-        await state.set_state(MenuFSM.main)
-        return
-    
-    sent = await http.chat.produce_message(
-        user_id=message.from_user.id,
-        message=qu_text
-    )
-    
-    # If couldn't send
-    if sent == 'err':
-        logging.info(f"Couldn't send message to operator: {operator_id} from user: {message.from_user.id}")
-        await close_chat(message, state, from_user=True, with_err=True)
-        return
+    # if ticket == 'err':
+    #     await message.answer('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
+    #     await AbstractMenu.send(message)
+    #     await state.set_state(MenuFSM.main)
+    #     return
+    #
+    # sent = await http.chat.produce_message(
+    #     user_id=message.from_user.id,
+    #     message=qu_text
+    # )
+    #
+    # # If couldn't send
+    # if sent == 'err':
+    #     logging.info(f"Couldn't send message to operator: {operator_id} from user: {message.from_user.id}")
+    #     await close_chat(message, state, from_user=True, with_err=True)
+    #     return
     
 
     await message.reply(
@@ -134,7 +135,7 @@ async def start_chat(message: types.Message, state: FSMContext):
     )
     
     await flush_memory(state)
-    await state.update_data(operator_id=operator_id)
+    # await state.update_data(operator_id=operator_id)
 
 
 @dp.message_handler(state=ChatFSM.choosing_faculty)

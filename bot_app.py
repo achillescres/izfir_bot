@@ -109,12 +109,12 @@ class TelegramBot:
         except Exception as e:
             logging.error(f'Update error {e}')
 
-    async def send_message(self, text, user_id, operator_name='Оператор'):
+    async def send_message(self, text, user_id, operator_name='Оператор', reply_markup=chat_kbs.finish_chat_kb):
         try:
             await self.bot.send_message(
                 chat_id=user_id,
                 text=f"{operator_name}: {text}",
-                reply_markup=finish_chat_kb.kb
+                reply_markup=reply_markup
             )
         except Exception as e:
             logging.error(f"send_message error {e}")
