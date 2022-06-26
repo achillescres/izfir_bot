@@ -6,3 +6,8 @@ pydantic==1.9.1
 uvicorn==0.17.6
 ujson==5.3.0
 motor==3.0.0
+
+pymorphy2==0.9.1
+scikit-learn==1.1.1
+aioredis==2.0.1
+APScheduler==3.9.1

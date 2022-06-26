@@ -2,18 +2,21 @@ import logging
 
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
+from aioredis import Redis
 
 from bot.abstracts.questions_proxy_storage import QuestionsProxyStorage
 from bot.keyboards.default.chat import chat_kbs
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
 from bot.states import MenuFSM
-from bot.static_handlers import after_start_trash, before_start_trash
+from bot.handlers.static import before_start_trash, all_trash_handler
+from bot.handlers.static import after_start_trash
 
 
 class TelegramBot:
     dp = None
-
+    redis = None
+    
     def __init__(self, dev: bool = False):
         self.dev = dev
         self.data_proxy = QuestionsProxyStorage()
@@ -21,6 +24,7 @@ class TelegramBot:
     def _register_trash_handlers(self):
         self.dp.register_message_handler(after_start_trash.handler, **after_start_trash.options)
         self.dp.register_message_handler(before_start_trash.handler, **before_start_trash.options)
+        self.dp.register_message_handler(all_trash_handler.handler, **all_trash_handler.options)
 
     async def _set_static_handlers(self):
         # For dynamic data closure
@@ -52,18 +56,21 @@ class TelegramBot:
     async def update_questions(self):
         await self.data_proxy.update_data()
 
-    async def start(self, WEBHOOK_URL):
+    async def start(self, webhook_url: str):
         try:
             from bot.handlers import dp
             self.dp = dp
             await self.data_proxy.init()
             await self.on_startup()
             await self._set_static_handlers()
-
+            
             webhook_info = await self.bot.get_webhook_info()
-            if webhook_info.url != WEBHOOK_URL:
-                await self.bot.set_webhook(url=WEBHOOK_URL, drop_pending_updates=True)
-
+            if webhook_info.url != webhook_url:
+                await self.bot.set_webhook(url=webhook_url, drop_pending_updates=True)
+            
+            # WARNING! CHANGING OBJECT PROVIDED BY AIOGRAM
+            self.dp.my_redis = Redis(db=1)
+            
             logging.info('IzfirBot: Dispatcher loaded')
         except Exception as e:
             await self.shutdown()
@@ -84,7 +91,8 @@ class TelegramBot:
             await self.dp.bot.delete_webhook()
             await self.dp.storage.close()
             await self.dp.storage.wait_closed()
-
+            await self.redis.close()
+            
             del self.dp
             logging.info('Shutdown correct')
         except Exception as e:

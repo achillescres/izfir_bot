@@ -6,7 +6,7 @@ response_error = 'err'
 URL = f"{SERVER_API}/sendTicket"
 
 
-async def send_ticket(qu_text: str, ticket_id: int, client_id: str, faculty: str):
+async def send_ticket(qu_text: str, ticket_id: str, client_id: str, faculty: str) -> str:
     data = {
         "message": qu_text,
         "ticket_id": ticket_id,
@@ -14,7 +14,7 @@ async def send_ticket(qu_text: str, ticket_id: int, client_id: str, faculty: str
         "faculty": faculty,
     }
     res = (await post(URL, data)).strip('"')
-    if res in ['err']:
+    if res == 'null':
         return response_error
     
     return res

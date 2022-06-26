@@ -12,4 +12,5 @@ class ChatFSM(StatesGroup):
     writing_qu = State()
     apply_qu = State()
     waiting_chat = State()
+    apply_chat = State()
     chat = State()

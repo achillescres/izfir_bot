@@ -1,52 +1,79 @@
-@dp.message_handler(state=ChatFSM.choosing_faculty)
-async def choosing_operator_faculty_trash(message: types.Message):
-	await message.reply('Пожалуйста воспользуйтесь кнопками, чтобы выбрать тип оператора')
+import logging
+
+from aiogram import types
+from aiogram.dispatcher import FSMContext
+from aiogram.utils.markdown import text, bold
+
+from bot.abstracts.chat import AbstractTicket
+from bot.keyboards.default.menu import menu_kb
+from bot.states.machines import ChatFSM
+from loader import dp
+
+from bot.keyboards.default.chat import chat_kbs
+
+from bot.states import MenuFSM
+import bot.utils.http as http
 
 
-@dp.message_handler(text='/Завершить сеанс', state=MenuFSM.main)
-async def finish_chat_trash(message: types.Message):
-	await AbstractMenu.send(message)
+# apply operator message == ChatFSM.apply_chat --> CHAT == ChatFSM.chat
+@dp.callback_query_handler(data=chat_kbs.Texts.start_chat_hash.value, state=MenuFSM.main)
+async def start_chat(call: types.CallbackQuery, state: FSMContext):
+	await call.message.answer(
+		text(
+			'Начался чат с оператором, чтобы отправить сообщение просто напишите его мне,',
+			'чтобы завершить сеанс воспользуйтесь кнопкой, или напишите',
+			bold('/start'),
+		),
+		reply_markup=chat_kbs.finish_chat_kb
+	)
+	
+	await state.set_state(ChatFSM.chat)
 
 
-@dp.message_handler(state=ChatFSM.waiting_chat)
-async def waiting_chat_trash(message: types.Message):
-	await message.reply('Подождите конца поиска оператора, или нажмите кнопку')
-
-
-# await message.answer(
-#                 text=text(
-#                     'Наблюдаются проблемы с сервисом, если вы не сможете подключиться снова попробуйте написать',
-#                     bold('/start'),
-#                     'или подождать несколько минут'
-#                 ),
-#                 parse_mode=ParseMode.MARKDOWN_V2
-#             )
+# cancel operator message == ChatFSM.apply_chat --> MAIN MENU
+@dp.callback_query_handler(data=chat_kbs.Texts.cancel_chat_hash.value, state=MenuFSM.main)
+async def cancel_chat(call: types.CallbackQuery, state: FSMContext):
+	await call.message.edit_reply_markup(None)
+	await call.message.reply('Заявка на чат была вами отклонена')
+	await state.set_state(MenuFSM.main)
+	await AbstractTicket.enable(
+		user_id=call.from_user.id,
+		ticket_id=(await state.get_data())['ticket_id'],
+		redis=dp.my_redis
+	)
 
 
 # Universal function to close_chat, closing user-side and operator-side
-async def close_chat(message: types.Message, state: FSMContext, from_user=True, with_err=False):
+async def finish_chat(message: types.Message, state: FSMContext, from_user=True, with_err=False):
 	if from_user:
 		operator_id = (await state.get_data()).get('operator_id')
 		
 		canceled = await http.chat.cancel(operator_id=operator_id, user_id=message.from_user.id)
 		if canceled == 'err' or with_err:
-			logging.info('Error with canceling chat')
-			await http.chat.cancel(operator_id=operator_id, user_id=message.from_user.id)
-		
+			logging.warning('Error while finishing chat or chat!')
+			canceled = await http.chat.cancel(operator_id=operator_id, user_id=message.from_user.id)
+			if canceled == 'err':
+				logging.warning('Erro siht second attempt to finish chat!')
 		await message.answer('Cеанс завершен', reply_markup=menu_kb.kb)
 	
-	await flush_memory(state, operator_id=None)
+	# await state.finish()
 	await state.set_state(MenuFSM.main)
+	await AbstractTicket.delete(
+		user_id=message.from_user.id,
+		ticket_id=(await state.get_data())['ticket_id'],
+		redis=dp.my_redis
+	)
 
 
 # Close on keyboard close button
-@dp.message_handler(text=[chat_kbs.Texts.finish_chat.value, '/start'], state=[ChatFSM.chat, ChatFSM.waiting_chat])
-async def close_support(message: types.Message, state: FSMContext):
-	await close_chat(message, state, from_user=True, with_err=False)
+@dp.message_handler(text=[chat_kbs.Texts.finish_chat.value, '/start'], state=ChatFSM.chat)
+async def close_chat(message: types.Message, state: FSMContext):
+	await finish_chat(message, state, from_user=True, with_err=False)
 
 
+# in-in-dev
 @dp.message_handler(state=ChatFSM.chat, content_types=['photo'])
-async def handle_docs_photo(message):
+async def docs_photo(message):
 	await message.photo[-1].download(destination_file='test.jpg')
 
 
@@ -59,7 +86,7 @@ async def send_message(message: types.Message, state: FSMContext):
 	# If haven't operator_id in FSM
 	if not operator_id:
 		logging.info(f'HAVE NOT OPERATOR_ID IN FSM! CLOSING_CHAT FOR USER: {message.from_user.id}')
-		await close_chat(message, state, from_user=True, with_err=True)
+		await finish_chat(message, state, from_user=True, with_err=True)
 		return
 	
 	logging.info(f'Sending message to {operator_id}')
@@ -73,4 +100,4 @@ async def send_message(message: types.Message, state: FSMContext):
 	# If couldn't send
 	if sent == 'err':
 		logging.info(f"Couldn't send message to operator: {operator_id} from user: {message.from_user.id}")
-		await close_chat(message, state, from_user=True, with_err=True)
+		await finish_chat(message, state, from_user=True, with_err=True)
