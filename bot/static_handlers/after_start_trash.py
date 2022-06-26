@@ -11,6 +11,9 @@ options = {
 
 async def handler(message: types.Message):
     await message.reply(
-        text('Такой команды нет, пользуйтесь кнопками\. Справка по боту ', bold('/help'), sep=''),
+        text(
+            'Такой команды нет, пользуйтесь кнопками\. Справка по боту',
+            bold('/help')
+        ),
         parse_mode=ParseMode.MARKDOWN_V2
     )
