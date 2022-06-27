@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 
 from bot.abstracts import AbstractMenu
-from bot.abstracts.chat import AbstractTicket
+from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.chat import chat_kbs
 from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
@@ -78,21 +78,21 @@ async def start_chat(data: TicketAccept):
     state = ibot.dp.current_state(user=data.user_id, chat=data.user_id)
     async with state.proxy() as fsm_data_proxy:
         if (await state.get_state()) == ChatFSM.chat or \
-                fsm_data_proxy.get('ticket_id') == data.ticket_id:
+                fsm_data_proxy.get('pending_ticket_id'):
             return 'occupied'
         
         await remove_kb(bot=ibot.bot, user_id=data.user_id)
         message = await ibot.bot.send_message(
-            text='Оператор откликнулся на вашу заявку!\n' +
+            text='Оператор откликнулся на ваш вопрос и отправил заявку на чат!\n' +
                  f'(Предварительный ответ оператора): {data.answer}\n' +
-                 'Заявка будет автоматически отклонена через 10 минут',
+                 'Заявка на чат будет автоматически отклонена через 10 минут',
             chat_id=data.user_id,
             reply_markup=chat_kbs.start_chat_ikb,
         )
         
         await state.set_state(ChatFSM.apply_chat)
         fsm_data_proxy['operator_id'] = data.operator_id
-        fsm_data_proxy['ticket_id'] = data.ticket_id
+        fsm_data_proxy['pending_ticket_id'] = data.ticket_id
         
         # Delete after 10 minute of inactivity
         destination_time = datetime.now() + timedelta(minutes=10)
@@ -112,16 +112,11 @@ async def finish_chat(user_id: UserId):
     )
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
-    async with client_state.proxy() as fsm_data_proxy:
-        await AbstractTicket.delete(
-            user_id=user_id.user_id,
-            ticket_id=fsm_data_proxy['ticket_id'],
-            redis=ibot.dp.my_redis
-        )
-        
-        fsm_data_proxy.pop('ticket_id')
-        
-    await client_state.set_state(MenuFSM.main)
+    await AbstractTicket.delete(
+        state=client_state
+    )
+
+    await client_state.reset_state(with_data=False)
 
 
 # FACULTIES MODULE
@@ -133,14 +128,18 @@ async def get_faculties(fac_key: str, token: str):
 
     if fac_key == 'all':
         return {
-            'faculties': await ibot.data_proxy.collection.find({}, {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}).to_list(40)
+            'faculties': await ibot.data_proxy.collection.find(
+                {},
+                {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
+            ).to_list(40)
         }
 
-    return {'faculties': await ibot.data_proxy.collection.find(
-        {"faculty.key": fac_key},
-        {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
-    ).to_list(40)
-            }
+    return {
+        'faculties': await ibot.data_proxy.collection.find(
+            {"faculty.key": fac_key},
+            {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
+        ).to_list(40)
+    }
 
 
 @app.get("/api/getFaculty/{fac_key}_{token}")
@@ -148,15 +147,21 @@ async def get_faculty(fac_key: str, token: str):
     if token != ACCESS_TOKEN:
         return 'invalid access token'
 
-    return {'faculties': await ibot.data_proxy.collection.find({"faculty.key": fac_key},
-                                                               {"_id": 0, "qus_ans_calls": 0}).to_list(40)}
+    return {
+        'faculties': await ibot.data_proxy.collection.find(
+            {"faculty.key": fac_key},
+            {"_id": 0, "qus_ans_calls": 0}
+        ).to_list(40)
+    }
 
 
 @app.post("/api/setFaculty")
 async def set_faculty(data: Facultie):
     data = jsonable_encoder(data)
-    await ibot.data_proxy.collection.update_one({'faculty.key': data["faculty_key"]},
-                                                {'$set': {'normal_qus_ans': data["normal_qus_ans"]}})
+    await ibot.data_proxy.collection.update_one(
+        {'faculty.key': data["faculty_key"]},
+        {'$set': {'normal_qus_ans': data["normal_qus_ans"]}}
+    )
 
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 

@@ -1,8 +1,8 @@
-import logging
+import motor.motor_asyncio
+from loguru import logger
 
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
-from aioredis import Redis
 
 from bot.abstracts.questions_proxy_storage import QuestionsProxyStorage
 from bot.keyboards.default.chat import chat_kbs
@@ -52,15 +52,22 @@ class TelegramBot:
 
         # trash handler must be in the end
         self._register_trash_handlers()
-
+    
     async def update_questions(self):
         await self.data_proxy.update_data()
-
+    
     async def start(self, webhook_url: str):
         try:
             from bot.handlers import dp
             self.dp = dp
-            await self.data_proxy.init()
+            db = motor.motor_asyncio.AsyncIOMotorClient(
+                "mongodb://localhost:27017"
+            ).izfir
+            
+            # WARNING! ADDING ATTRIBUTE TO OBJECT PROVIDED BY AIOGRAM
+            # self.dp.my_mongo_users = db.bot_users
+            
+            await self.data_proxy.init(db.qus_ans_calls)
             await self.on_startup()
             await self._set_static_handlers()
             
@@ -68,13 +75,10 @@ class TelegramBot:
             if webhook_info.url != webhook_url:
                 await self.bot.set_webhook(url=webhook_url, drop_pending_updates=True)
             
-            # WARNING! CHANGING OBJECT PROVIDED BY AIOGRAM
-            self.dp.my_redis = Redis(db=1)
-            
-            logging.info('IzfirBot: Dispatcher loaded')
+            logger.info('IzfirBot: Dispatcher loaded')
         except Exception as e:
             await self.shutdown()
-            logging.error(f"Couldn't start bot \n{e}")
+            logger.error(f"Couldn't start bot \n{e}")
             exit(-1)
 
     async def on_startup(self):
@@ -86,7 +90,7 @@ class TelegramBot:
 
     async def shutdown(self):
         try:
-            logging.warning('Shutting down!..')
+            logger.warning('Shutting down!..')
 
             await self.dp.bot.delete_webhook()
             await self.dp.storage.close()
@@ -94,12 +98,12 @@ class TelegramBot:
             await self.redis.close()
             
             del self.dp
-            logging.info('Shutdown correct')
+            logger.info('Shutdown correct')
         except Exception as e:
-            logging.error(f"Couldn't correctly shutdown bot\n{e}")
+            logger.error(f"Couldn't correctly shutdown bot\n{e}")
             self.dp = None
         finally:
-            logging.warning('Bye!')
+            logger.warning('Bye!')
 
     async def _update(self, update: dict):
         telegram_update = types.Update(**update)
@@ -115,7 +119,7 @@ class TelegramBot:
         try:
             await self._update(update)
         except Exception as e:
-            logging.error(f'Update error {e}')
+            logger.error(f'Update error {e}')
 
     async def send_message(self, text, user_id, operator_name='Оператор', reply_markup=chat_kbs.finish_chat_kb):
         try:
@@ -125,7 +129,7 @@ class TelegramBot:
                 reply_markup=reply_markup
             )
         except Exception as e:
-            logging.error(f"send_message error {e}")
+            logger.error(f"send_message error {e}")
 
     @property
     def bot(self):

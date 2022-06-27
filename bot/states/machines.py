@@ -6,7 +6,7 @@ class MenuFSM(StatesGroup):
     main = State()
 
 
-# In chat
+# In support
 class ChatFSM(StatesGroup):
     choosing_faculty = State()
     writing_qu = State()

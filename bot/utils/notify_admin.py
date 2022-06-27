@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 
 from aiogram import Dispatcher
 
@@ -11,4 +11,4 @@ async def on_startup_notify(dp: Dispatcher):
             text = 'Bot started MY overlord'
             await dp.bot.send_message(chat_id=admin, text=text)
         except Exception as exc:
-            logging.exception(exc)
+            logger.exception(exc)

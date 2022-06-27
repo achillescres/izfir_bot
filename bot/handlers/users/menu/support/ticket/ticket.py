@@ -4,7 +4,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from bot.abstracts import AbstractMenu
-from bot.abstracts.chat import AbstractTicket
+from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.inline import operator_faculties_ikb
 from bot.states.machines import ChatFSM
@@ -16,8 +16,10 @@ from bot.states import MenuFSM
 import bot.utils.http as http
 
 
+# HERE WE CREATING TICKET ->
+
 # CLOSE TICKET: change state, flush mem, send menu
-async def end_ticket_state(message: types.Message, state: FSMContext, ):
+async def end_ticket_creation(message: types.Message, state: FSMContext):
     await AbstractMenu.send(message)
     await state.set_state(MenuFSM.main)
 
@@ -45,8 +47,8 @@ async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext)
                 data=faculties_message_json
             ).edit_reply_markup(None)
 
-    await end_ticket_state(call.message, state)
-    
+    await end_ticket_creation(call.message, state)
+
 
 # CLICK ON IKB FACULTY LIST --> QU INPUT
 @dp.callback_query_handler(text=operator_faculties_ikb.faculties_hashes, state=ChatFSM.choosing_faculty)
@@ -54,7 +56,7 @@ async def get_qu(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as fsm_data_proxy:
         faculties_message: dict = fsm_data_proxy.get('faculties_message')
         if faculties_message is None:
-            await end_ticket_state(call.message, state)
+            await end_ticket_creation(call.message, state)
             return
 
         await (types.Message.to_object(data=faculties_message)).edit_text(
@@ -79,7 +81,7 @@ async def get_qu(call: types.CallbackQuery, state: FSMContext):
 # CLOSE QU INPUT --> MAIN MENU
 @dp.message_handler(text=chat_kbs.Texts.close_qu.value, state=ChatFSM.writing_qu)
 async def return_to_menu_message(message: types.Message, state: FSMContext):
-    await end_ticket_state(message, state)
+    await end_ticket_creation(message, state)
 
 
 # GET QU INPUT --> QU APPLY
@@ -95,7 +97,7 @@ async def set_qu(message: types.Message, state: FSMContext):
 # CLOSE QU APPLY --> MAIN MENU == None !
 @dp.message_handler(text=chat_kbs.Texts.close_qu.value, state=ChatFSM.apply_qu)
 async def close_qu(message: types.Message, state: FSMContext):
-    await end_ticket_state(message, state)
+    await end_ticket_creation(message, state)
 
 
 # EDIT QU APPLY --> QU INPUT <-> UP == ChatFSM.writing_qu
@@ -110,7 +112,7 @@ async def waiting_chat_trash(message: types.Message):
     await message.reply('Подождите конца обработки заявки')
 
 
-# Creating ticket
+# Creating support
 # APPLY QU APPLY --> None
 @dp.message_handler(text=chat_kbs.Texts.apply_qu.value, state=ChatFSM.apply_qu)
 async def create_ticket(message: types.Message, state: FSMContext):
@@ -131,17 +133,15 @@ async def create_ticket(message: types.Message, state: FSMContext):
         
         if res == 'err':
             await waiting_message.edit_text('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
-            await end_ticket_state(message, state)
+            await end_ticket_creation(message, state)
             return
         
         await waiting_message.edit_text(
             'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
-            # reply_markup=menu_kb.kb
         )
         
-        await end_ticket_state(message, state, )
+        await end_ticket_creation(message, state)
         await AbstractTicket.create(
-            user_id=message.from_user.id,
             ticket_id=ticket_id,
-            redis=dp.my_redis
+            state=state
         )

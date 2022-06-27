@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 
 import ujson
 from aiohttp import ClientSession, ClientTimeout, ClientConnectionError
@@ -46,5 +46,5 @@ async def post(url: str, data: dict):
             await session.close()
         return resp
     except ClientConnectionError:
-        logging.info('Unable to post message')
+        logger.info('Unable to post message')
         return response_error

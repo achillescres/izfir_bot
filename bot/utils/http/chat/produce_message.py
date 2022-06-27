@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 
 from bot.utils.http.requests import post
 from data.config import SERVER_API
@@ -18,7 +18,7 @@ async def produce_message(user_id, operator_id, message):
         sent = await post(URL, data)
 
         if not sent:
-            logging.info('Failed to send message to operator')
+            logger.info('Failed to send message to operator')
             return response_error
 
         return 'ok'

@@ -8,7 +8,7 @@ from data.config import BOT_ROOT
 
 morph = pymorphy2.MorphAnalyzer()
 
-logging.info(BOT_ROOT + '/nlp/izfir.xlsx')
+logger.info(BOT_ROOT + '/nlp/izfir.xlsx')
 df = pd.read_excel(BOT_ROOT + '/nlp/izfir.xlsx')
 
 
@@ -60,4 +60,4 @@ def hook_answer(question):
 
 
 if __name__ == '__main__':
-    logging.info(hook_answer('Какая стоимость обучения бакалавриата'))
+    logger.info(hook_answer('Какая стоимость обучения бакалавриата'))

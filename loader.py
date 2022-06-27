@@ -1,12 +1,13 @@
-import logging
-
 from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.contrib.fsm_storage.mongo import MongoStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
+from loguru import logger
 
 from data import config
+
+
+logger.add('debug.log', format='{time} {level} {message}',
+           level='DEBUG', rotation='5 MB', compression='tar')
 
 # Create bot
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -17,10 +18,10 @@ try:
     storage = RedisStorage2(host='localhost', port=6379, db=0)
     # storage = MongoStorage()
 except Exception as e:
-    logging.info('Failed to connect to Redis')
-    # logging.info('Raising MemoryStorage...')
+    logger.info('Failed to connect to Redis')
+    # logger.info('Raising MemoryStorage...')
     # storage = MemoryStorage()
-    logging.error(e)
+    logger.error(e)
     exit(-1)
 
-dp = Dispatcher(bot, storage=storage)  # File end-point
+dp = Dispatcher(bot, storage=storage)

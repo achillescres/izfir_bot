@@ -1,4 +1,4 @@
-from .chat import dp
+from .support import dp
 from .links import dp
 from .menu import dp
 

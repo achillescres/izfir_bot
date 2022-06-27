@@ -11,3 +11,4 @@ pymorphy2==0.9.1
 scikit-learn==1.1.1
 aioredis==2.0.1
 APScheduler==3.9.1
+loguru==0.6.0

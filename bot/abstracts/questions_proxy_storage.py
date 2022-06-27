@@ -1,5 +1,6 @@
 import motor.motor_asyncio
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from motor.core import AgnosticCollection
 
 from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 
@@ -7,13 +8,9 @@ from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 class QuestionsProxyStorage(object):
     def __init__(self):
         self.collection = None
-        self.db = None
 
-    async def init(self):
-        self.db = motor.motor_asyncio.AsyncIOMotorClient(
-            "mongodb://localhost:27017"
-        ).izfir
-        self.collection = self.db.qus_ans_calls
+    async def init(self, collection: AgnosticCollection):
+        self.collection = collection
 
         await self.update_data()
 
