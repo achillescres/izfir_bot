@@ -123,6 +123,9 @@ class TelegramBot:
 
     async def send_message(self, text, user_id, operator_name='Оператор', reply_markup=chat_kbs.finish_chat_kb):
         try:
+            _operator_name = (await self.dp.current_state(chat=user_id, user_id=user_id)).get_data().get('operator_name')
+            if operator_name:
+                operator_name = _operator_name
             await self.bot.send_message(
                 chat_id=user_id,
                 text=f"{operator_name}: {text}",

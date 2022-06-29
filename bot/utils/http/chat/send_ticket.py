@@ -13,7 +13,7 @@ async def send_ticket(qu_text: str, ticket_id: str, client_id: str, faculty: str
         "client_id": client_id,
         "faculty": faculty,
     }
-    res = (await post(URL, data)).strip('"')
+    res = (await post(URL, data=data)).strip('"')
     if res == 'null':
         return response_error
     

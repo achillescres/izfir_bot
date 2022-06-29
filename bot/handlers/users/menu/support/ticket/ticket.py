@@ -128,7 +128,6 @@ async def waiting_chat_trash(message: types.Message):
     await message.reply('Подождите конца обработки заявки')
 
 
-# Creating support
 # APPLY QU APPLY --> None
 @dp.message_handler(text=chat_kbs.Texts.apply_qu.value, state=ChatFSM.apply_qu)
 async def create_ticket(message: types.Message, state: FSMContext):
