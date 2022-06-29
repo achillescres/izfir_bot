@@ -25,3 +25,14 @@ except Exception as e:
     exit(-1)
 
 dp = Dispatcher(bot, storage=storage)
+
+
+class Proxy:
+    def __setattr__(self, key, value):
+        self.__dict__[key] = value
+
+    def __getattr__(self, item):
+        return self.__dict__.get(item)
+
+
+dp.raw_proxy = Proxy()

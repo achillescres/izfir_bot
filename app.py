@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.utils.markdown import bold, text
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
@@ -10,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
+from bot.handlers.users.menu.support.ticket.ticket import flush_ticket_creation_data
 from bot.keyboards.default.chat import chat_kbs
 from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
@@ -77,31 +79,23 @@ async def cancel_chat(message: types.Message, state: FSMContext):
 async def start_chat(data: TicketAccept):
     state = ibot.dp.current_state(user=data.user_id, chat=data.user_id)
     async with state.proxy() as fsm_data_proxy:
-        if (await state.get_state()) == ChatFSM.chat or \
-                fsm_data_proxy.get('pending_ticket_id'):
+        if (await state.get_state()) == ChatFSM.chat:
             return 'occupied'
         
-        await remove_kb(bot=ibot.bot, user_id=data.user_id)
-        message = await ibot.bot.send_message(
-            text='Оператор откликнулся на ваш вопрос и отправил заявку на чат!\n' +
-                 f'(Предварительный ответ оператора): {data.answer}\n' +
-                 'Заявка на чат будет автоматически отклонена через 10 минут',
+        await ibot.bot.send_message(
+            text=text(
+                'Оператор откликнулся на ваш вопрос!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
+                bold('/start')
+            ),
             chat_id=data.user_id,
-            reply_markup=chat_kbs.start_chat_ikb,
+            reply_markup=chat_kbs.finish_chat_kb,
         )
         
-        await state.set_state(ChatFSM.apply_chat)
+        await state.set_state(ChatFSM.chat)
         fsm_data_proxy['operator_id'] = data.operator_id
-        fsm_data_proxy['pending_ticket_id'] = data.ticket_id
-        
-        # Delete after 10 minute of inactivity
-        destination_time = datetime.now() + timedelta(minutes=10)
-        scheduler.add_job(
-            cancel_chat,
-            'date',
-            run_date=destination_time,
-            kwargs={'message': message, 'state': state}
-        )
+        fsm_data_proxy['operator_name'] = data.operator_name
+        await flush_ticket_creation_data(state)
+        await AbstractTicket.delete(state=state, ticket_id=data.ticket_id)
 
 
 @app.post("/api/finishChat")

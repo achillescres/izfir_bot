@@ -29,6 +29,10 @@ class AbstractTicket:
 		return {cls.Schema.status: status, cls.Schema.question: question, cls.Schema.answer: answer}
 	
 	@classmethod
+	async def get_ticket(cls, ticket_id: str, state: FSMContext):
+		return (await state.get_data())[ticket_id]
+	
+	@classmethod
 	def get_status(cls, ticket: dict) -> int:
 		return ticket.get(cls.Schema.status)
 
@@ -77,14 +81,9 @@ class AbstractTicket:
 			return False
 	
 	@staticmethod
-	async def delete(*, state: FSMContext, ticket_id: str | None = None) -> bool:
+	async def delete(*, state: FSMContext, ticket_id: str) -> bool:
 		try:
 			async with state.proxy() as fsm_data_proxy:
-				if not ticket_id:
-					ticket_id = fsm_data_proxy.get('pending_ticket_id')
-				if not ticket_id:
-					logger.error('Pending support already deleted')
-					return True
 				fsm_data_proxy.pop(ticket_id)
 		except Exception as e:
 			logger.error(e)

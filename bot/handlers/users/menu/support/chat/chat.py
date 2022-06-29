@@ -15,33 +15,6 @@ from bot.states import MenuFSM
 import bot.utils.http as http
 
 
-# apply operator message == ChatFSM.apply_chat --> CHAT == ChatFSM.support
-@dp.callback_query_handler(text=chat_kbs.Texts.start_chat_hash.value, state=MenuFSM.main)
-async def start_chat(call: types.CallbackQuery, state: FSMContext):
-	await call.message.answer(
-		text(
-			'Начался чат с оператором, чтобы отправить сообщение просто напишите его мне,',
-			'чтобы завершить сеанс воспользуйтесь кнопкой, или напишите',
-			bold('/start'),
-		),
-		reply_markup=chat_kbs.finish_chat_kb
-	)
-	
-	await state.set_state(ChatFSM.chat)
-
-
-# cancel operator message == ChatFSM.apply_chat --> MAIN MENU
-@dp.callback_query_handler(text=chat_kbs.Texts.cancel_chat_hash.value, state=MenuFSM.main)
-async def cancel_chat(call: types.CallbackQuery, state: FSMContext):
-	await call.message.edit_reply_markup(None)
-	await call.message.reply('Заявка на чат была вами отклонена')
-	await state.set_state(MenuFSM.main)
-	await AbstractTicket.enable(
-		ticket_id=(await state.get_data())['ticket_id'],
-		state=state
-	)
-
-
 # Universal function to close_chat, closing user-side and operator-side
 async def finish_chat(message: types.Message, state: FSMContext, from_user=True, with_err=False):
 	if from_user:
@@ -61,18 +34,12 @@ async def finish_chat(message: types.Message, state: FSMContext, from_user=True,
 		ticket_id=(await state.get_data())['ticket_id'],
 		state=state
 	)
-
+	
 
 # Close on keyboard close button
 @dp.message_handler(text=[chat_kbs.Texts.finish_chat.value, '/start'], state=ChatFSM.chat)
 async def close_chat(message: types.Message, state: FSMContext):
 	await finish_chat(message, state, from_user=True, with_err=False)
-
-
-# in-in-dev
-@dp.message_handler(state=ChatFSM.chat, content_types=['photo'])
-async def docs_photo(message):
-	await message.photo[-1].download(destination_file='test.jpg')
 
 
 # Send message from user

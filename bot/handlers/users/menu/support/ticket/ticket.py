@@ -2,10 +2,11 @@ from uuid import uuid4
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from loguru import logger
 
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.keyboards.default.menu import menu_kb
+from bot.keyboards.default.menu import menu_kb, support_kb
 from bot.keyboards.inline import operator_faculties_ikb
 from bot.states.machines import ChatFSM
 from loader import dp
@@ -22,12 +23,27 @@ import bot.utils.http as http
 async def end_ticket_creation(message: types.Message, state: FSMContext):
     await AbstractMenu.send(message)
     await state.set_state(MenuFSM.main)
+    await flush_ticket_creation_data(state)
+
+
+async def flush_ticket_creation_data(state: FSMContext):
+    async with state.proxy() as fsm_data_proxy:
+        try:
+            fsm_data_proxy.pop('faculties_message')
+        except Exception as e:
+            logger.error(e)
+            logger.warning('Can\'t delete faculties_message maybe it already deleted')
+        try:
+            fsm_data_proxy.pop('faculty_hash')
+        except Exception as e:
+            logger.error(e)
+            logger.warning('Can\'t delete faculty_hash maybe it already deleted')
 
 
 # > FACULTY LIST == ChatFSM.choosing_faculty
 
 # --> OPEN FACULTY LIST
-@dp.message_handler(text=menu_kb.Texts.chat.value, state=MenuFSM.main)
+@dp.message_handler(text=support_kb.Texts.chat.value, state=MenuFSM.main)
 async def faculties(message: types.Message, state: FSMContext):
     await (await message.answer('Обработка...', reply_markup=types.ReplyKeyboardRemove())).delete()
     mes = await message.answer('Выберите тип оператора', reply_markup=operator_faculties_ikb.ikb)
@@ -143,5 +159,6 @@ async def create_ticket(message: types.Message, state: FSMContext):
         await end_ticket_creation(message, state)
         await AbstractTicket.create(
             ticket_id=ticket_id,
+            question_text=qu_text,
             state=state
         )

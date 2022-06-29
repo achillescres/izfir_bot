@@ -9,9 +9,7 @@ self_text = 'Главное меню'
 class Texts(TextEnum):
     qus = 'Частые вопросы'
     links = 'Полезные ссылки'
-    chat = 'Спросить у оператора'
-    active_tickets = 'Мои активные вопросы'
-    answers = 'Ответы на мои вопросы'
+    support = 'Спросить вопрос'
 
 
 kb = ReplyKeyboardMarkup(
