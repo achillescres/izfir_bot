@@ -7,11 +7,11 @@ from data.config import SERVER_API
 URL = f'{SERVER_API}/fromBot/cancelChat/'
 
 
-async def cancel(chatroom_id, user_id):
+async def cancel(operator_id, user_id):
     try:
         data = {
-            'chatroom_id': chatroom_id,
-            'user_id': user_id,
+            'operator_id': str(operator_id),
+            'user_id': str(user_id),
             'message': 'cancelling message',
         }
         

@@ -19,27 +19,6 @@ import bot.utils.http as http
 
 # HERE WE CREATING TICKET ->
 
-# CLOSE TICKET: change state, flush mem, send menu
-async def end_ticket_creation(message: types.Message, state: FSMContext):
-    await AbstractMenu.send(message)
-    await state.set_state(MenuFSM.main)
-    await flush_ticket_creation_data(state)
-
-
-async def flush_ticket_creation_data(state: FSMContext):
-    async with state.proxy() as fsm_data_proxy:
-        try:
-            fsm_data_proxy.pop('faculties_message')
-        except Exception as e:
-            logger.error(e)
-            logger.warning('Can\'t delete faculties_message maybe it already deleted')
-        try:
-            fsm_data_proxy.pop('faculty_hash')
-        except Exception as e:
-            logger.error(e)
-            logger.warning('Can\'t delete faculty_hash maybe it already deleted')
-
-
 # > FACULTY LIST == ChatFSM.choosing_faculty
 
 # --> OPEN FACULTY LIST
@@ -61,9 +40,9 @@ async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext)
         if faculties_message_json is not None:
             await types.Message.to_object(
                 data=faculties_message_json
-            ).edit_reply_markup(None)
+            ).delete()
 
-    await end_ticket_creation(call.message, state)
+    await AbstractTicket.end_ticket_creation(call.message, state)
 
 
 # CLICK ON IKB FACULTY LIST --> QU INPUT
@@ -72,7 +51,7 @@ async def get_qu(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as fsm_data_proxy:
         faculties_message: dict = fsm_data_proxy.get('faculties_message')
         if faculties_message is None:
-            await end_ticket_creation(call.message, state)
+            await AbstractTicket.end_ticket_creation(call.message, state)
             return
 
         await (types.Message.to_object(data=faculties_message)).edit_text(
@@ -97,7 +76,7 @@ async def get_qu(call: types.CallbackQuery, state: FSMContext):
 # CLOSE QU INPUT --> MAIN MENU
 @dp.message_handler(text=chat_kbs.Texts.close_qu.value, state=ChatFSM.writing_qu)
 async def return_to_menu_message(message: types.Message, state: FSMContext):
-    await end_ticket_creation(message, state)
+    await AbstractTicket.end_ticket_creation(message, state)
 
 
 # GET QU INPUT --> QU APPLY
@@ -113,7 +92,7 @@ async def set_qu(message: types.Message, state: FSMContext):
 # CLOSE QU APPLY --> MAIN MENU == None !
 @dp.message_handler(text=chat_kbs.Texts.close_qu.value, state=ChatFSM.apply_qu)
 async def close_qu(message: types.Message, state: FSMContext):
-    await end_ticket_creation(message, state)
+    await AbstractTicket.end_ticket_creation(message, state)
 
 
 # EDIT QU APPLY --> QU INPUT <-> UP == ChatFSM.writing_qu
@@ -133,29 +112,19 @@ async def waiting_chat_trash(message: types.Message):
 async def create_ticket(message: types.Message, state: FSMContext):
     waiting_message: types.Message = await message.answer('Обработка...', reply_markup=None)
     await state.set_state(ChatFSM.waiting_chat)
+
+    res: bool = await AbstractTicket.create(
+        state=state,
+        user_id=message.from_user.id
+    )
+
+    if not res:
+        await waiting_message.edit_text('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
+        return
+
+    await waiting_message.edit_text(
+        'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
+    )
+
+    await AbstractTicket.end_ticket_creation(message, state)
     
-    async with state.proxy() as fsm_data_proxy:
-        qu_text: str = fsm_data_proxy.get('qu')
-        faculty_hash: str = fsm_data_proxy.get('faculty_hash')
-        # Запрос на апи для создания тикета
-        res: str = await http.chat.send_ticket(
-            message.from_user.id,
-            qu_text,
-            operator_faculties_ikb.hash_to_name[faculty_hash]
-        )
-        
-        if res == 'err':
-            await waiting_message.edit_text('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
-            await end_ticket_creation(message, state)
-            return
-        
-        await waiting_message.edit_text(
-            'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
-        )
-        
-        await end_ticket_creation(message, state)
-        await AbstractTicket.create(
-            ticket_id=res,
-            question_text=qu_text,
-            state=state
-        )

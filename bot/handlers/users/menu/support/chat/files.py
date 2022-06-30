@@ -6,7 +6,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType
 
-from bot.states import ChatFSM, MenuFSM
+from bot.states import ChatFSM
 from data.config import SERVER_API
 from loader import dp
 
@@ -35,13 +35,14 @@ async def file(message: types.Message, state: FSMContext):
 	async with aiohttp.ClientSession(json_serialize=ujson.dumps) as session:
 		files = {"file": file_io.getvalue()}
 		file_io.close()
-		chat_room_id = (await state.get_data()).get('chatroom_id')
-		if not chat_room_id:
+		operator_id = (await state.get_data()).get('operator_id')
+		if not operator_id:
 			pass
 		
-		async with session.post(f'{SERVER_API}/fromBot/message/file/?chat_room_id={chat_room_id}&file_name={file_name}', data=files) as resp:
+		async with session.post(
+				f'{SERVER_API}/fromBot/message/file/?chat_room_id={operator_id}&file_name={file_name}',
+				data=files
+		) as resp:
 			if not resp.ok:
 				await message.reply('(Бот) Что-то пошло не так файл не отправлен')
 		await session.close()
-	
-	await state.update_data(operator_id=None)

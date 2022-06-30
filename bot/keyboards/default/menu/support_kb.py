@@ -12,7 +12,8 @@ class Texts(TextEnum):
 
 kb = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text=text) for text in Texts.values()],
+        [KeyboardButton(text=text) for text in Texts.values()[:-1]],
+        [KeyboardButton(text=Texts.return_to_menu.value)]
     ],
     resize_keyboard=True
 )

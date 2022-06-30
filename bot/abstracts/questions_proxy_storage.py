@@ -8,7 +8,6 @@ from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 class QuestionsProxyStorage(object):
     def __init__(self):
         self.collection = None
-        self.tickets = []
 
     async def init(self, collection: AgnosticCollection):
         self.collection = collection
@@ -16,7 +15,7 @@ class QuestionsProxyStorage(object):
         await self.update_data()
 
     async def _load_from_db(self):
-        self.questions = await self.collection.find().to_list(40)
+        self.questions = await self.collection.find().to_list(100)
         self.return_to_faculty_ikbs = None
         self.faculties_ikbs = None
         self.answers = dict()

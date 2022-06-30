@@ -1,6 +1,3 @@
-import asyncio
-from datetime import datetime, timedelta
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.markdown import bold, text
@@ -8,14 +5,14 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI, File
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from loguru import logger
 
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.handlers.users.menu.support.ticket.ticket import flush_ticket_creation_data
 from bot.keyboards.default.chat import chat_kbs
+from bot.keyboards.default.menu import menu_kb
 from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
-from bot.utils.misc import remove_kb
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
 from server.models import Message, Facultie
@@ -37,7 +34,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -66,7 +63,7 @@ async def bot_send_message(message: Message):
     await ibot.send_message(text=message.text, user_id=message.user_id, operator_name=message.operator_name)
 
 
-@app.post('/bot/sendFilesMessages/{file_type}/{file_name}/{user_id}')
+@app.post('/bot/sendFileMessage/{file_type}/{file_name}/{user_id}')
 async def bet_send_file_message(file_type: str, user_id: str, file: bytes = File(...)):
     if file_type not in ['photo', 'video', 'document']:
         return 'err'
@@ -93,18 +90,19 @@ async def start_chat(data: TicketAccept):
         
         await ibot.bot.send_message(
             text=text(
-                'Оператор откликнулся на ваш вопрос!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
-                bold('/start')
+                'Оператор откликнулся на ваш вопрос! Начался чат!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
+                bold('/start'),
+                '#свфуответ'
             ),
             chat_id=data.user_id,
             reply_markup=chat_kbs.finish_chat_kb,
         )
         
         await state.set_state(ChatFSM.chat)
-        fsm_data_proxy['chatroom_id'] = data.chatroom_id
+        fsm_data_proxy['operator_id'] = data.chat_room_id
         fsm_data_proxy['operator_name'] = data.operator_name
-        await flush_ticket_creation_data(state)
-        await AbstractTicket.delete(state=state, ticket_id=data.chatroom_id)
+        await AbstractTicket.flush_ticket_creation_data(state)
+        await AbstractTicket.delete(state=state, ticket_id=data.chat_room_id)
 
 
 @app.post("/api/finishChat")
@@ -112,15 +110,38 @@ async def finish_chat(user_id: UserId):
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,
+        reply_markup=menu_kb.kb
     )
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
-    await AbstractTicket.delete(
-        state=client_state,
-        ticket_id=user_id.chat_room_id
-    )
-
-    await client_state.reset_state(with_data=False)
+    
+    try:
+        await AbstractTicket.delete(
+            state=client_state,
+            ticket_id=user_id.chat_room_id
+        )
+    
+        await client_state.set_state(MenuFSM.main)
+        async with client_state.proxy() as fsm_data_proxy:
+            if 'operator_name' in fsm_data_proxy:
+                fsm_data_proxy.pop('operator_name')
+            if 'operator_id' in fsm_data_proxy:
+                fsm_data_proxy.pop('operator_id')
+    except Exception as e:
+        logger.error(e)
+        logger.error('Can\t finishChat normally')
+        
+        await client_state.set_state(MenuFSM.main)
+        await AbstractTicket.delete(
+            state=client_state,
+            ticket_id=user_id.chat_room_id
+        )
+        
+        async with client_state.proxy() as fsm_data_proxy:
+            if 'operator_name' in fsm_data_proxy:
+                fsm_data_proxy.pop('operator_name')
+            if 'operator_id' in fsm_data_proxy:
+                fsm_data_proxy.pop('operator_id')
 
 
 # FACULTIES MODULE
@@ -166,7 +187,7 @@ async def set_faculty(data: Facultie):
         {'faculty.key': data["faculty_key"]},
         {'$set': {'normal_qus_ans': data["normal_qus_ans"]}}
     )
-
+    
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 
     await format_rows(ibot.data_proxy.collection, data["faculty_key"], rows)

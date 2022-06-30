@@ -1,5 +1,4 @@
 from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 from loguru import logger
@@ -16,25 +15,34 @@ bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 # Create dispatcher
 storage = None
 try:
-    storage = MemoryStorage()
-    # storage = RedisStorage2(host='localhost', port=6379, db=0)
+    # storage = MemoryStorage()
+    storage = RedisStorage2(host='localhost', port=6379, db=0)
     # storage = MongoStorage()
 except Exception as e:
     logger.info('Failed to connect to Redis')
     logger.info('Raising MemoryStorage...')
 
-    # logger.error(e)
-    # exit(-1)
+    logger.error(e)
+    exit(-1)
 
 dp = Dispatcher(bot, storage=storage)
 
 
-class Proxy:
-    def __setattr__(self, key, value):
-        self.__dict__[key] = value
-
-    def __getattr__(self, item):
-        return self.__dict__.get(item)
-
-
-dp.raw_proxy = Proxy()
+class TicketProxy:
+    def __init__(self):
+        self.tickets = ['anchor']
+    
+    def reset(self):
+        self.tickets = ['anchor']
+    
+    def change(self, new_tickets: list[str]):
+        self.tickets = ['anchor'] + new_tickets
+    
+    # def __setattr__(self, key, value):
+    #     self.__dict__[key] = value
+    #
+    # def __getattr__(self, item):
+    #     return self.__dict__.get(item)
+#
+#
+# dp.ticket_proxy = TicketProxy()

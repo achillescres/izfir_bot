@@ -17,7 +17,7 @@ async def produce_message(user_id: int, operator_id: str, message: str):
         }
         sent = await post(URL, data=data)
 
-        if not sent:
+        if not sent or sent == 'err':
             logger.info('Failed to send message to operator')
             return response_error
 
