@@ -62,7 +62,8 @@ async def bot_webhook(update: dict):
 @app.post('/bot/sendMessage')
 async def bot_send_message(message: Message):
     state: FSMContext = ibot.dp.current_state(chat=message.user_id, user=message.user_id)
-    if (await state.get_state()) != ChatFSM.chat:
+    await state.get_state()
+    if (await state.get_state()) != ChatFSM.chat.state:
         logger.error('Tried to send message to user that isn\'t in chat')
         raise ValueError
     await ibot.send_message(text=message.text, user_id=message.user_id, operator_name=message.operator_name)

@@ -137,7 +137,8 @@ class AbstractTicket:
 			return True
 		try:
 			async with state.proxy() as fsm_data_proxy:
-				fsm_data_proxy.pop(ticket_id)
+				if ticket_id in fsm_data_proxy:
+					fsm_data_proxy.pop(ticket_id)
 				if sync:
 					res = await post(f'{SERVER_API}/deleteTicket', data={'user_id': ticket_id})
 					if res in ['err']:
