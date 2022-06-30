@@ -135,13 +135,11 @@ async def create_ticket(message: types.Message, state: FSMContext):
     await state.set_state(ChatFSM.waiting_chat)
     
     async with state.proxy() as fsm_data_proxy:
-        ticket_id: str = str(uuid4().int % 999999999)
         qu_text: str = fsm_data_proxy.get('qu')
         faculty_hash: str = fsm_data_proxy.get('faculty_hash')
         # Запрос на апи для создания тикета
         res: str = await http.chat.send_ticket(
             message.from_user.id,
-            ticket_id,
             qu_text,
             operator_faculties_ikb.hash_to_name[faculty_hash]
         )
@@ -157,7 +155,7 @@ async def create_ticket(message: types.Message, state: FSMContext):
         
         await end_ticket_creation(message, state)
         await AbstractTicket.create(
-            ticket_id=ticket_id,
+            ticket_id=res,
             question_text=qu_text,
             state=state
         )

@@ -19306,6 +19306,46 @@ aiogram.utils.exceptions.ChatNotFound: Chat not found
 2022-06-29T22:18:39.911298+0900 INFO [<PhotoSize {"file_id":"AgACAgIAAxkBAAIILmK8UR90Mm8fzByIoqK9Ly504YMLAAIruzEbJknoSbkkafynKRwxAQADAgADcwADKQQ","file_unique_id":"AQADK7sxGyZJ6El4","file_size":720,"width":90,"height":39}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIILmK8UR90Mm8fzByIoqK9Ly504YMLAAIruzEbJknoSbkkafynKRwxAQADAgADbQADKQQ","file_unique_id":"AQADK7sxGyZJ6Ely","file_size":9773,"width":320,"height":137}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIILmK8UR90Mm8fzByIoqK9Ly504YMLAAIruzEbJknoSbkkafynKRwxAQADAgADeAADKQQ","file_unique_id":"AQADK7sxGyZJ6El9","file_size":33716,"width":780,"height":333}>]
 2022-06-29T22:18:57.286850+0900 INFO [<PhotoSize {"file_id":"AgACAgIAAxkBAAIIMmK8UTFQqFS_ZcSbphtqfSV1UTFIAAIpuzEbJknoSeaO-SIudA2uAQADAgADcwADKQQ","file_unique_id":"AQADKbsxGyZJ6El4","file_size":1234,"width":90,"height":51}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIMmK8UTFQqFS_ZcSbphtqfSV1UTFIAAIpuzEbJknoSeaO-SIudA2uAQADAgADbQADKQQ","file_unique_id":"AQADKbsxGyZJ6Ely","file_size":14198,"width":320,"height":180}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIMmK8UTFQqFS_ZcSbphtqfSV1UTFIAAIpuzEbJknoSeaO-SIudA2uAQADAgADeAADKQQ","file_unique_id":"AQADKbsxGyZJ6El9","file_size":53362,"width":800,"height":450}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIMmK8UTFQqFS_ZcSbphtqfSV1UTFIAAIpuzEbJknoSeaO-SIudA2uAQADAgADeQADKQQ","file_unique_id":"AQADKbsxGyZJ6El-","file_size":89698,"width":1280,"height":720}>]
 2022-06-29T22:18:58.459130+0900 INFO [<PhotoSize {"file_id":"AgACAgIAAxkBAAIIM2K8UTG_A_QXRqoEeZQ7FzHVKQq_AAIouzEbJknoSbKkpj_tKtPkAQADAgADcwADKQQ","file_unique_id":"AQADKLsxGyZJ6El4","file_size":939,"width":90,"height":51}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIM2K8UTG_A_QXRqoEeZQ7FzHVKQq_AAIouzEbJknoSbKkpj_tKtPkAQADAgADbQADKQQ","file_unique_id":"AQADKLsxGyZJ6Ely","file_size":5230,"width":320,"height":180}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIM2K8UTG_A_QXRqoEeZQ7FzHVKQq_AAIouzEbJknoSbKkpj_tKtPkAQADAgADeAADKQQ","file_unique_id":"AQADKLsxGyZJ6El9","file_size":19170,"width":800,"height":450}>, <PhotoSize {"file_id":"AgACAgIAAxkBAAIIM2K8UTG_A_QXRqoEeZQ7FzHVKQq_AAIouzEbJknoSbKkpj_tKtPkAQADAgADeQADKQQ","file_unique_id":"AQADKLsxGyZJ6El-","file_size":28097,"width":1280,"height":720}>]
+2022-06-29T23:26:23.436576+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-29T23:36:33.705051+0900 WARNING Shutting down!..
+2022-06-29T23:36:34.112043+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-29T23:36:34.112043+0900 WARNING Bye!
+2022-06-29T23:36:36.613392+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-29T23:37:40.155417+0900 WARNING Shutting down!..
+2022-06-29T23:37:40.560645+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-29T23:37:40.560645+0900 WARNING Bye!
+2022-06-29T23:37:42.946805+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T00:11:05.796852+0900 WARNING Shutting down!..
+2022-06-30T00:11:05.932429+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T00:11:05.932429+0900 WARNING Bye!
+2022-06-30T00:11:08.628374+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T00:13:58.521156+0900 WARNING Shutting down!..
+2022-06-30T00:13:58.919359+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T00:13:58.920359+0900 WARNING Bye!
+2022-06-30T00:14:01.624176+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T01:40:08.954919+0900 WARNING Shutting down!..
+2022-06-30T01:40:09.514407+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T01:40:09.514407+0900 WARNING Bye!
+2022-06-30T01:40:12.861215+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T01:44:42.776743+0900 WARNING Shutting down!..
+2022-06-30T01:44:43.193033+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T01:44:43.194033+0900 WARNING Bye!
+2022-06-30T01:44:45.964491+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T01:51:54.419488+0900 WARNING Shutting down!..
+2022-06-30T01:51:54.937413+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T01:51:54.938413+0900 WARNING Bye!
+2022-06-30T01:51:57.772284+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:19:30.564285+0900 WARNING Shutting down!..
+2022-06-30T10:19:30.968501+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:19:30.969500+0900 WARNING Bye!
 2022-06-29T23:46:45.504181+0900 WARNING Shutting down!..
 2022-06-29T23:46:46.073398+0900 ERROR Couldn't correctly shutdown bot
 'NoneType' object has no attribute 'close'
@@ -27584,3 +27624,123 @@ aiogram.utils.exceptions.ChatNotFound: Chat not found
 'NoneType' object has no attribute 'close'
 2022-06-30T03:44:24.284738+0900 WARNING Bye!
 2022-06-30T03:44:26.691486+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:23:25.806710+0900 INFO Failed to connect to Redis
+2022-06-30T10:23:25.807711+0900 INFO Raising MemoryStorage...
+2022-06-30T10:24:33.863295+0900 INFO Failed to connect to Redis
+2022-06-30T10:24:33.863295+0900 INFO Raising MemoryStorage...
+2022-06-30T10:24:35.316604+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:25:15.303793+0900 WARNING Shutting down!..
+2022-06-30T10:25:15.703674+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:25:15.703674+0900 WARNING Bye!
+2022-06-30T10:25:17.969695+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:25:46.250925+0900 ERROR send_message error Dispatcher.current_state() got an unexpected keyword argument 'user_id'
+2022-06-30T10:30:14.473078+0900 WARNING Shutting down!..
+2022-06-30T10:30:14.983539+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:30:14.983539+0900 WARNING Bye!
+2022-06-30T10:30:17.287025+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:30:31.547095+0900 ERROR send_message error object FSMContext can't be used in 'await' expression
+2022-06-30T10:30:50.964030+0900 ERROR send_message error object FSMContext can't be used in 'await' expression
+2022-06-30T10:31:53.600432+0900 WARNING Shutting down!..
+2022-06-30T10:31:54.013993+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:31:54.013993+0900 WARNING Bye!
+2022-06-30T10:31:56.609392+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:31:56.783383+0900 ERROR send_message error 'coroutine' object has no attribute 'get'
+2022-06-30T10:32:13.813208+0900 ERROR send_message error 'coroutine' object has no attribute 'get'
+2022-06-30T10:35:26.540243+0900 WARNING Shutting down!..
+2022-06-30T10:35:26.956895+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:35:26.956895+0900 WARNING Bye!
+2022-06-30T10:35:29.425774+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:37:56.289074+0900 WARNING Shutting down!..
+2022-06-30T10:37:56.423078+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:37:56.423078+0900 WARNING Bye!
+2022-06-30T10:37:59.082082+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:38:29.720116+0900 WARNING Error while finishing support or support!
+2022-06-30T10:38:29.730119+0900 WARNING Erro siht second attempt to finish support!
+2022-06-30T10:41:21.085899+0900 WARNING Shutting down!..
+2022-06-30T10:41:21.519140+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:41:21.519140+0900 WARNING Bye!
+2022-06-30T10:41:24.009028+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:51:54.742079+0900 WARNING Shutting down!..
+2022-06-30T10:51:55.148837+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:51:55.148837+0900 WARNING Bye!
+2022-06-30T10:51:57.869096+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T10:59:08.203643+0900 WARNING Shutting down!..
+2022-06-30T10:59:08.625602+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T10:59:08.625602+0900 WARNING Bye!
+2022-06-30T10:59:11.131605+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T11:09:27.405031+0900 WARNING Shutting down!..
+2022-06-30T11:09:27.823910+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T11:09:27.823910+0900 WARNING Bye!
+2022-06-30T11:09:30.898347+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T11:25:42.315286+0900 WARNING Shutting down!..
+2022-06-30T11:25:42.743515+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T11:25:42.743515+0900 WARNING Bye!
+2022-06-30T11:25:45.520714+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T11:43:20.287584+0900 WARNING Shutting down!..
+2022-06-30T11:43:20.725418+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T11:43:20.725418+0900 WARNING Bye!
+2022-06-30T11:43:23.215332+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T11:54:09.318201+0900 WARNING Shutting down!..
+2022-06-30T11:54:09.739564+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T11:54:09.739564+0900 WARNING Bye!
+2022-06-30T11:54:12.314059+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:01:50.146867+0900 WARNING Shutting down!..
+2022-06-30T12:01:50.584033+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:01:50.584033+0900 WARNING Bye!
+2022-06-30T12:01:53.292840+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:04:21.965874+0900 WARNING Shutting down!..
+2022-06-30T12:04:22.382297+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:04:22.382297+0900 WARNING Bye!
+2022-06-30T12:04:24.928298+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:38:57.848679+0900 WARNING Error while finishing support or support!
+2022-06-30T12:38:57.857682+0900 WARNING Erro siht second attempt to finish support!
+2022-06-30T12:39:13.765836+0900 WARNING Shutting down!..
+2022-06-30T12:39:13.913347+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:39:13.913347+0900 WARNING Bye!
+2022-06-30T12:39:16.874811+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:39:37.529385+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:39:37.529897+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:39:37.838932+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:39:37.838932+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:39:40.138859+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:39:40.138859+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:39:44.441130+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:39:44.441130+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:39:52.752202+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:39:52.752202+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:40:09.064205+0900 INFO Sending message to operator: 62bd1aedf1eaac5919e2bfd8 from user: 740086487
+2022-06-30T12:40:09.064205+0900 INFO Sending message to 62bd1aedf1eaac5919e2bfd8
+2022-06-30T12:40:26.219413+0900 WARNING Shutting down!..
+2022-06-30T12:40:26.647898+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:40:26.647898+0900 WARNING Bye!
+2022-06-30T12:40:29.083800+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:40:58.348230+0900 INFO Sending message to operator: 62bd1b3cf1eaac5919e2bfdb from user: 740086487
+2022-06-30T12:40:58.348230+0900 INFO Sending message to 62bd1b3cf1eaac5919e2bfdb
+2022-06-30T12:41:06.303140+0900 INFO Sending message to operator: 62bd1b3cf1eaac5919e2bfdb from user: 740086487
+2022-06-30T12:41:06.303643+0900 INFO Sending message to 62bd1b3cf1eaac5919e2bfdb
+2022-06-30T12:42:03.330678+0900 WARNING Shutting down!..
+2022-06-30T12:42:03.472588+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:42:03.473590+0900 WARNING Bye!
+2022-06-30T12:42:05.877018+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T12:45:18.373210+0900 WARNING Shutting down!..
+2022-06-30T12:45:18.782228+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T12:45:18.783229+0900 WARNING Bye!
+2022-06-30T12:45:21.436700+0900 INFO IzfirBot: Dispatcher loaded
