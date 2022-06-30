@@ -27584,3 +27584,18 @@ aiogram.utils.exceptions.ChatNotFound: Chat not found
 'NoneType' object has no attribute 'close'
 2022-06-30T03:44:24.284738+0900 WARNING Bye!
 2022-06-30T03:44:26.691486+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T03:51:53.659479+0900 WARNING Shutting down!..
+2022-06-30T03:51:54.203425+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T03:51:54.203727+0900 WARNING Bye!
+2022-06-30T13:08:42.281872+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T13:09:51.879174+0900 WARNING Shutting down!..
+2022-06-30T13:09:52.419247+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T13:09:52.419567+0900 WARNING Bye!
+2022-06-30T13:09:54.348198+0900 INFO IzfirBot: Dispatcher loaded
+2022-06-30T13:18:19.493960+0900 WARNING Shutting down!..
+2022-06-30T13:18:20.044363+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-06-30T13:18:20.044646+0900 WARNING Bye!
+2022-06-30T13:18:22.339529+0900 INFO IzfirBot: Dispatcher loaded

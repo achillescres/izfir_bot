@@ -25,8 +25,7 @@ async def file(message: types.Message, state: FSMContext):
 	await state.update_data(operator_id='123')
 	file_io = BytesIO()
 	
-	await message.video.download(destination_file=file_io)
-	# await type_to_bytes[message.content_type](message)(destination_file=file_io)
+	await type_to_bytes[message.content_type](message)(destination_file=file_io)
 	async with aiohttp.ClientSession(json_serialize=ujson.dumps) as session:
 		files = {'file': file_io.getvalue()}
 		file_io.close()
