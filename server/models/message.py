@@ -12,6 +12,7 @@ class Message(BaseModel):
 
 class UserId(BaseModel):
     user_id: str
+    chat_room_id: str
 
     class Config:
         orm_mode = True

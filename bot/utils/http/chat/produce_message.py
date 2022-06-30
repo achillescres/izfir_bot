@@ -1,5 +1,3 @@
-from io import BytesIO
-
 from loguru import logger
 
 from bot.utils.http.requests import post

@@ -101,10 +101,10 @@ async def start_chat(data: TicketAccept):
         )
         
         await state.set_state(ChatFSM.chat)
-        fsm_data_proxy['operator_id'] = data.operator_id
+        fsm_data_proxy['chatroom_id'] = data.chatroom_id
         fsm_data_proxy['operator_name'] = data.operator_name
         await flush_ticket_creation_data(state)
-        await AbstractTicket.delete(state=state, ticket_id=data.ticket_id)
+        await AbstractTicket.delete(state=state, ticket_id=data.chatroom_id)
 
 
 @app.post("/api/finishChat")
@@ -116,7 +116,8 @@ async def finish_chat(user_id: UserId):
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
     await AbstractTicket.delete(
-        state=client_state
+        state=client_state,
+        ticket_id=user_id.chat_room_id
     )
 
     await client_state.reset_state(with_data=False)

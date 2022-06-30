@@ -16,12 +16,13 @@ bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 # Create dispatcher
 storage = None
 try:
-    storage = RedisStorage2(host='localhost', port=6379, db=0)
+    storage = MemoryStorage()
+    # storage = RedisStorage2(host='localhost', port=6379, db=0)
     # storage = MongoStorage()
 except Exception as e:
     logger.info('Failed to connect to Redis')
     logger.info('Raising MemoryStorage...')
-    storage = MemoryStorage()
+
     # logger.error(e)
     # exit(-1)
 
