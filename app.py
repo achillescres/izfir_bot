@@ -135,7 +135,8 @@ async def finish_chat(user_id: UserId):
     try:
         await AbstractTicket.delete(
             state=client_state,
-            ticket_id=user_id.chat_room_id
+            ticket_id=user_id.chat_room_id,
+            sync=False
         )
     
         await client_state.set_state(MenuFSM.main)

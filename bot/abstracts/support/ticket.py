@@ -131,14 +131,15 @@ class AbstractTicket:
 			return False
 	
 	@staticmethod
-	async def delete(*, state: FSMContext, ticket_id: str | None) -> bool:
+	async def delete(*, state: FSMContext, ticket_id: str | None, sync: bool = True) -> bool:
 		if ticket_id is None or ticket_id in ('', 'null'):
 			logger.warning('ticket_id is None or empty')
 			return True
 		try:
 			async with state.proxy() as fsm_data_proxy:
 				fsm_data_proxy.pop(ticket_id)
-				res = await post(f'{SERVER_API}/deleteTicket', data={'user_id': ticket_id})
+				if post:
+					res = await post(f'{SERVER_API}/deleteTicket', data={'user_id': ticket_id})
 				
 		except Exception as e:
 			logger.error(e)
