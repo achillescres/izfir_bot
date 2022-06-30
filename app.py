@@ -1,8 +1,9 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.types import InputFile
 from aiogram.utils.markdown import bold, text
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from fastapi import FastAPI, File
+from fastapi import FastAPI, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
@@ -60,16 +61,32 @@ async def bot_webhook(update: dict):
 
 @app.post('/bot/sendMessage')
 async def bot_send_message(message: Message):
+    state: FSMContext = ibot.dp.current_state(chat=message.user_id, user=message.user_id)
+    if (await state.get_state()) != ChatFSM.chat:
+        logger.error('Tried to send message to user that isn\'t in chat')
+        raise ValueError
     await ibot.send_message(text=message.text, user_id=message.user_id, operator_name=message.operator_name)
 
 
-@app.post('/bot/sendFileMessage/{file_type}/{file_name}/{user_id}')
-async def bet_send_file_message(file_type: str, user_id: str, file: bytes = File(...)):
+@app.post('/bot/sendFileMessage')
+async def bot_send_file_message(file_type: str, file_name: str, user_id: str, file: UploadFile = File(...)):
+    state: FSMContext = ibot.dp.current_state(chat=user_id, user=user_id)
+    if (await state.get_state()) != ChatFSM.chat:
+        logger.error('Tried to send message to user that isn\'t in chat')
+        raise ValueError
     if file_type not in ['photo', 'video', 'document']:
-        return 'err'
-    # types.InputFile(file, )
-    await ibot.bot.send_file(file_type=file_type, file=file)
-    await ibot.bot.send_file()
+        logger.error(f"Invalid file_type {file_type}")
+        raise ValueError
+    
+    file = InputFile(file, filename=file_name)
+    
+    match file_type:
+        case 'photo':
+            await ibot.bot.send_photo(chat_id=user_id, photo=file)
+        case 'video':
+            await ibot.bot.send_video(chat_id=user_id, video=file)
+        case 'document':
+            await ibot.bot.send_document(chat_id=user_id, document=file)
 
 
 async def cancel_chat(message: types.Message, state: FSMContext):
