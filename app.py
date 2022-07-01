@@ -1,3 +1,5 @@
+from io import BytesIO
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InputFile
@@ -72,14 +74,17 @@ async def bot_send_message(message: Message):
 @app.post('/bot/sendFileMessage')
 async def bot_send_file_message(file_type: str, file_name: str, user_id: str, file: UploadFile = File(...)):
     state: FSMContext = ibot.dp.current_state(chat=user_id, user=user_id)
-    if (await state.get_state()) != ChatFSM.chat:
+    print(state)
+    print((await state.get_state()))
+    if (await state.get_state()) != ChatFSM.chat.state:
         logger.error('Tried to send message to user that isn\'t in chat')
         raise ValueError
     if file_type not in ['photo', 'video', 'document']:
         logger.error(f"Invalid file_type {file_type}")
         raise ValueError
-    
-    file = InputFile(file, filename=file_name)
+    file_io = BytesIO(await file.read())
+
+    file = InputFile(file_io, filename=file_name)
     
     match file_type:
         case 'photo':
