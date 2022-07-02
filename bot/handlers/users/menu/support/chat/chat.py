@@ -6,6 +6,8 @@ from aiogram.utils.markdown import text, bold
 
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.menu import menu_kb
+from bot.keyboards.default.chat import estimate_kb
+
 from bot.states.machines import ChatFSM
 from loader import dp
 
@@ -26,14 +28,10 @@ async def finish_chat(message: types.Message, state: FSMContext, from_user=True,
 			canceled = await http.chat.cancel(operator_id=operator_id, user_id=message.from_user.id)
 			if canceled == 'err':
 				logger.warning('Erro siht second attempt to finish support!')
-		await message.answer('Cеанс завершен', reply_markup=menu_kb.kb)
-	
+		await message.answer('Cеанс завершен')
+		await message.answer('Пожалуйста, оцените качество техподдержки', reply_markup=estimate_kb.kb)
 	# await state.finish()
-	await state.set_state(MenuFSM.main)
-	await AbstractTicket.delete(
-		ticket_id=(await state.get_data()).get('ticket_id'),
-		state=state
-	)
+	await state.set_state(ChatFSM.estimate)
 	
 
 # Close on keyboard close button

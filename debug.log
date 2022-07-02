@@ -28052,3 +28052,278 @@ aiogram.utils.exceptions.ChatNotFound: Chat not found
 2022-07-01T01:01:49.876026+0900 ERROR Couldn't correctly shutdown bot
 'NoneType' object has no attribute 'close'
 2022-07-01T01:01:49.876870+0900 WARNING Bye!
+2022-07-01T01:20:04.681301+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:20:54.810904+0900 WARNING Shutting down!..
+2022-07-01T01:20:55.211399+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:20:55.211399+0900 WARNING Bye!
+2022-07-01T01:20:57.938362+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:21:23.525395+0900 WARNING Shutting down!..
+2022-07-01T01:21:23.933839+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:21:23.933839+0900 WARNING Bye!
+2022-07-01T01:21:26.527809+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:21:43.446178+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:21:47.999840+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:21:47.999840+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:21:48.002842+0900 ERROR Session is closed
+2022-07-01T01:21:48.002842+0900 ERROR Can't delete support
+2022-07-01T01:23:52.664811+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:24:07.492752+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:25:02.141071+0900 INFO Sending message to operator: 62bdcd972bd4fead9a2c8d6c from user: 740086487
+2022-07-01T01:25:02.141071+0900 INFO Sending message to 62bdcd972bd4fead9a2c8d6c
+2022-07-01T01:25:48.636649+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:26:38.434843+0900 WARNING Shutting down!..
+2022-07-01T01:26:38.832208+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:26:38.832208+0900 WARNING Bye!
+2022-07-01T01:26:41.639610+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:26:58.233969+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:27:00.545835+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:27:00.545835+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:27:00.548378+0900 ERROR Session is closed
+2022-07-01T01:27:00.548378+0900 ERROR Can't delete support
+2022-07-01T01:27:03.103431+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:29:51.481384+0900 WARNING Shutting down!..
+2022-07-01T01:29:52.016607+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:29:52.016607+0900 WARNING Bye!
+2022-07-01T01:29:54.975807+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:30:11.265959+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:30:13.761902+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:30:13.761902+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:30:13.764903+0900 ERROR Session is closed
+2022-07-01T01:30:13.764903+0900 ERROR Can't delete support
+2022-07-01T01:30:23.410940+0900 INFO Sending message to operator: 62bdcf922bd4fead9a2c8d75 from user: 740086487
+2022-07-01T01:30:23.410940+0900 INFO Sending message to 62bdcf922bd4fead9a2c8d75
+2022-07-01T01:41:21.747049+0900 WARNING Shutting down!..
+2022-07-01T01:41:22.252589+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:41:22.253589+0900 WARNING Bye!
+2022-07-01T01:20:04.681301+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:20:54.810904+0900 WARNING Shutting down!..
+2022-07-01T01:20:55.211399+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:20:55.211399+0900 WARNING Bye!
+2022-07-01T01:20:57.938362+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:21:23.525395+0900 WARNING Shutting down!..
+2022-07-01T01:21:23.933839+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:21:23.933839+0900 WARNING Bye!
+2022-07-01T01:21:26.527809+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:21:43.446178+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:21:47.999840+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:21:47.999840+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:21:48.002842+0900 ERROR Session is closed
+2022-07-01T01:21:48.002842+0900 ERROR Can't delete support
+2022-07-01T01:23:52.664811+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:24:07.492752+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:25:02.141071+0900 INFO Sending message to operator: 62bdcd972bd4fead9a2c8d6c from user: 740086487
+2022-07-01T01:25:02.141071+0900 INFO Sending message to 62bdcd972bd4fead9a2c8d6c
+2022-07-01T01:25:48.636649+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:26:38.434843+0900 WARNING Shutting down!..
+2022-07-01T01:26:38.832208+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:26:38.832208+0900 WARNING Bye!
+2022-07-01T01:26:41.639610+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:26:58.233969+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:27:00.545835+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:27:00.545835+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:27:00.548378+0900 ERROR Session is closed
+2022-07-01T01:27:00.548378+0900 ERROR Can't delete support
+2022-07-01T01:27:03.103431+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T01:29:51.481384+0900 WARNING Shutting down!..
+2022-07-01T01:29:52.016607+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:29:52.016607+0900 WARNING Bye!
+2022-07-01T01:29:54.975807+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:30:11.265959+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:30:13.761902+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:30:13.761902+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:30:13.764903+0900 ERROR Session is closed
+2022-07-01T01:30:13.764903+0900 ERROR Can't delete support
+2022-07-01T01:30:23.410940+0900 INFO Sending message to operator: 62bdcf922bd4fead9a2c8d75 from user: 740086487
+2022-07-01T01:30:23.410940+0900 INFO Sending message to 62bdcf922bd4fead9a2c8d75
+2022-07-01T01:41:21.747049+0900 WARNING Shutting down!..
+2022-07-01T01:41:22.252589+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:41:22.253589+0900 WARNING Bye!
+2022-07-01T01:41:26.174319+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:41:48.091074+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:41:49.710749+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:41:49.710749+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:41:49.714750+0900 ERROR Session is closed
+2022-07-01T01:41:49.714750+0900 ERROR Can't delete support
+2022-07-01T01:45:32.171894+0900 WARNING Shutting down!..
+2022-07-01T01:45:32.593399+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:45:32.593399+0900 WARNING Bye!
+2022-07-01T01:45:36.970561+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:46:10.317231+0900 WARNING Shutting down!..
+2022-07-01T01:46:10.729721+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T01:46:10.729721+0900 WARNING Bye!
+2022-07-01T01:46:14.798262+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T01:46:28.437678+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:46:30.852027+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:46:30.852027+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:46:30.856028+0900 ERROR Session is closed
+2022-07-01T01:46:30.856028+0900 ERROR Can't delete support
+2022-07-01T01:47:55.873202+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:47:58.507736+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T01:47:58.508736+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T01:47:58.512737+0900 ERROR Session is closed
+2022-07-01T01:47:58.512737+0900 ERROR Can't delete support
+2022-07-01T02:32:28.278543+0900 WARNING Shutting down!..
+2022-07-01T02:32:28.694502+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:32:28.694502+0900 WARNING Bye!
+2022-07-01T02:32:31.645590+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:35:49.257601+0900 WARNING Shutting down!..
+2022-07-01T02:35:49.773442+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:35:49.774442+0900 WARNING Bye!
+2022-07-01T02:35:52.376334+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:35:52.692911+0900 WARNING Shutting down!..
+2022-07-01T02:35:52.830943+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:35:52.830943+0900 WARNING Bye!
+2022-07-01T02:35:56.181283+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:38:41.058825+0900 WARNING Shutting down!..
+2022-07-01T02:38:41.464031+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:38:41.465031+0900 WARNING Bye!
+2022-07-01T02:38:45.197045+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:40:40.844167+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:42:02.784700+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:42:29.416123+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:42:56.859612+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:43:06.770119+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:45:47.130529+0900 WARNING Shutting down!..
+2022-07-01T02:45:47.561863+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:45:47.562863+0900 WARNING Bye!
+2022-07-01T02:45:52.072812+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:46:05.062297+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:48:21.918653+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:48:26.917523+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:51:45.328929+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:53:01.080851+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T02:53:22.335353+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:53:23.984628+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:53:23.984628+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T02:53:23.986628+0900 ERROR Session is closed
+2022-07-01T02:53:23.986628+0900 ERROR Can't delete support
+2022-07-01T02:56:50.582047+0900 WARNING Shutting down!..
+2022-07-01T02:56:50.999134+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T02:56:50.999134+0900 WARNING Bye!
+2022-07-01T02:56:53.908056+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T02:57:17.329210+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:57:18.023160+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T02:57:18.023160+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T02:57:18.026160+0900 ERROR Session is closed
+2022-07-01T02:57:18.026160+0900 ERROR Can't delete support
+2022-07-01T03:03:26.042709+0900 INFO Sending message to operator: 62bde3fcc6b20059272a4aa1 from user: 740086487
+2022-07-01T03:03:26.043219+0900 INFO Sending message to 62bde3fcc6b20059272a4aa1
+2022-07-01T03:24:40.246887+0900 WARNING Shutting down!..
+2022-07-01T03:24:40.783926+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T03:24:40.783926+0900 WARNING Bye!
+2022-07-01T05:08:00.173719+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-01T05:08:55.479449+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T05:09:00.021925+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-01T05:09:15.235706+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T05:09:16.920537+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T05:09:16.920537+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T05:09:16.923538+0900 ERROR Session is closed
+2022-07-01T05:09:16.924537+0900 ERROR Can't delete support
+2022-07-01T05:09:23.161299+0900 INFO Sending message to operator: 62be02ea6c147b3788c2be10 from user: 740086487
+2022-07-01T05:09:23.161299+0900 INFO Sending message to 62be02ea6c147b3788c2be10
+2022-07-01T05:09:35.140723+0900 INFO Sending message to operator: 62be02ea6c147b3788c2be10 from user: 740086487
+2022-07-01T05:09:35.140723+0900 INFO Sending message to 62be02ea6c147b3788c2be10
+2022-07-01T05:09:37.156746+0900 INFO Sending message to operator: 62be02ea6c147b3788c2be10 from user: 740086487
+2022-07-01T05:09:37.156746+0900 INFO Sending message to 62be02ea6c147b3788c2be10
+2022-07-01T05:09:37.825949+0900 INFO Sending message to operator: 62be02ea6c147b3788c2be10 from user: 740086487
+2022-07-01T05:09:37.826458+0900 INFO Sending message to 62be02ea6c147b3788c2be10
+2022-07-01T05:09:38.143469+0900 INFO Sending message to operator: 62be02ea6c147b3788c2be10 from user: 740086487
+2022-07-01T05:09:38.143479+0900 INFO Sending message to 62be02ea6c147b3788c2be10
+2022-07-01T10:20:20.152515+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T10:20:27.984525+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T10:20:27.985525+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T10:20:27.987527+0900 ERROR Session is closed
+2022-07-01T10:20:27.987527+0900 ERROR Can't delete support
+2022-07-01T10:20:36.684913+0900 INFO Sending message to operator: 62be4bd34e7eec562e852118 from user: 740086487
+2022-07-01T10:20:36.684913+0900 INFO Sending message to 62be4bd34e7eec562e852118
+2022-07-01T10:20:42.063779+0900 INFO Sending message to operator: 62be4bd34e7eec562e852118 from user: 740086487
+2022-07-01T10:20:42.063779+0900 INFO Sending message to 62be4bd34e7eec562e852118
+2022-07-01T10:20:44.185503+0900 INFO Sending message to operator: 62be4bd34e7eec562e852118 from user: 740086487
+2022-07-01T10:20:44.185503+0900 INFO Sending message to 62be4bd34e7eec562e852118
+2022-07-01T10:30:23.015173+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T10:30:23.593411+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T10:30:23.593411+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T10:30:23.595412+0900 ERROR Session is closed
+2022-07-01T10:30:23.596413+0900 ERROR Can't delete support
+2022-07-01T10:44:49.258107+0900 INFO Sending message to operator: 62be4e2e08dff7161631079f from user: 740086487
+2022-07-01T10:44:49.258107+0900 INFO Sending message to 62be4e2e08dff7161631079f
+2022-07-01T11:30:34.729698+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T11:30:36.996537+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-01T11:30:36.997537+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-01T11:30:36.999538+0900 ERROR Session is closed
+2022-07-01T11:30:36.999538+0900 ERROR Can't delete support
+2022-07-01T14:47:53.958385+0900 WARNING Shutting down!..
+2022-07-01T14:47:54.405288+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-01T14:47:54.405288+0900 WARNING Bye!
+2022-07-02T05:46:30.287038+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-02T05:46:42.862063+0900 ERROR Tried to send message to user that isn't in chat
+2022-07-02T05:47:58.204714+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T05:47:59.644692+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T05:47:59.645692+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-02T05:47:59.647693+0900 ERROR Session is closed
+2022-07-02T05:47:59.647693+0900 ERROR Can't delete support
+2022-07-02T05:52:55.897280+0900 WARNING ticket_id is None or empty
+2022-07-02T05:53:04.976851+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T05:53:10.322633+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T05:53:10.322633+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-02T05:53:10.324633+0900 ERROR Session is closed
+2022-07-02T05:53:10.325633+0900 ERROR Can't delete support
+2022-07-02T09:15:41.180799+0900 WARNING Shutting down!..
+2022-07-02T09:15:41.711217+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-02T09:15:41.711217+0900 WARNING Bye!
+2022-07-02T09:15:45.079577+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-02T09:16:03.131567+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T09:16:05.768823+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T09:16:05.768823+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-02T09:16:05.771823+0900 ERROR Session is closed
+2022-07-02T09:16:05.771823+0900 ERROR Can't delete support
+2022-07-02T09:43:27.564630+0900 WARNING Shutting down!..
+2022-07-02T09:43:28.131401+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-02T09:43:28.131401+0900 WARNING Bye!
+2022-07-02T09:43:30.710083+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-02T09:43:43.675976+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T09:43:46.307348+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T09:43:46.308348+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-02T09:43:46.310348+0900 ERROR Session is closed
+2022-07-02T09:43:46.310348+0900 ERROR Can't delete support
+2022-07-02T09:43:54.098089+0900 INFO Sending message to operator: 62bf94bf11cf8e158bbb4f4d from user: 740086487
+2022-07-02T09:43:54.098089+0900 INFO Sending message to 62bf94bf11cf8e158bbb4f4d
+2022-07-02T12:23:32.674869+0900 WARNING Shutting down!..
+2022-07-02T12:23:33.140104+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-02T12:23:33.140104+0900 WARNING Bye!
+2022-07-02T12:23:38.199561+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-02T12:23:49.985015+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T12:23:51.919843+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-02T12:23:51.919843+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-02T12:23:51.922844+0900 ERROR Session is closed
+2022-07-02T12:23:51.923843+0900 ERROR Can't delete support
+2022-07-02T12:23:58.604598+0900 INFO Sending message to operator: 62bfba45684b4c640477dc4a from user: 740086487
+2022-07-02T12:23:58.604598+0900 INFO Sending message to 62bfba45684b4c640477dc4a
+2022-07-02T12:24:08.504800+0900 WARNING ticket_id is None or empty
+2022-07-02T12:28:51.914455+0900 WARNING Shutting down!..
+2022-07-02T12:28:52.433950+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-02T12:28:52.433950+0900 WARNING Bye!

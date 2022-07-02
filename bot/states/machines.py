@@ -14,3 +14,4 @@ class ChatFSM(StatesGroup):
     waiting_chat = State()
     apply_chat = State()
     chat = State()
+    estimate = State()
