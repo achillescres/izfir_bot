@@ -12,7 +12,7 @@ from loguru import logger
 
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.keyboards.default.chat import chat_kbs
+from bot.keyboards.default.chat import chat_kbs, estimate_kb
 from bot.keyboards.default.menu import menu_kb
 from bot.states import MenuFSM, ChatFSM
 from bot.utils.divide_qus import *
@@ -42,7 +42,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.on_event('startup')
 async def on_startup():
@@ -95,15 +94,6 @@ async def bot_send_file_message(file_type: str, file_name: str, user_id: str, fi
             await ibot.bot.send_document(chat_id=user_id, document=file)
 
 
-async def cancel_chat(message: types.Message, state: FSMContext):
-    await message.edit_reply_markup(None)
-    await message.reply(
-        'Заявка была отклонена, потому что вы не приняли его в течении 10 минут'
-    )
-    await AbstractMenu.send(message)
-    await state.set_state(MenuFSM.main)
-
-
 @app.post('/api/startChat')
 async def start_chat(data: TicketAccept):
     state = ibot.dp.current_state(user=data.user_id, chat=data.user_id)
@@ -128,12 +118,17 @@ async def start_chat(data: TicketAccept):
         await AbstractTicket.delete(state=state, ticket_id=data.chat_room_id)
 
 
+async def score_chat(user_id: str, state: FSMContext):
+    await ibot.send_message(text='Пожалуйста, оцените качество техподдержки', user_id=user_id, reply_markup=estimate_kb.kb)
+    await state.set_state(ChatFSM.estimate)
+
+
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
     await ibot.send_message(
         text="Сеанс был завершен",
         user_id=user_id.user_id,
-        reply_markup=menu_kb.kb
+        reply_markup=None
     )
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
@@ -144,28 +139,15 @@ async def finish_chat(user_id: UserId):
             ticket_id=user_id.chat_room_id,
             sync=False
         )
-    
-        await client_state.set_state(MenuFSM.main)
-        async with client_state.proxy() as fsm_data_proxy:
-            if 'operator_name' in fsm_data_proxy:
-                fsm_data_proxy.pop('operator_name')
-            if 'operator_id' in fsm_data_proxy:
-                fsm_data_proxy.pop('operator_id')
     except Exception as e:
         logger.error(e)
         logger.error('Can\t finishChat normally')
-        
-        await client_state.set_state(MenuFSM.main)
-        await AbstractTicket.delete(
-            state=client_state,
-            ticket_id=user_id.chat_room_id
-        )
-        
+    finally:
+        await score_chat(user_id.user_id, client_state)
         async with client_state.proxy() as fsm_data_proxy:
             if 'operator_name' in fsm_data_proxy:
                 fsm_data_proxy.pop('operator_name')
-            if 'operator_id' in fsm_data_proxy:
-                fsm_data_proxy.pop('operator_id')
+
 
 
 # FACULTIES MODULE
