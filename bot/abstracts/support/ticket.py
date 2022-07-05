@@ -49,8 +49,8 @@ class AbstractTicket:
 		return AbstractTicket.status_to_text.get(cls.get_status(ticket))
 	
 	@classmethod
-	def get_question(cls, ticket: dict) -> str:
-		return ticket[cls.Schema.question]
+	def get_question(cls, ticket: str) -> str:
+		return ticket
 	
 	@classmethod
 	def get_answer(cls, ticket: dict) -> str:
@@ -146,7 +146,7 @@ class AbstractTicket:
 						await post(f'{SERVER_API}/deleteTicket', data={'user_id': ticket_id})
 		except Exception as e:
 			logger.error(e)
-			logger.error("Can't delete support")
+			logger.error("Can't delete support on backend!")
 			return False
 	
 	@staticmethod

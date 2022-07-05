@@ -8,6 +8,7 @@ from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.menu import menu_kb, support_kb
 from bot.keyboards.inline import operator_faculties_ikb
+from bot.keyboards.inline.operator_faculties_ikb import hashes
 from bot.states.machines import ChatFSM
 from loader import dp
 
@@ -22,7 +23,7 @@ import bot.utils.http as http
 # > FACULTY LIST == ChatFSM.choosing_faculty
 
 # --> OPEN FACULTY LIST
-@dp.message_handler(text=support_kb.Texts.chat.value, state=MenuFSM.main)
+@dp.message_handler(text=menu_kb.Texts.chat.value, state=MenuFSM.main)
 async def faculties(message: types.Message, state: FSMContext):
     await (await message.answer('Обработка...', reply_markup=types.ReplyKeyboardRemove())).delete()
     mes = await message.answer('Выберите тип оператора', reply_markup=operator_faculties_ikb.ikb)
@@ -31,7 +32,7 @@ async def faculties(message: types.Message, state: FSMContext):
 
 
 # CLOSE FACULTY LIST --> MAIN MENU
-@dp.callback_query_handler(text=operator_faculties_ikb.faculties_names_hashes[0], state=ChatFSM.choosing_faculty)
+@dp.callback_query_handler(text=hashes[0], state=ChatFSM.choosing_faculty)
 async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext):
     await dp.bot.answer_callback_query(call.id)
     
@@ -46,7 +47,7 @@ async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext)
 
 
 # CLICK ON IKB FACULTY LIST --> QU INPUT
-@dp.callback_query_handler(text=operator_faculties_ikb.faculties_hashes, state=ChatFSM.choosing_faculty)
+@dp.callback_query_handler(text=operator_faculties_ikb.hash_to_name, state=ChatFSM.choosing_faculty)
 async def get_qu(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as fsm_data_proxy:
         faculties_message: dict = fsm_data_proxy.get('faculties_message')

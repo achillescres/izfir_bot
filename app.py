@@ -1,6 +1,5 @@
 from io import BytesIO
 
-from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InputFile
 from aiogram.utils.markdown import bold, text
@@ -42,6 +41,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.on_event('startup')
 async def on_startup():
