@@ -5,7 +5,7 @@ REAL_LIMIT = 49
 LOWER_LIMIT = 44
 
 
-async def format_rows(faculties, fac_key, rows):
+async def set_formatted_rows(faculties, fac_key, rows):
     new_rows = []
     for i, row in enumerate(rows):
         # (row)

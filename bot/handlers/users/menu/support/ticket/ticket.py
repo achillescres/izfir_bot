@@ -1,21 +1,21 @@
-from uuid import uuid4
-
+import aiohttp
+import ujson
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Text
 from loguru import logger
 
-from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.keyboards.default.menu import menu_kb, support_kb
+from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.inline import operator_faculties_ikb
 from bot.keyboards.inline.operator_faculties_ikb import hashes
 from bot.states.machines import ChatFSM
+from data.config import SERVER_API
 from loader import dp
 
 from bot.keyboards.default.chat import chat_kbs
 
 from bot.states import MenuFSM
-import bot.utils.http as http
 
 
 # HERE WE CREATING TICKET ->
@@ -128,4 +128,25 @@ async def create_ticket(message: types.Message, state: FSMContext):
     )
 
     await AbstractTicket.end_ticket_creation(message, state)
+
+
+# HERE WE HANDLING TICKET SCORE
+@dp.callback_query_handler(Text(startswith='score_'), state='*')
+async def score_ticket(call: types.CallbackQuery, state: FSMContext):
+    data = call.data
+    _, score, ticket_id = data.split('_')
+
+    async with aiohttp.ClientSession(json_serialize=ujson.dumps) as session:
+        data = {
+            'chat_room_id': ticket_id,
+            'star': score
+        }
     
+        async with session.post(
+                f'{SERVER_API}/fromBot/message/estimate', json=data
+        ) as resp:
+            if not resp.ok:
+                await call.message.edit_text(f'Вы поставили оценку {score}')
+            else:
+                logger.error(f"Can't send ticket score to server\nResponse: {await resp.read()}")
+        await session.close()

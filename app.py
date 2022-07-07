@@ -1,27 +1,24 @@
 from io import BytesIO
 
 from aiogram.dispatcher import FSMContext
-from aiogram.types import InputFile
+from aiogram.types import InputFile, ParseMode
 from aiogram.utils.markdown import bold, text
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI, File, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
-from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.keyboards.default.chat import chat_kbs, estimate_kb
-from bot.keyboards.default.menu import menu_kb
-from bot.states import MenuFSM, ChatFSM
+from bot.keyboards.default.chat import chat_kbs
+from bot.keyboards.inline import score_kb
+from bot.states import ChatFSM
 from bot.utils.divide_qus import *
+from bot.utils.misc import remove_kb
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
 from server.models import Message, Facultie
 from server.models import UserId, TicketAccept
 
-scheduler = AsyncIOScheduler()
-scheduler.start()
 
 app = FastAPI()
 ibot = TelegramBot(dev=DEV_MODE)
@@ -55,7 +52,7 @@ async def on_shutdown():
 
 @app.post(WEBHOOK_PATH)
 async def bot_webhook(update: dict):
-    await ibot.update(update)
+    await ibot.telegram_update(update)
 
 
 # CHAT MODULE
@@ -101,14 +98,16 @@ async def start_chat(data: TicketAccept):
         if (await state.get_state()) == ChatFSM.chat:
             return 'occupied'
         
+        logger.info(f"Starting chat: {data.user_id} -> {data.chat_room_id}")
         await ibot.bot.send_message(
             text=text(
-                'Оператор откликнулся на ваш вопрос! Начался чат!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
+                'Оператор откликнулся на ваш вопрос! Начался чат\!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
                 bold('/start'),
                 '#свфуответ'
             ),
             chat_id=data.user_id,
             reply_markup=chat_kbs.finish_chat_kb,
+            parse_mode=ParseMode.MARKDOWN_V2
         )
         
         await state.set_state(ChatFSM.chat)
@@ -116,20 +115,20 @@ async def start_chat(data: TicketAccept):
         fsm_data_proxy['operator_name'] = data.operator_name
         await AbstractTicket.flush_ticket_creation_data(state)
         await AbstractTicket.delete(state=state, ticket_id=data.chat_room_id)
+    
+    return 'ok'
 
-
-async def score_chat(user_id: str, state: FSMContext):
-    await ibot.send_message(text='Пожалуйста, оцените качество техподдержки', user_id=user_id, reply_markup=estimate_kb.kb)
-    await state.set_state(ChatFSM.estimate)
+async def score_chat(user_id: str, ticket_id: str):
+    await ibot.send_message(
+        text='"Сеанс был завершен"\nПожалуйста, оцените качество техподдержки',
+        user_id=user_id,
+        reply_markup=score_kb.get_ikb(ticket_id=ticket_id)
+    )
 
 
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
-    await ibot.send_message(
-        text="Сеанс был завершен",
-        user_id=user_id.user_id,
-        reply_markup=None
-    )
+    await remove_kb(bot=ibot.bot, user_id=user_id.user_id)
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
     
@@ -141,13 +140,12 @@ async def finish_chat(user_id: UserId):
         )
     except Exception as e:
         logger.error(e)
-        logger.error('Can\t finishChat normally')
+        logger.error("Can't delete ticket with AbstractTicket method")
     finally:
-        await score_chat(user_id.user_id, client_state)
+        await score_chat(user_id.user_id, user_id.chat_room_id)
         async with client_state.proxy() as fsm_data_proxy:
             if 'operator_name' in fsm_data_proxy:
                 fsm_data_proxy.pop('operator_name')
-
 
 
 # FACULTIES MODULE
@@ -189,6 +187,7 @@ async def get_faculty(fac_key: str, token: str):
 @app.post("/api/setFaculty")
 async def set_faculty(data: Facultie):
     data = jsonable_encoder(data)
+    print(data)
     await ibot.data_proxy.collection.update_one(
         {'faculty.key': data["faculty_key"]},
         {'$set': {'normal_qus_ans': data["normal_qus_ans"]}}
@@ -196,8 +195,8 @@ async def set_faculty(data: Facultie):
     
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 
-    await format_rows(ibot.data_proxy.collection, data["faculty_key"], rows)
-    await ibot.data_proxy.update_data()
+    await set_formatted_rows(ibot.data_proxy.collection, data["faculty_key"], rows)
+    await ibot.update_questions()
 
 
 if __name__ == '__main__':

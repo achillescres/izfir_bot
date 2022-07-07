@@ -1,5 +1,3 @@
-from itertools import count
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command, Text
@@ -7,15 +5,9 @@ from loguru import logger
 
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
-from bot.keyboards.default.menu import support_kb
 from bot.keyboards.inline import ticket_list_ikb
 from bot.states import MenuFSM
-from bot.utils.misc import remove_kb
 from loader import dp
-
-
-def is_ticket(key: str) -> bool:
-	return key.startswith('ticket_')
 
 
 # @dp.message_handler(text=support_kb.Texts.active_tickets.value, state=MenuFSM.main)

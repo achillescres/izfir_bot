@@ -26,7 +26,7 @@ class TelegramBot:
         self.dp.register_message_handler(before_start_trash.handler, **before_start_trash.options)
         self.dp.register_message_handler(all_trash_handler.handler, **all_trash_handler.options)
 
-    async def _set_static_handlers(self):
+    def _set_static_message_handlers(self):
         # For dynamic data closure
         @self.dp.message_handler(Text(menu_kb.Texts.qus.value), state=MenuFSM.main)
         async def faculties(message: types.Message):
@@ -36,6 +36,7 @@ class TelegramBot:
         async def faculties_self(message: types.Message):
             await message.answer(message.text, reply_markup=self.data_proxy.faculties_ikbs[message.text])
 
+    def _set_static_callback_handlers(self):
         @self.dp.callback_query_handler(text=self.data_proxy.answers.keys(), state=MenuFSM.main)
         async def question_call(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
@@ -49,12 +50,13 @@ class TelegramBot:
                 self.data_proxy.hash_name_to_faculty[call.data],
                 reply_markup=self.data_proxy.faculties_ikbs[self.data_proxy.hash_name_to_faculty[call.data]]
             )
-
-        # trash handler must be in the end
-        self._register_trash_handlers()
     
-    async def update_questions(self):
-        await self.data_proxy.update_data()
+    async def on_startup(self):
+        from bot.utils.notify_admin import on_startup_notify
+        await on_startup_notify(self.dp)
+
+        from bot.utils.set_bot_commands import set_default_commands
+        await set_default_commands(self.dp)
     
     async def start(self, webhook_url: str):
         try:
@@ -69,8 +71,10 @@ class TelegramBot:
             
             await self.data_proxy.init(db.qus_ans_calls)
             await self.on_startup()
-            await self._set_static_handlers()
-            
+            self._set_static_message_handlers()
+            self._set_static_callback_handlers()
+            self._register_trash_handlers()
+
             webhook_info = await self.bot.get_webhook_info()
             if webhook_info.url != webhook_url:
                 await self.bot.set_webhook(url=webhook_url, drop_pending_updates=True)
@@ -80,13 +84,6 @@ class TelegramBot:
             await self.shutdown()
             logger.error(f"Couldn't start bot \n{e}")
             exit(-1)
-
-    async def on_startup(self):
-        from bot.utils.notify_admin import on_startup_notify
-        await on_startup_notify(self.dp)
-
-        from bot.utils.set_bot_commands import set_default_commands
-        await set_default_commands(self.dp)
 
     async def shutdown(self):
         try:
@@ -105,21 +102,22 @@ class TelegramBot:
         finally:
             logger.warning('Bye!')
 
-    async def _update(self, update: dict):
+    async def _telegram_update(self, update: dict):
         telegram_update = types.Update(**update)
         Dispatcher.set_current(self.dp)
         Bot.set_current(self.bot)
         await self.dp.process_update(telegram_update)
 
-    async def update(self, update: dict):
+    async def telegram_update(self, update: dict):
         if self.dev:
-            await self._update(update)
+            await self._telegram_update(update)
             return
 
         try:
-            await self._update(update)
+            await self._telegram_update(update)
         except Exception as e:
-            logger.error(f'Update error {e}')
+            logger.error(e)
+            logger.error("Can't provide telegram update")
 
     async def send_message(self, text, user_id, operator_name='Оператор', reply_markup=chat_kbs.finish_chat_kb):
         try:

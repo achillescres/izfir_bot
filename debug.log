@@ -28327,3 +28327,328 @@ aiogram.utils.exceptions.ChatNotFound: Chat not found
 2022-07-02T12:28:52.433950+0900 ERROR Couldn't correctly shutdown bot
 'NoneType' object has no attribute 'close'
 2022-07-02T12:28:52.433950+0900 WARNING Bye!
+2022-07-05T17:34:04.528315+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T17:37:25.229897+0900 WARNING Shutting down!..
+2022-07-05T17:37:25.814409+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T17:37:25.814898+0900 WARNING Bye!
+2022-07-05T17:37:28.176766+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T17:38:53.274672+0900 WARNING Shutting down!..
+2022-07-05T17:38:53.851963+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T17:38:53.852598+0900 WARNING Bye!
+2022-07-05T17:38:56.945522+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T17:44:27.016973+0900 WARNING Shutting down!..
+2022-07-05T17:44:27.167835+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T17:44:27.168020+0900 WARNING Bye!
+2022-07-05T17:46:41.429254+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T17:51:12.772884+0900 INFO Deleting ticket ticket_62bef88c34c53c5d8d87df0e
+2022-07-05T17:51:13.396158+0900 ERROR Session is closed
+2022-07-05T17:51:13.396355+0900 ERROR Can't delete support
+2022-07-05T17:51:16.396321+0900 INFO Deleting ticket ticket_62bef89d34c53c5d8d87df10
+2022-07-05T17:51:16.828839+0900 ERROR Session is closed
+2022-07-05T17:51:16.829704+0900 ERROR Can't delete support
+2022-07-05T18:22:17.118739+0900 WARNING Shutting down!..
+2022-07-05T18:22:17.659720+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:22:17.659910+0900 WARNING Bye!
+2022-07-05T18:22:20.189086+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:38:01.639183+0900 WARNING Shutting down!..
+2022-07-05T18:38:02.236976+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:38:02.237365+0900 WARNING Bye!
+2022-07-05T18:38:36.921993+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:39:45.364626+0900 WARNING Shutting down!..
+2022-07-05T18:39:45.925348+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:39:45.925976+0900 WARNING Bye!
+2022-07-05T18:39:49.579383+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:42:00.621123+0900 WARNING Shutting down!..
+2022-07-05T18:42:01.182030+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:42:01.182501+0900 WARNING Bye!
+2022-07-05T18:42:03.674299+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:42:59.570625+0900 WARNING Shutting down!..
+2022-07-05T18:43:00.012812+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:43:00.013066+0900 WARNING Bye!
+2022-07-05T18:43:02.775403+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:43:18.021497+0900 WARNING Shutting down!..
+2022-07-05T18:43:18.179212+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:43:18.179852+0900 WARNING Bye!
+2022-07-05T18:44:31.485518+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:44:42.139550+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-05T18:47:44.170570+0900 WARNING Shutting down!..
+2022-07-05T18:47:44.739550+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T18:47:44.739716+0900 WARNING Bye!
+2022-07-05T18:47:46.826901+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-05T18:47:54.220223+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-05T18:48:21.993323+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-05T18:48:30.191795+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-05T19:32:35.840804+0900 WARNING Shutting down!..
+2022-07-05T19:32:36.512086+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-05T19:32:36.512312+0900 WARNING Bye!
+2022-07-05T19:32:42.036121+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-06T23:17:16.219082+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-06T23:31:43.548887+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-06T23:43:06.752022+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-06T23:44:28.977901+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-06T23:45:18.816025+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-06T23:45:18.816327+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-06T23:45:18.819439+0900 ERROR Session is closed
+2022-07-06T23:45:18.819682+0900 ERROR Can't delete support on backend!
+2022-07-06T23:45:27.968522+0900 INFO Sending message to operator: 62c59fcc177eab27cff492fb from user: 487289925
+2022-07-06T23:45:27.968707+0900 INFO Sending message to 62c59fcc177eab27cff492fb
+2022-07-06T23:45:34.690071+0900 INFO Sending message to operator: 62c59fcc177eab27cff492fb from user: 487289925
+2022-07-06T23:45:34.690288+0900 INFO Sending message to 62c59fcc177eab27cff492fb
+2022-07-06T23:56:45.579183+0900 WARNING Shutting down!..
+2022-07-06T23:56:46.151548+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-06T23:56:46.152118+0900 WARNING Bye!
+2022-07-06T23:56:48.731759+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-06T23:56:53.849021+0900 WARNING Shutting down!..
+2022-07-06T23:56:53.994688+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-06T23:56:53.995391+0900 WARNING Bye!
+2022-07-06T23:56:56.503204+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:02:28.237018+0900 WARNING Shutting down!..
+2022-07-07T00:02:28.792947+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:02:28.828222+0900 WARNING Bye!
+2022-07-07T00:02:31.102234+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:03:25.092270+0900 WARNING Shutting down!..
+2022-07-07T00:03:25.553863+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:03:25.554035+0900 WARNING Bye!
+2022-07-07T00:03:27.876741+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:07:05.762995+0900 WARNING Shutting down!..
+2022-07-07T00:07:06.319525+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:07:06.319698+0900 WARNING Bye!
+2022-07-07T00:07:08.550922+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:07:23.224723+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T00:09:18.968426+0900 WARNING Shutting down!..
+2022-07-07T00:09:19.530831+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:09:19.531053+0900 WARNING Bye!
+2022-07-07T00:09:22.008454+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:15:59.815827+0900 WARNING Shutting down!..
+2022-07-07T00:16:00.388667+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:16:00.389239+0900 WARNING Bye!
+2022-07-07T00:16:02.913908+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:17:19.599977+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T00:28:11.396945+0900 WARNING Shutting down!..
+2022-07-07T00:28:11.968461+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:28:11.968823+0900 WARNING Bye!
+2022-07-07T00:28:14.724691+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T00:28:25.030982+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T00:34:50.101950+0900 WARNING Shutting down!..
+2022-07-07T00:34:50.682112+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T00:34:50.682286+0900 WARNING Bye!
+2022-07-07T00:34:54.193147+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T01:02:07.293565+0900 WARNING Shutting down!..
+2022-07-07T01:02:07.867473+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T01:02:07.867645+0900 WARNING Bye!
+2022-07-07T15:50:58.382715+0900 INFO Updating question storage
+2022-07-07T15:50:59.901005+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:00:00.952766+0900 WARNING Shutting down!..
+2022-07-07T16:00:01.520369+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:00:01.520606+0900 WARNING Bye!
+2022-07-07T16:00:02.722650+0900 INFO Updating question storage
+2022-07-07T16:00:03.920005+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:00:29.698605+0900 WARNING Shutting down!..
+2022-07-07T16:00:30.141770+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:00:30.142025+0900 WARNING Bye!
+2022-07-07T16:00:31.748127+0900 INFO Updating question storage
+2022-07-07T16:00:33.167840+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:00:50.169843+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:01:04.403284+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:01:37.327046+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-07T16:07:52.046941+0900 WARNING Shutting down!..
+2022-07-07T16:07:52.583106+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:07:52.583395+0900 WARNING Bye!
+2022-07-07T16:07:53.329800+0900 INFO Updating question storage
+2022-07-07T16:07:54.452696+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:08:21.832127+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:08:50.054958+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:08:51.981508+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:08:51.982487+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-07T16:08:51.996295+0900 ERROR Session is closed
+2022-07-07T16:08:51.997633+0900 ERROR Can't delete support on backend!
+2022-07-07T16:10:12.627186+0900 WARNING Can't delete faculty_hash maybe it already deleted
+2022-07-07T16:10:12.630388+0900 ERROR Session is closed
+2022-07-07T16:10:12.630587+0900 ERROR Can't delete support on backend!
+2022-07-07T16:10:16.568546+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:16.569012+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:16.962266+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:16.962466+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:17.234625+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:17.234863+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:17.527133+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:17.527484+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:17.825090+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:17.825304+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:17.993176+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:17.994201+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:18.170606+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:18.170984+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:18.344252+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:18.344937+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:18.580766+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:18.581154+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:19.258262+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:19.376864+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:19.539640+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:19.540348+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:19.734800+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:19.735276+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:19.916747+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:19.917485+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:20.196036+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:20.196210+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:20.372161+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:20.372661+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:20.554809+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:20.555548+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:20.744792+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:20.745860+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:20.926769+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:20.926983+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:21.080595+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:21.080839+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:21.344597+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:21.344968+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:21.954181+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:21.954885+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:22.350232+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:22.350921+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:22.526988+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:22.527178+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:22.680803+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:22.681011+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:22.834822+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:22.835014+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:24.287110+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:24.287310+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:24.473817+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:24.474192+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:25.609007+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:25.609678+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:26.418274+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:26.418504+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:28.244403+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:28.244762+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:30.390443+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:30.390757+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:30.687772+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:30.688002+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:30.887066+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:30.887694+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:31.069688+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:31.069979+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:31.226519+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:31.226822+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:31.493431+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:31.493884+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:31.661939+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:31.662261+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:31.835206+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:31.835564+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:32.062566+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:32.062884+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:32.225132+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:32.225682+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:32.395313+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:32.395578+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:32.732804+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:32.733014+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:33.082301+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:33.082531+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:33.241137+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:33.241346+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:33.784481+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:33.784798+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:33.948859+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:33.949519+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:34.294782+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:34.295171+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:34.452265+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:34.452716+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:34.617129+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:34.618430+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:34.801718+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:34.802067+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:34.960405+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:34.960695+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:36.005431+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:36.005708+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:36.651982+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:36.652145+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:38.605276+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:38.605672+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:39.076497+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:39.077495+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:39.428789+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:39.429241+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:39.810402+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:39.810635+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:40.111971+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:40.112427+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:40.388197+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:40.389139+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:40.623720+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:40.624005+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:41.589523+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:41.589972+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:10:59.383282+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:10:59.383613+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:11:08.450015+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:11:08.450192+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:11:41.063970+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:11:41.064150+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:11:49.353597+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:11:49.353947+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:12:35.028659+0900 INFO Sending message to operator: 62c68665b2793b2d334ebde3 from user: 487289925
+2022-07-07T16:12:35.028872+0900 INFO Sending message to 62c68665b2793b2d334ebde3
+2022-07-07T16:20:37.671292+0900 WARNING Shutting down!..
+2022-07-07T16:20:38.231770+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:20:38.232153+0900 WARNING Bye!
+2022-07-07T16:20:39.807203+0900 INFO Updating question storage
+2022-07-07T16:20:40.901309+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:20:42.607547+0900 WARNING Shutting down!..
+2022-07-07T16:20:42.750769+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:20:42.751387+0900 WARNING Bye!
+2022-07-07T16:20:43.855875+0900 INFO Updating question storage
+2022-07-07T16:20:45.004136+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:21:04.381576+0900 WARNING Can't delete faculties_message maybe it already deleted
+2022-07-07T16:22:00.032458+0900 WARNING Shutting down!..
+2022-07-07T16:22:00.600199+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:22:00.600898+0900 WARNING Bye!
+2022-07-07T16:22:01.735796+0900 INFO Updating question storage
+2022-07-07T16:22:02.914749+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:23:20.354710+0900 WARNING Shutting down!..
+2022-07-07T16:23:20.959898+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:23:20.960097+0900 WARNING Bye!
+2022-07-07T16:23:23.261525+0900 INFO Updating question storage
+2022-07-07T16:23:24.382141+0900 INFO IzfirBot: Dispatcher loaded
+2022-07-07T16:24:41.438980+0900 WARNING Shutting down!..
+2022-07-07T16:24:42.058358+0900 ERROR Couldn't correctly shutdown bot
+'NoneType' object has no attribute 'close'
+2022-07-07T16:24:42.058580+0900 WARNING Bye!
+2022-07-07T16:24:44.451789+0900 INFO Updating question storage
+2022-07-07T16:24:45.518999+0900 INFO IzfirBot: Dispatcher loaded

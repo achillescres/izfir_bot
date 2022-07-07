@@ -1,11 +1,11 @@
-import motor.motor_asyncio
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from loguru import logger
 from motor.core import AgnosticCollection
 
 from bot.keyboards.default.questions.qus_ans import faculties_menu_kb
 
 
-class QuestionsProxyStorage(object):
+class QuestionsProxyStorage:
     def __init__(self):
         self.collection = None
 
@@ -15,7 +15,7 @@ class QuestionsProxyStorage(object):
         await self.update_data()
 
     async def _load_from_db(self):
-        self.questions = await self.collection.find().to_list(100)
+        self.questions = await self.collection.find().to_list(201)
         self.return_to_faculty_ikbs = None
         self.faculties_ikbs = None
         self.answers = dict()
@@ -41,3 +41,4 @@ class QuestionsProxyStorage(object):
 
     async def update_data(self):
         await self._load_from_db()
+        logger.info('Updating question storage')
