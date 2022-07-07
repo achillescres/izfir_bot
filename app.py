@@ -101,9 +101,9 @@ async def start_chat(data: TicketAccept):
         logger.info(f"Starting chat: {data.user_id} -> {data.chat_room_id}")
         await ibot.bot.send_message(
             text=text(
-                'Оператор откликнулся на ваш вопрос! Начался чат\!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
+                r'Оператор откликнулся на ваш вопрос\! Начался чат\!\nЧтобы закрыть чат воспользуйтесь кнопкой или напишите',
                 bold('/start'),
-                '#свфуответ'
+                r'\#свфуответ'
             ),
             chat_id=data.user_id,
             reply_markup=chat_kbs.finish_chat_kb,
@@ -115,8 +115,7 @@ async def start_chat(data: TicketAccept):
         fsm_data_proxy['operator_name'] = data.operator_name
         await AbstractTicket.flush_ticket_creation_data(state)
         await AbstractTicket.delete(state=state, ticket_id=data.chat_room_id)
-    
-    return 'ok'
+
 
 async def score_chat(user_id: str, ticket_id: str):
     await ibot.send_message(
