@@ -110,6 +110,15 @@ class TelegramBot:
 
     async def telegram_update(self, update: dict):
         if self.dev:
+            try:
+                user_id = update['message']['chat']['id']
+                state = self.dp.current_state(chat=user_id, user=user_id)
+                logger.info(
+                    f"Providing update for user {user_id}\nUser's current state: {(await state.get_state())}"
+                )
+            except KeyError:
+                logger.warning("Update not for user")
+            
             await self._telegram_update(update)
             return
 

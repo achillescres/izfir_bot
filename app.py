@@ -10,8 +10,10 @@ from loguru import logger
 
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.chat import chat_kbs
+from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.inline import score_kb
 from bot.states import ChatFSM
+from bot.utils.chat.utils import score_chat_with_bot
 from bot.utils.divide_qus import *
 from bot.utils.misc import remove_kb
 from bot_app import TelegramBot
@@ -117,17 +119,9 @@ async def start_chat(data: TicketAccept):
         await AbstractTicket.delete(state=state, ticket_id=data.chat_room_id)
 
 
-async def score_chat(user_id: str, ticket_id: str):
-    await ibot.send_message(
-        text='"Сеанс был завершен"\nПожалуйста, оцените качество техподдержки',
-        user_id=user_id,
-        reply_markup=score_kb.get_ikb(ticket_id=ticket_id)
-    )
-
-
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
-    await remove_kb(bot=ibot.bot, user_id=user_id.user_id)
+    await remove_kb(bot=ibot.bot, user_id=user_id.user_id, kb=menu_kb.kb)
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
     
@@ -141,10 +135,12 @@ async def finish_chat(user_id: UserId):
         logger.error(e)
         logger.error("Can't delete ticket with AbstractTicket method")
     finally:
-        await score_chat(user_id.user_id, user_id.chat_room_id)
+        await score_chat_with_bot(user_id.user_id, user_id.chat_room_id, ibot)
         async with client_state.proxy() as fsm_data_proxy:
             if 'operator_name' in fsm_data_proxy:
                 fsm_data_proxy.pop('operator_name')
+            if 'operator_id' in fsm_data_proxy:
+                fsm_data_proxy.pop('operator_id')
 
 
 # FACULTIES MODULE
@@ -195,7 +191,7 @@ async def set_faculty(data: Facultie):
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 
     await set_formatted_rows(ibot.data_proxy.collection, data["faculty_key"], rows)
-    await ibot.update_questions()
+    await ibot.data_proxy.update_data()
 
 
 if __name__ == '__main__':
