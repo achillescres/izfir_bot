@@ -3,9 +3,10 @@ from loguru import logger
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
+from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.menu import menu_kb
-from bot.states.machines import ChatFSM
+from bot.states.machines import ChatFSM, MenuFSM
 from bot.utils.chat.utils import score_chat_with_message
 from bot.utils.misc import remove_kb
 from loader import dp
@@ -18,8 +19,9 @@ import bot.utils.http as http
 # Universal function to close_chat, closing user-side and operator-side
 async def finish_chat(message: types.Message, state: FSMContext, from_user=True, with_err=False):
 	if from_user:
-		await remove_kb(message=message, kb=menu_kb.kb)
-		
+		# await remove_kb(message=message, kb=menu_kb.kb)
+		await AbstractMenu.send(message)
+		await state.set_state(MenuFSM.main)
 		try:
 			async with state.proxy() as fsm_data_proxy:
 				if 'operator_name' in fsm_data_proxy:

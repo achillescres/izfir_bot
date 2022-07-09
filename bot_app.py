@@ -25,9 +25,9 @@ class TelegramBot:
         self.dp.register_message_handler(after_start_trash.handler, **after_start_trash.options)
         self.dp.register_message_handler(before_start_trash.handler, **before_start_trash.options)
         self.dp.register_message_handler(all_trash_handler.handler, **all_trash_handler.options)
-
+    
+    # For dynamic data closure
     def _set_static_message_handlers(self):
-        # For dynamic data closure
         @self.dp.message_handler(Text(menu_kb.Texts.qus.value), state=MenuFSM.main)
         async def faculties(message: types.Message):
             await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(self.data_proxy.questions))
@@ -40,7 +40,11 @@ class TelegramBot:
         @self.dp.callback_query_handler(text=self.data_proxy.answers.keys(), state=MenuFSM.main)
         async def question_call(call: types.CallbackQuery):
             await self.dp.bot.answer_callback_query(call.id)
-            await call.message.edit_text(self.data_proxy.answers[call.data],
+            answer = self.data_proxy.answers[call.data]
+            if not answer:
+                answer = 'На данный вопрос пока отсутствует ответ'
+            
+            await call.message.edit_text(answer,
                                          reply_markup=self.data_proxy.return_to_faculty_ikbs[call.message.text])
 
         @self.dp.callback_query_handler(text=self.data_proxy.faculties_names_hash, state=MenuFSM.main)
@@ -92,10 +96,10 @@ class TelegramBot:
             await self.dp.bot.delete_webhook()
             await self.dp.storage.close()
             await self.dp.storage.wait_closed()
-            await self.redis.close()
             
             del self.dp
             logger.info('Shutdown correct')
+            await self.redis.close()
         except Exception as e:
             logger.error(f"Couldn't correctly shutdown bot\n{e}")
             self.dp = None
@@ -121,7 +125,6 @@ class TelegramBot:
             
             await self._telegram_update(update)
             return
-
         try:
             await self._telegram_update(update)
         except Exception as e:
@@ -140,7 +143,11 @@ class TelegramBot:
             )
         except Exception as e:
             logger.error(f"send_message error {e}")
-
+    
+    async def update_question(self):
+        await self.data_proxy.update_data()
+        self._set_static_callback_handlers()
+    
     @property
     def bot(self):
         return self.dp.bot

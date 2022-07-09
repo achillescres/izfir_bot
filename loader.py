@@ -7,7 +7,7 @@ from data import config
 
 
 logger.add('debug.log', format='{time} {level} {message}',
-           level='DEBUG', rotation='5 MB', compression='tar')
+           level='DEBUG', rotation='10 MB', compression='tar')
 
 # Create bot
 bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -16,7 +16,7 @@ bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 storage = None
 try:
     # storage = MemoryStorage()
-    storage = RedisStorage2(host='localhost', port=6379, db=0)
+    storage = RedisStorage2(host='localhost', port=6379, db=1)
     # storage = MongoStorage()
 except Exception as e:
     logger.info('Failed to connect to Redis')
@@ -26,23 +26,3 @@ except Exception as e:
     # exit(-1)
 
 dp = Dispatcher(bot, storage=storage)
-
-
-class TicketProxy:
-    def __init__(self):
-        self.tickets = ['anchor']
-    
-    def reset(self):
-        self.tickets = ['anchor']
-    
-    def change(self, new_tickets: list[str]):
-        self.tickets = ['anchor'] + new_tickets
-    
-    # def __setattr__(self, key, value):
-    #     self.__dict__[key] = value
-    #
-    # def __getattr__(self, item):
-    #     return self.__dict__.get(item)
-#
-#
-# dp.ticket_proxy = TicketProxy()

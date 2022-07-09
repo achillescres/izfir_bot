@@ -8,11 +8,12 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
+from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.chat import chat_kbs
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.inline import score_kb
-from bot.states import ChatFSM
+from bot.states import ChatFSM, MenuFSM
 from bot.utils.chat.utils import score_chat_with_bot
 from bot.utils.divide_qus import *
 from bot.utils.misc import remove_kb
@@ -121,9 +122,10 @@ async def start_chat(data: TicketAccept):
 
 @app.post("/api/finishChat")
 async def finish_chat(user_id: UserId):
-    await remove_kb(bot=ibot.bot, user_id=user_id.user_id, kb=menu_kb.kb)
+    await AbstractMenu.send_with_bot(bot=ibot.bot, user_id=user_id.user_id)
     
     client_state = ibot.dp.current_state(user=user_id.user_id, chat=user_id.user_id)
+    await client_state.set_state(MenuFSM.main)
     
     try:
         await AbstractTicket.delete(
@@ -135,7 +137,7 @@ async def finish_chat(user_id: UserId):
         logger.error(e)
         logger.error("Can't delete ticket with AbstractTicket method")
     finally:
-        await score_chat_with_bot(user_id.user_id, user_id.chat_room_id, ibot)
+        await score_chat_with_bot(user_id.user_id, user_id.chat_room_id, ibot.bot)
         async with client_state.proxy() as fsm_data_proxy:
             if 'operator_name' in fsm_data_proxy:
                 fsm_data_proxy.pop('operator_name')
@@ -182,7 +184,7 @@ async def get_faculty(fac_key: str, token: str):
 @app.post("/api/setFaculty")
 async def set_faculty(data: Facultie):
     data = jsonable_encoder(data)
-    print(data)
+
     await ibot.data_proxy.collection.update_one(
         {'faculty.key': data["faculty_key"]},
         {'$set': {'normal_qus_ans': data["normal_qus_ans"]}}
@@ -191,7 +193,7 @@ async def set_faculty(data: Facultie):
     rows = [[qu_an["qu"], qu_an["an"]] for qu_an in data["normal_qus_ans"]]
 
     await set_formatted_rows(ibot.data_proxy.collection, data["faculty_key"], rows)
-    await ibot.data_proxy.update_data()
+    await ibot.update_question()
 
 
 if __name__ == '__main__':

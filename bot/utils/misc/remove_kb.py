@@ -18,7 +18,7 @@ async def remove_kb(
 				)
 				return True
 			case _:
-				await (await message.answer(text, reply_markup=None)).delete()
+				await (await message.answer(text, reply_markup=kb)).delete()
 				return True
 	except:
 		return False

@@ -132,10 +132,12 @@ async def create_ticket(message: types.Message, state: FSMContext):
 
 # HERE WE HANDLING TICKET SCORE
 @dp.callback_query_handler(Text(startswith='score_'), state='*')
-async def score_ticket(call: types.CallbackQuery, state: FSMContext):
+async def score_ticket(call: types.CallbackQuery):
     data = call.data
     _, score, ticket_id = data.split('_')
-
+    await call.answer()
+    await call.message.edit_text(f'Вы поставили оценку {score}')
+    
     async with aiohttp.ClientSession(json_serialize=ujson.dumps) as session:
         data = {
             'chat_room_id': ticket_id,
@@ -146,7 +148,6 @@ async def score_ticket(call: types.CallbackQuery, state: FSMContext):
                 f'{SERVER_API}/fromBot/message/estimate', json=data
         ) as resp:
             if not resp.ok:
-                await call.message.edit_text(f'Вы поставили оценку {score}')
-            else:
                 logger.error(f"Can't send ticket score to server\nResponse: {await resp.read()}")
+        
         await session.close()
