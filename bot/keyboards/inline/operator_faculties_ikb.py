@@ -6,7 +6,6 @@ from data.misc import faculties_names
 hash_to_name = {str(hash(name)): name
                 for name in ['Главное меню', 'ЦЕНТРАЛЬНАЯ ПРИЕМНАЯ КОМИССИЯ'] + [faculty_name for faculty_name in faculties_names]}
 
-print(hash_to_name)
 
 hashes = tuple(hash_to_name.keys())
 

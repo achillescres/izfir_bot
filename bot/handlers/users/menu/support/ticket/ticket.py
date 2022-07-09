@@ -119,14 +119,13 @@ async def create_ticket(message: types.Message, state: FSMContext):
         user_id=message.from_user.id
     )
 
-    if not res:
+    if res:
+        await waiting_message.edit_text(
+            'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
+        )
+    else:
         await waiting_message.edit_text('Извините! Что-то пошло не так.\nПопробуйте ещё раз через минуту')
-        return
-
-    await waiting_message.edit_text(
-        'Ваша заявка отправлена, вам напишет первый освободившийся оператор, будьте терпеливы',
-    )
-
+    
     await AbstractTicket.end_ticket_creation(message, state)
 
 

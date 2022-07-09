@@ -1,6 +1,6 @@
 from enum import Enum
 
-from aiogram import Dispatcher, types
+from aiogram import types
 from aiogram.dispatcher import FSMContext
 from loguru import logger
 
@@ -8,8 +8,6 @@ from bot.abstracts import AbstractMenu
 from bot.keyboards.inline import operator_faculties_ikb
 from bot.states import MenuFSM
 from bot.utils import http
-from bot.utils.http.requests import post
-from data.config import SERVER_API
 
 
 class Status(Enum):

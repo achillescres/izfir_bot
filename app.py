@@ -11,12 +11,9 @@ from loguru import logger
 from bot.abstracts import AbstractMenu
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.chat import chat_kbs
-from bot.keyboards.default.menu import menu_kb
-from bot.keyboards.inline import score_kb
 from bot.states import ChatFSM, MenuFSM
 from bot.utils.chat.utils import score_chat_with_bot
 from bot.utils.divide_qus import *
-from bot.utils.misc import remove_kb
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
 from server.models import Message, Facultie
@@ -73,8 +70,8 @@ async def bot_send_message(message: Message):
 @app.post('/bot/sendFileMessage')
 async def bot_send_file_message(file_type: str, file_name: str, user_id: str, file: UploadFile = File(...)):
     state: FSMContext = ibot.dp.current_state(chat=user_id, user=user_id)
-    print(state)
-    print((await state.get_state()))
+    # print(state)
+    # print((await state.get_state()))
     if (await state.get_state()) != ChatFSM.chat.state:
         logger.error('Tried to send message to user that isn\'t in chat')
         raise ValueError
