@@ -23,7 +23,6 @@ async def get(url: str):
                         break
                     else:
                         resp = response_error
-                await session.close()
         return resp
     except:
         return response_error
@@ -45,7 +44,6 @@ async def post(url: str, data: dict):
                         break
                     else:
                         resp = response_error
-                await session.close()
         return resp
     except ClientConnectionError:
         logger.info('Unable to post message')
@@ -64,7 +62,6 @@ async def post_file(url: str, data: dict | IO):
                         break
                     else:
                         resp = response_error
-                await session.close()
         return resp
     except ClientConnectionError:
         logger.info('Unable to post message')

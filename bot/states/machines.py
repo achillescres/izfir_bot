@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 # Menu
 class MenuFSM(StatesGroup):
     main = State()
+    stun = State()
 
 
 # In support

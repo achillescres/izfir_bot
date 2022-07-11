@@ -4,6 +4,7 @@ from bot.keyboards.abstracts import TextEnum
 
 
 self_text = 'Главное меню'
+return_data = 'return_main_kb'
 
 
 class Texts(TextEnum):

@@ -4,7 +4,7 @@ from loguru import logger
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
 
-from bot.abstracts.questions_proxy_storage import QuestionsProxyStorage
+from bot.abstracts.questions_proxy_storage import DataProxyStorage
 from bot.keyboards.default.chat import chat_kbs
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
@@ -16,21 +16,26 @@ from bot.handlers.static import after_start_trash
 class TelegramBot:
     dp = None
     redis = None
+    data_proxy = None
     
     def __init__(self, dev: bool = False):
         self.dev = dev
-        self.data_proxy = QuestionsProxyStorage()
 
     def _register_trash_handlers(self):
+        async def stun_handler(*args, **kwargs):
+            pass
+
+        # Stun trash
+        self.dp.register_message_handler(stun_handler, state=MenuFSM.stun)
         self.dp.register_message_handler(after_start_trash.handler, **after_start_trash.options)
         self.dp.register_message_handler(before_start_trash.handler, **before_start_trash.options)
         self.dp.register_message_handler(all_trash_handler.handler, **all_trash_handler.options)
-    
+
     # For dynamic data closure
     def _set_static_message_handlers(self):
         @self.dp.message_handler(Text(menu_kb.Texts.qus.value), state=MenuFSM.main)
         async def faculties(message: types.Message):
-            await message.answer('Выберите факультет', reply_markup=get_faculties_menu_kb(self.data_proxy.questions))
+            await message.answer('Выберите факультет', reply_markup=self.data_proxy.faculties_menu_kb)
 
         @self.dp.message_handler(Text(self.data_proxy.faculties_ikbs.keys()), state=MenuFSM.main)
         async def faculties_self(message: types.Message):
@@ -65,15 +70,15 @@ class TelegramBot:
     async def start(self, webhook_url: str):
         try:
             from bot.handlers import dp
+            
+            self.data_proxy = dp.data_proxy
             self.dp = dp
             db = motor.motor_asyncio.AsyncIOMotorClient(
                 "mongodb://localhost:27017"
             ).izfir
             
-            # WARNING! ADDING ATTRIBUTE TO OBJECT PROVIDED BY AIOGRAM
-            # self.dp.my_mongo_users = db.bot_users
-            
             await self.data_proxy.init(db.qus_ans_calls)
+            self.dp.data_proxy = self.data_proxy
             await self.on_startup()
             self._set_static_message_handlers()
             self._set_static_callback_handlers()

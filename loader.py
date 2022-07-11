@@ -1,8 +1,14 @@
+import asyncio
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 from loguru import logger
+from motor.motor_asyncio import AsyncIOMotorClient
 
+from bot.abstracts import DataProxyStorage
+from bot.middlewares.antiflood import ThrottlingMiddleware
+from bot.states import MenuFSM
 from data import config
 
 
@@ -22,7 +28,19 @@ except Exception as e:
     logger.info('Failed to connect to Redis')
     logger.info('Raising MemoryStorage...')
 
-    # logger.error(e)
-    # exit(-1)
+    logger.error(e)
+    exit(-1)
 
-dp = Dispatcher(bot, storage=storage)
+
+class MyDp(Dispatcher):
+    def __init__(self, *args, **kwargs):
+        self.data_proxy = DataProxyStorage()
+        
+        super().__init__(*args, **kwargs)
+
+
+dp = MyDp(bot, storage=storage)
+
+asyncio.run(dp.data_proxy.init(AsyncIOMotorClient("mongodb://localhost:27017").izfir.qus_ans_calls))
+
+dp.middleware.setup(ThrottlingMiddleware())

@@ -45,4 +45,3 @@ async def file(message: types.Message, state: FSMContext):
 		) as resp:
 			if not resp.ok:
 				await message.reply('(Бот) Что-то пошло не так файл не отправлен')
-		await session.close()

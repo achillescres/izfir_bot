@@ -24,3 +24,7 @@ bot_admins = [
 
 SERVER_URL = str(os.getenv('SERVER_URL'))
 SERVER_API = SERVER_URL + '/api'
+
+# ANTI-FLOOD
+DEFAULT_RATE_LIMIT = float(os.getenv('DEFAULT_RATE_LIMIT')) or .3
+DEFAULT_SPAM_STUN = float(os.getenv('DEFAULT_SPAM_STUN')) or 2.5

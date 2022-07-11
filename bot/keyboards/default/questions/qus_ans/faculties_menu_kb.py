@@ -20,6 +20,7 @@ def get_faculty_qus_ans_ikbs(questions):
     return {faculty_obj['faculty']['name']: InlineKeyboardMarkup(
         row_width=1,
         inline_keyboard=[
-            [InlineKeyboardButton(text=qu_an['qu'], callback_data=qu_an['call'])] for qu_an in faculty_obj['qus_ans_calls']
+            [InlineKeyboardButton(text=qu_an['qu'], callback_data=qu_an['call'])]
+            for qu_an in faculty_obj['qus_ans_calls']
         ]
     ) for faculty_obj in questions}

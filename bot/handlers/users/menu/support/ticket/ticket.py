@@ -8,7 +8,6 @@ from loguru import logger
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.menu import menu_kb
 from bot.keyboards.inline import operator_faculties_ikb
-from bot.keyboards.inline.operator_faculties_ikb import hashes
 from bot.states.machines import ChatFSM
 from data.config import SERVER_API
 from loader import dp
@@ -26,13 +25,13 @@ from bot.states import MenuFSM
 @dp.message_handler(text=menu_kb.Texts.chat.value, state=MenuFSM.main)
 async def faculties(message: types.Message, state: FSMContext):
     await (await message.answer('Обработка...', reply_markup=types.ReplyKeyboardRemove())).delete()
-    mes = await message.answer('Выберите тип оператора', reply_markup=operator_faculties_ikb.ikb)
+    mes = await message.answer('Выберите тип оператора', reply_markup=dp.data_proxy.operator_faculties_ikb)
     await state.update_data(faculties_message=mes.to_python())
     await state.set_state(ChatFSM.choosing_faculty)
 
 
 # CLOSE FACULTY LIST --> MAIN MENU
-@dp.callback_query_handler(text=hashes[0], state=ChatFSM.choosing_faculty)
+@dp.callback_query_handler(text=menu_kb.return_data, state=ChatFSM.choosing_faculty)
 async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext):
     await dp.bot.answer_callback_query(call.id)
     
@@ -47,7 +46,7 @@ async def return_to_menu_with_call(call: types.CallbackQuery, state: FSMContext)
 
 
 # CLICK ON IKB FACULTY LIST --> QU INPUT
-@dp.callback_query_handler(text=operator_faculties_ikb.hash_to_name, state=ChatFSM.choosing_faculty)
+@dp.callback_query_handler(text=dp.data_proxy.hash_name_to_faculty, state=ChatFSM.choosing_faculty)
 async def get_qu(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as fsm_data_proxy:
         faculties_message: dict = fsm_data_proxy.get('faculties_message')
@@ -56,7 +55,7 @@ async def get_qu(call: types.CallbackQuery, state: FSMContext):
             return
 
         await (types.Message.to_object(data=faculties_message)).edit_text(
-            text=operator_faculties_ikb.hash_to_name[call.data],
+            text=dp.data_proxy.hash_name_to_faculty[call.data],
             reply_markup=None
         )
         
@@ -148,5 +147,3 @@ async def score_ticket(call: types.CallbackQuery):
         ) as resp:
             if not resp.ok:
                 logger.error(f"Can't send ticket score to server\nResponse: {await resp.read()}")
-        
-        await session.close()
