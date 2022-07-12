@@ -153,6 +153,8 @@ class TelegramBot:
         await self.data_proxy.update_data()
         self._set_static_callback_handlers()
     
+    async def add
+    
     @property
     def bot(self):
         return self.dp.bot

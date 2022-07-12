@@ -1,4 +1,5 @@
 from io import BytesIO
+from uuid import uuid4
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InputFile, ParseMode
@@ -16,8 +17,7 @@ from bot.utils.chat.utils import score_chat_with_bot
 from bot.utils.divide_qus import *
 from bot_app import TelegramBot
 from data.config import WEBHOOK_PATH, WEBHOOK_URL, DEV_MODE, ACCESS_TOKEN
-from server.models import Message, Facultie
-from server.models import UserId, TicketAccept
+from server.models import *
 
 
 app = FastAPI()
@@ -192,6 +192,27 @@ async def set_faculty(data: Facultie):
     await set_formatted_rows(ibot.data_proxy.collection, data["faculty_key"], rows)
     await ibot.update_question()
 
+
+@app.post("/api/addFaculty")
+async def add_faculty(data: AddFaculty):
+    fac_key = str(uuid4())[:5]
+    while await ibot.data_proxy.collection.find_one({"faculty.key": fac_key}):
+        fac_key = str(uuid4())[:5]
+    
+    faculty = {
+        "faculty": {
+            "key": fac_key,
+            "name": data.faculty_name
+        },
+        "qus_ans_calls": [],
+        "normal_qus_ans": []
+    }
+    
+    await ibot.data_proxy.collection.insert_one(faculty)
+    await ibot.data_proxy.update_data()
+
+
+# @app.post("api/")
 
 if __name__ == '__main__':
     import uvicorn

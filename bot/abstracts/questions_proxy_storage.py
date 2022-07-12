@@ -9,7 +9,7 @@ from bot.keyboards.inline import operator_faculties_ikb
 
 class DataProxyStorage:
     def __init__(self):
-        self.collection = None
+        self.collection: AgnosticCollection | None = None
 
     async def init(self, collection: AgnosticCollection):
         self.collection = collection
@@ -37,7 +37,7 @@ class DataProxyStorage:
             row_width=1,
             keyboard=[[KeyboardButton(text=menu_kb.self_text)]] + [
                 [KeyboardButton(text=faculty_obj['faculty']['name'])]
-                for faculty_obj in self.raw_faculties if len(faculty_obj['qus_ans_calls'])
+                for faculty_obj in self.raw_faculties #if len(faculty_obj['qus_ans_calls'])
             ],
             resize_keyboard=True
         )

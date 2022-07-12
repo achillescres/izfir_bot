@@ -13,3 +13,7 @@ class Facultie(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class AddFaculty(BaseModel):
+    faculty_name: str
