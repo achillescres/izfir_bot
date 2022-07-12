@@ -70,7 +70,7 @@ class ThrottlingMiddleware(BaseMiddleware):
             key = f"{self.prefix}_message"
         
         # Calculate how many time is left till the block ends
-        delta = throttled.rate - throttled.delta
+        delta = DEFAULT_SPAM_STUN - throttled.delta
         
         # Check user state
         state = dispatcher.current_state(user=message.from_user.id, chat=message.from_user.id)
@@ -81,23 +81,25 @@ class ThrottlingMiddleware(BaseMiddleware):
             raise CancelHandler()
         
         # Prevent flooding
-        if 1 < throttled.exceeded_count <= 3:
-            await message.reply('(Бот) Не спамьте пожалуйста, подождите 2 секунды')
+        if 4 <= throttled.exceeded_count:
+            await message.reply(f'(Бот) Не спамьте пожалуйста, подождите {int(round(delta))} секунды')
         
-        # Locking state
-        await state.set_state(MenuFSM.stun)
-        
-        # Compute delay
-        logger.info(f'Locking user for {delta} seconds')
-        
-        async def return_main():
-            await asyncio.sleep(delta)
-            await message.reply('(Бот) Ура, вы можете писать!')
-            await state.set_state(MenuFSM.main)
-            logger.warning('THIS HAPPENED RETURNED TO MAIN AFTER ANTISPAM')
-
-        # Sleep.
-        asyncio.create_task(return_main())
+            # Locking state
+            await state.set_state(MenuFSM.stun)
+            
+            # Compute delay
+            logger.info(f'Locking user for {delta} seconds')
+            
+            async def return_main():
+                await asyncio.sleep(delta)
+                await message.reply('(Бот) Ура, вы можете писать!')
+                await state.set_state(MenuFSM.main)
+                logger.warning('THIS HAPPENED RETURNED TO MAIN AFTER ANTISPAM')
+    
+            # Sleep.
+            asyncio.create_task(return_main())
+            
+            raise CancelHandler()
 
 # class ThrottlingMiddleware(BaseMiddleware):
 #

@@ -25,8 +25,8 @@ try:
     storage = RedisStorage2(host='localhost', port=6379, db=1)
     # storage = MongoStorage()
 except Exception as e:
-    logger.info('Failed to connect to Redis')
-    logger.info('Raising MemoryStorage...')
+    logger.error('Failed to connect to Redis')
+    # logger.info('Raising MemoryStorage...')
 
     logger.error(e)
     exit(-1)
