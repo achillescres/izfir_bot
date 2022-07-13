@@ -1,20 +1,20 @@
 from uuid import uuid4
 
 import motor.motor_asyncio
+import pymongo.results
 from aiogram.dispatcher import FSMContext
+from fastapi import HTTPException
 from loguru import logger
 
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher.filters import Text
+from motor.core import AgnosticCursor
 
-from bot.abstracts.questions_proxy_storage import DataProxyStorage
 from bot.abstracts.support import AbstractTicket
 from bot.keyboards.default.chat import chat_kbs
 from bot.keyboards.default.menu import menu_kb
-from bot.keyboards.default.questions.qus_ans.faculties_menu_kb import get_faculties_menu_kb
 from bot.states import MenuFSM, ChatFSM
-from bot.handlers.static import before_start_trash, all_trash_handler
-from bot.handlers.static import after_start_trash
+from bot.handlers.static import before_start_trash
 
 
 class TelegramBot:
@@ -230,6 +230,12 @@ class TelegramBot:
                 fsm_data_proxy.pop('faculties_message')
         
     async def add_faculty(self, data):
+        already_added: AgnosticCursor = await self.data_proxy.collection.find_one({'faculty.name': data.faculty_name})
+        
+        if already_added:
+            logger.warning(f'Attempt to add new faculty with not unique name')
+            raise HTTPException(status_code=400, detail="Not unique faculty name")
+        
         fac_key = str(uuid4())[:5]
         while await self.data_proxy.collection.find_one({"faculty.key": fac_key}):
             fac_key = str(uuid4())[:5]
@@ -249,13 +255,17 @@ class TelegramBot:
     
     async def delete_faculty(self, data):
         faculty = {
-            "faculty": {
-                "name": data.faculty_name
-            }
+            "faculty.name": data.faculty_name
         }
         
-        await self.data_proxy.collection.delete_one(faculty)
+        logger.info(f'Deleting faculty - {data.faculty_name}')
+        res: pymongo.results.DeleteResult = await self.data_proxy.collection.delete_one(faculty)
+        logger.info(f"Delete result - {res.raw_result}")
         await self.update_question()
+        if res.raw_result['n']:
+            return True
+        else:
+            return False
     
     @property
     def bot(self):

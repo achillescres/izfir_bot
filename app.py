@@ -178,7 +178,7 @@ async def get_faculty(fac_key: str, token: str):
 
 
 @app.post("/api/setFaculty")
-async def set_faculty(data: Facultie):
+async def set_faculty(data: Faculty):
     data = jsonable_encoder(data)
 
     await ibot.data_proxy.collection.update_one(

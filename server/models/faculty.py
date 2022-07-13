@@ -7,7 +7,7 @@ class Question(BaseModel):
     an: str
 
 
-class Facultie(BaseModel):
+class Faculty(BaseModel):
     faculty_key: str
     normal_qus_ans: List[Question]
 
