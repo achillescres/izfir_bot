@@ -115,7 +115,8 @@ async def create_ticket(message: types.Message, state: FSMContext):
 
     res: bool = await AbstractTicket.create(
         state=state,
-        user_id=message.from_user.id
+        user_id=message.from_user.id,
+        hash_to_name=dp.data_proxy.hash_name_to_faculty
     )
 
     if res:

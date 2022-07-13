@@ -170,7 +170,7 @@ async def get_faculty(fac_key: str, token: str):
         return 'invalid access token'
 
     return {
-        'faculties': await ibot.data_proxy.collection.find_one(
+        'faculty': await ibot.data_proxy.collection.find_one(
             {"faculty.key": fac_key},
             {"_id": 0, "qus_ans_calls": 0}
         )

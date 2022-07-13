@@ -78,7 +78,7 @@ class AbstractTicket:
 				fsm_data_proxy.pop(ticket_id)
 	
 	@classmethod
-	async def create(cls, *, state: FSMContext, user_id: str) -> bool:
+	async def create(cls, *, state: FSMContext, user_id: str, hash_to_name: dict) -> bool:
 		try:
 			async with state.proxy() as fsm_data_proxy:
 				qu_text: str = fsm_data_proxy.get('qu')
@@ -87,7 +87,7 @@ class AbstractTicket:
 				res: str = await http.chat.send_ticket(
 					client_id=user_id,
 					qu_text=qu_text,
-					faculty=operator_faculties_ikb.hash_to_name[faculty_hash]
+					faculty=hash_to_name[faculty_hash]
 				)
 				
 				if res in ['err', 'null', '']:
