@@ -1,5 +1,4 @@
 from io import BytesIO
-from uuid import uuid4
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InputFile, ParseMode
@@ -171,10 +170,10 @@ async def get_faculty(fac_key: str, token: str):
         return 'invalid access token'
 
     return {
-        'faculties': await ibot.data_proxy.collection.find(
+        'faculties': await ibot.data_proxy.collection.find_one(
             {"faculty.key": fac_key},
             {"_id": 0, "qus_ans_calls": 0}
-        ).to_list(40)
+        )
     }
 
 
@@ -195,21 +194,12 @@ async def set_faculty(data: Facultie):
 
 @app.post("/api/addFaculty")
 async def add_faculty(data: AddFaculty):
-    fac_key = str(uuid4())[:5]
-    while await ibot.data_proxy.collection.find_one({"faculty.key": fac_key}):
-        fac_key = str(uuid4())[:5]
-    
-    faculty = {
-        "faculty": {
-            "key": fac_key,
-            "name": data.faculty_name
-        },
-        "qus_ans_calls": [],
-        "normal_qus_ans": []
-    }
-    
-    await ibot.data_proxy.collection.insert_one(faculty)
-    await ibot.data_proxy.update_data()
+    await ibot.add_faculty(data)
+
+
+@app.post('/api/deleteFaculty')
+async def delete_faculty(data: DeleteFaculty):
+    await ibot.delete_faculty(data)
 
 
 # @app.post("api/")

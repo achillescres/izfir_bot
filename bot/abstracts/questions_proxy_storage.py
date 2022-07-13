@@ -20,7 +20,7 @@ class DataProxyStorage:
         self.raw_faculties = await self.collection.find().to_list(201)
         self.return_to_faculty_ikbs = None
         self.faculties_ikbs = None
-        self.answers = dict()
+        self.call_to_ans = dict()
         self.faculties_names = []
         self.faculties_names_hash = []
         self.hash_name_to_faculty = {}
@@ -30,7 +30,7 @@ class DataProxyStorage:
             self.faculties_names_hash.append(str(hash(self.faculties_names[-1])))
             self.hash_name_to_faculty[self.faculties_names_hash[-1]] = self.faculties_names[-1]
             for qu_an_call in faculty_obj['qus_ans_calls']:
-                self.answers[qu_an_call['call']] = qu_an_call['an']
+                self.call_to_ans[qu_an_call['call']] = qu_an_call['an']
         
         self.faculties_ikbs = faculties_menu_kb.get_faculty_qus_ans_ikbs(self.raw_faculties)
         self.faculties_menu_kb = ReplyKeyboardMarkup(

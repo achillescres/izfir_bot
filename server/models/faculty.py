@@ -17,3 +17,7 @@ class Facultie(BaseModel):
 
 class AddFaculty(BaseModel):
     faculty_name: str
+
+
+class DeleteFaculty(BaseModel):
+    faculty_name: str
