@@ -17,7 +17,7 @@ class DataProxyStorage:
         await self.update_data()
 
     async def _load_from_db(self):
-        self.raw_faculties = await self.collection.find().to_list(201)
+        self.raw_faculties = await self.collection.find({"status": "on"}).to_list(201)
         self.return_to_faculty_ikbs = None
         self.faculties_ikbs = None
         self.call_to_ans = dict()

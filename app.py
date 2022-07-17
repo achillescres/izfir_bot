@@ -143,22 +143,22 @@ async def finish_chat(user_id: UserId):
 
 # FACULTIES MODULE
 
-@app.get("/api/getFaculties/{fac_key}_{token}")
-async def get_faculties(fac_key: str, token: str):
+@app.get("/api/getFaculties/{fac_key}_{fac_status}_{token}")
+async def get_faculties(fac_key: str, fac_status: str, token: str):
     if token != ACCESS_TOKEN:
         return 'invalid access token'
 
     if fac_key == 'all':
         return {
             'faculties': await ibot.data_proxy.collection.find(
-                {},
+                {"status": fac_status},
                 {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
             ).to_list(40)
         }
 
     return {
         'faculties': await ibot.data_proxy.collection.find(
-            {"faculty.key": fac_key},
+            {"faculty.key": fac_key, "status": fac_status},
             {"_id": 0, "qus_ans_calls": 0, "normal_qus_ans": 0}
         ).to_list(40)
     }
@@ -193,13 +193,18 @@ async def set_faculty(data: Faculty):
 
 
 @app.post("/api/addFaculty")
-async def add_faculty(data: AddFaculty):
+async def add_faculty(data: FacultyOperate):
     await ibot.add_faculty(data)
 
 
 @app.post('/api/deleteFaculty')
-async def delete_faculty(data: DeleteFaculty):
+async def delete_faculty(data: FacultyOperate):
     await ibot.delete_faculty(data)
+
+
+@app.post('/api/returnFaculty')
+async def delete_faculty(data: FacultyOperate):
+    await ibot.return_faculty(data)
 
 
 # @app.post("api/")

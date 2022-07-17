@@ -246,7 +246,8 @@ class TelegramBot:
                 "name": data.faculty_name
             },
             "qus_ans_calls": [],
-            "normal_qus_ans": []
+            "normal_qus_ans": [],
+            "status": "on"
         }
     
         await self.data_proxy.collection.insert_one(faculty)
@@ -259,8 +260,22 @@ class TelegramBot:
         }
         
         logger.info(f'Deleting faculty - {data.faculty_name}')
-        res: pymongo.results.DeleteResult = await self.data_proxy.collection.delete_one(faculty)
+        res = await self.data_proxy.collection.update_one(faculty, {"$set": {"status": "off"}})
         logger.info(f"Delete result - {res.raw_result}")
+        await self.update_question()
+        if res.raw_result['n']:
+            return True
+        else:
+            return False
+
+    async def return_faculty(self, data):
+        faculty = {
+            "faculty.name": data.faculty_name
+        }
+
+        logger.info(f'Returning faculty - {data.faculty_name}')
+        res = await self.data_proxy.collection.update_one(faculty, {"$set": {"status": "on"}})
+        logger.info(f"Returned result - {res.raw_result}")
         await self.update_question()
         if res.raw_result['n']:
             return True

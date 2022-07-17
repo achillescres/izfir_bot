@@ -15,9 +15,5 @@ class Faculty(BaseModel):
         orm_mode = True
 
 
-class AddFaculty(BaseModel):
-    faculty_name: str
-
-
-class DeleteFaculty(BaseModel):
+class FacultyOperate(BaseModel):
     faculty_name: str
