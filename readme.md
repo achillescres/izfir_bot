@@ -56,5 +56,5 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 8. https://your_domain проверить есть ли ssl
 9. sudo certbot renew --dry-run
 10. cd /home/izfir_bot
-11. /home/demo/fastapi_demo/venv/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker app:FA_app -b 127.0.0.1:8000
+11. /home/demo/fastapi_demo/venv/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker app:app -b 127.0.0.1:8000
 Все.~~
