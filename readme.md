@@ -1,7 +1,11 @@
 1. Установить mongodb
 2. + рекомендую MongoDB Compass для администрирования бд
-3. Нужен python 3.10!!!
-4. Нужен nginx
+3. Нужен `python 3.10`
+4. Установка nginx
+```
+sudo apt update
+sudo apt install nginx
+```
 
 
 1. cd /home
@@ -9,16 +13,8 @@
 3. cd izfir_bot
 4. python -m venv venv
 5. source ./venv/bin/activate
-6. pip install wheel
-7. pip install -r requirements.txt
-8. pip install fastapi[all]
-9. pip install uvloop
-10. pip install ujson
-11. pip install cchardet
-12. pip install aiodns
-13. pip install aiohttp[speedups]
-14. pip install python-multipart
-15. pip install gunicorn[all]
+6. pip install -r requirements.txt
+
 
 
 1. sudo nano .env
@@ -39,7 +35,7 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://127.0.0.1:8000(или)*выбранный вами порт*;
+        proxy_pass http://127.0.0.1:8001(или)*выбранный вами порт*;
     }
 }
 ```
