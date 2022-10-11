@@ -17,9 +17,9 @@ sudo apt install nginx
 
 
 
-1. sudo nano .env
+1. sudo nano .env (В DEV MODE писать FALSE)!!!
 ```
-DEV_MODE=True
+DEV_MODE=False 
 BOT_TOKEN=*токен бота*
 HOST_URL=https://*ваш ip или домен*
 ACCESS_TOKEN=TXDMjyByxGD5apdySV235Q
